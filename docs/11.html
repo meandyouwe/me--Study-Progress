@@ -27,7 +27,7 @@
         <li><a class="explorer-link" href="01.html"><span class="explorer-num">1</span><span>程序结构与编译执行流程</span></a></li><li><a class="explorer-link" href="02.html"><span class="explorer-num">2</span><span>数据类型与变量</span></a></li><li><a class="explorer-link" href="03.html"><span class="explorer-num">3</span><span>运算符与表达式</span></a></li><li><a class="explorer-link" href="04.html"><span class="explorer-num">4</span><span>控制流</span></a></li><li><a class="explorer-link" href="05.html"><span class="explorer-num">5</span><span>函数</span></a></li><li><a class="explorer-link" href="06.html"><span class="explorer-num">6</span><span>数组与字符串</span></a></li><li><a class="explorer-link" href="07.html"><span class="explorer-num">7</span><span>指针</span></a></li><li><a class="explorer-link" href="08.html"><span class="explorer-num">8</span><span>结构体、共用体、枚举与 typedef</span></a></li><li><a class="explorer-link" href="09.html"><span class="explorer-num">9</span><span>动态内存管理</span></a></li><li><a class="explorer-link" href="10.html"><span class="explorer-num">10</span><span>文件操作</span></a></li><li><a class="explorer-link active" href="11.html"><span class="explorer-num">11</span><span>预处理与多文件工程</span></a><ul class="explorer-sub"><li><a href="11.html#sec-1">宏定义</a></li><li><a href="11.html#sec-2">条件编译与头文件保护</a></li><li><a href="11.html#sec-3">链接属性与工程组织</a></li></ul></li><li><a class="explorer-link" href="12.html"><span class="explorer-num">12</span><span>我的易错点复盘</span></a></li><li><a class="explorer-link" href="appendix.html"><span class="explorer-num">·</span><span>使用说明</span></a></li>
       </ul>
     </div>
-    <div class="sidebar-foot">共 13 篇 · 约 14.8 千字<br>第十二章可在线填写复盘</div>
+    <div class="sidebar-foot">共 13 篇 · 约 19.4 千字<br>第十二章可在线填写复盘</div>
   </aside>
 
   <div class="center">
@@ -41,6 +41,7 @@
 <figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#define</span> PI <span class="tok-num">3.14159</span>
 <span class="tok-pp">#define</span> <span class="tok-fn">MAX</span><span class="tok-punct">(</span>a<span class="tok-punct">,</span> b<span class="tok-punct">)</span> <span class="tok-punct">((</span>a<span class="tok-punct">)</span> <span class="tok-punct">&gt;</span> <span class="tok-punct">(</span>b<span class="tok-punct">)</span> <span class="tok-punct">?</span> <span class="tok-punct">(</span>a<span class="tok-punct">)</span> <span class="tok-punct">:</span> <span class="tok-punct">(</span>b<span class="tok-punct">))</span>     <span class="tok-com">/* 每个参数和整体都要加括号 */</span></code></pre></figure>
 <p>宏是<strong>文本替换</strong>，不是函数调用，因此：参数必须加括号（否则 <code>MAX(x &amp; 1, 0)</code> 会因优先级出错）；参数被求值多次（<code>MAX(i++, j++)</code> 会让 <code>i</code> 自增两次）；宏定义末尾不加分号。</p>
+<p>一句话纪律：<strong>宏的每一个参数、整个表达式、每一段语句，都套上括号就对了</strong>。多写一层括号不会错，少写一层就可能出错。</p>
 <h2 id="sec-2">（二）条件编译与头文件保护<a class="anchor" href="#sec-2" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
 <figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#ifndef</span> STUDENT_H
 <span class="tok-pp">#define</span> STUDENT_H
