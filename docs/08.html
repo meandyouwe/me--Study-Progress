@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>8. 结构体、共用体、枚举与 typedef – C语言知识库</title>
+<meta name="description" content="按课程顺序整理的 C 语言知识主干与易错点复盘笔记。">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem('cl-notes-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</head>
+<body class="page">
+<div class="mobile-bar">
+  <button class="nav-toggle" aria-label="切换目录">☰</button>
+  <span class="brand">C语言知识库</span>
+  <button class="search-button" aria-label="搜索" style="margin-left:auto;border:none;"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><span style="margin-left:.35rem">搜索</span></button>
+</div>
+<div id="quartz-body">
+  <aside class="left sidebar">
+    <h2 class="page-title"><a href="index.html">C语言知识库</a></h2>
+    <div class="sidebar-tools">
+      <button class="search-button" aria-label="搜索"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><p>搜索</p></button>
+      <button class="darkmode" aria-label="切换亮暗模式"><svg class="dayIcon" viewBox="0 0 35 35" aria-hidden="true"><path d="M17.5 7C11.71 7 7 11.71 7 17.5S11.71 28 17.5 28 28 23.29 28 17.5 23.29 7 17.5 7zm0 18c-4.136 0-7.5-3.364-7.5-7.5S13.364 10 17.5 10s7.5 3.364 7.5 7.5S21.636 25 17.5 25zM17.5 6c.829 0 1.5-.672 1.5-1.5v-3C19 .672 18.329 0 17.5 0S16 .672 16 1.5v3C16 5.328 16.671 6 17.5 6zm0 23c-.829 0-1.5.672-1.5 1.5v3c0 .828.671 1.5 1.5 1.5s1.5-.672 1.5-1.5v-3c0-.828-.671-1.5-1.5-1.5zM4.5 16h-3C.672 16 0 16.672 0 17.5S.672 19 1.5 19h3c.828 0 1.5-.672 1.5-1.5S5.328 16 4.5 16zm29 0h-3c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5h3c.828 0 1.5-.672 1.5-1.5S34.328 16 33.5 16zM7.5 26c-.414 0-.789.168-1.061.439l-2 2c-.271.272-.439.647-.439 1.061C4 30.328 4.671 31 5.5 31c.414 0 .789-.168 1.06-.44l2-2c.272-.271.44-.646.44-1.06C9 26.672 8.329 26 7.5 26zm20-18c.414 0 .789-.168 1.06-.439l2-2C30.832 5.289 31 4.914 31 4.5 31 3.672 30.329 3 29.5 3c-.414 0-.789.168-1.061.44l-2 2C26.168 5.711 26 6.086 26 6.5 26 7.328 26.671 8 27.5 8zm2 18c-.828 0-1.5.672-1.5 1.5 0 .414.168.789.439 1.06l2 2c.271.272.646.44 1.061.44.828 0 1.5-.672 1.5-1.5 0-.414-.168-.789-.439-1.061l-2-2c-.272-.271-.647-.439-1.061-.439zM6.439 8.561c.272.271.647.439 1.061.439C8.328 9 9 8.328 9 7.5c0-.414-.168-.789-.439-1.061l-2-2C6.289 4.168 5.914 4 5.5 4 4.672 4 4 4.672 4 5.5c0 .414.168.789.439 1.06l2 2z"/></svg><svg class="nightIcon" viewBox="0 0 100 100" aria-hidden="true"><path d="M96.76 66.458c-.853-.852-2.15-1.064-3.23-.534-6.063 2.991-12.858 4.571-19.655 4.571C62.022 70.495 50.88 65.88 42.5 57.5 29.043 44.043 25.658 23.536 34.076 6.47c.532-1.08.318-2.379-.534-3.23-.851-.852-2.15-1.064-3.23-.534-4.918 2.427-9.375 5.619-13.246 9.491C7.619 21.644 2.416 34.205 2.416 47.566c0 13.36 5.203 25.921 14.65 35.368s22.008 14.65 35.368 14.65c13.361 0 25.921-5.203 35.369-14.65 3.872-3.871 7.064-8.328 9.491-13.246.532-1.08.318-2.379-.534-3.23z"/></svg></button>
+    </div>
+    <div class="explorer">
+      <h2 class="explorer-title">课程目录</h2>
+      <ul class="explorer-list">
+        <li><a class="explorer-link" href="01.html"><span class="explorer-num">1</span><span>程序结构与编译执行流程</span></a></li><li><a class="explorer-link" href="02.html"><span class="explorer-num">2</span><span>数据类型与变量</span></a></li><li><a class="explorer-link" href="03.html"><span class="explorer-num">3</span><span>运算符与表达式</span></a></li><li><a class="explorer-link" href="04.html"><span class="explorer-num">4</span><span>控制流</span></a></li><li><a class="explorer-link" href="05.html"><span class="explorer-num">5</span><span>函数</span></a></li><li><a class="explorer-link" href="06.html"><span class="explorer-num">6</span><span>数组与字符串</span></a></li><li><a class="explorer-link" href="07.html"><span class="explorer-num">7</span><span>指针</span></a></li><li><a class="explorer-link active" href="08.html"><span class="explorer-num">8</span><span>结构体、共用体、枚举与 typedef</span></a><ul class="explorer-sub"><li><a href="08.html#sec-1">结构体定义与使用</a></li><li><a href="08.html#sec-2">内存对齐：先找对齐值，再逐成员排，最后整体补齐</a></li><li><a href="08.html#sec-3">共用体：所有成员共用一块内存</a></li><li><a href="08.html#sec-4">枚举：名字比数字好，但管不住取值</a></li><li><a href="08.html#sec-5">typedef</a></li></ul></li><li><a class="explorer-link" href="09.html"><span class="explorer-num">9</span><span>动态内存管理</span></a></li><li><a class="explorer-link" href="10.html"><span class="explorer-num">10</span><span>文件操作</span></a></li><li><a class="explorer-link" href="11.html"><span class="explorer-num">11</span><span>预处理与多文件工程</span></a></li><li><a class="explorer-link" href="12.html"><span class="explorer-num">12</span><span>我的易错点复盘</span></a></li><li><a class="explorer-link" href="appendix.html"><span class="explorer-num">·</span><span>使用说明</span></a></li>
+      </ul>
+    </div>
+    <div class="sidebar-foot">共 13 篇 · 约 14.8 千字<br>第十二章可在线填写复盘</div>
+  </aside>
+
+  <div class="center">
+        <header class="page-header">
+      <nav class="breadcrumb"><a href="index.html">首页</a><span class="sep">❯</span><span>第 8 章</span></nav>
+      <h1 class="article-title">8. 结构体、共用体、枚举与 typedef</h1>
+    </header>
+    
+    <article>
+<h2 id="sec-1">（一）结构体定义与使用<a class="anchor" href="#sec-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">struct</span> Student <span class="tok-punct">{</span>
+    <span class="tok-kw">int</span>  id<span class="tok-punct">;</span>
+    <span class="tok-kw">char</span> name<span class="tok-punct">[</span><span class="tok-num">20</span><span class="tok-punct">];</span>
+    <span class="tok-kw">int</span>  score<span class="tok-punct">;</span>
+<span class="tok-punct">};</span>
+<span class="tok-kw">struct</span> Student s <span class="tok-punct">=</span> <span class="tok-punct">{</span> <span class="tok-num">1001</span><span class="tok-punct">,</span> <span class="tok-str">"张三"</span><span class="tok-punct">,</span> <span class="tok-num">92</span> <span class="tok-punct">};</span>
+<span class="tok-kw">struct</span> Student <span class="tok-punct">*</span>ps <span class="tok-punct">=</span> <span class="tok-punct">&amp;</span>s<span class="tok-punct">;</span>
+<span class="tok-fn">printf</span><span class="tok-punct">(</span><span class="tok-str">"%d\n"</span><span class="tok-punct">,</span> ps<span class="tok-punct">-&gt;</span>score<span class="tok-punct">);</span>   <span class="tok-com">/* 指针用 -&gt;，变量用 . */</span></code></pre></figure>
+<p>结构体变量之间可以直接赋值（整体拷贝），但不能直接用 <code>==</code> 比较，需逐成员比较或用 <code>memcmp</code>（注意填充字节）。</p>
+<h2 id="sec-2">（二）内存对齐：先找对齐值，再逐成员排，最后整体补齐<a class="anchor" href="#sec-2" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p><code>sizeof(struct)</code> 常常大于成员大小之和，因为编译器要保证每个成员落在"对齐"的地址上。算大小只需三步，顺序不能乱：</p>
+<ol><li><strong>先找对齐值</strong>：结构体的对齐值 = 所有成员对齐值中的最大值。单个成员的对齐值通常等于自身大小（<code>char</code> 1、<code>short</code> 2、<code>int</code> 4、<code>double</code> 8，指针按平台字长）；数组按元素类型算，嵌套的结构体成员按它自己的对齐值算。</li><li><strong>再逐成员排</strong>：每个成员的起始偏移必须是"自身对齐值"的整数倍，不够就在<strong>该成员前面</strong>填空洞（padding）。</li><li><strong>最后整体对齐</strong>：总大小必须是"最大对齐值"的整数倍，不够在<strong>尾部</strong>补齐 —— 这样结构体数组里每个元素才都对齐。</li></ol>
+<p>同样三个成员，换个顺序就差 4 字节：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">struct</span> A <span class="tok-punct">{</span> <span class="tok-kw">char</span> c<span class="tok-punct">;</span> <span class="tok-kw">int</span> i<span class="tok-punct">;</span> <span class="tok-kw">short</span> s<span class="tok-punct">;</span> <span class="tok-punct">};</span>   <span class="tok-com">/* 12 字节 */</span>
+<span class="tok-kw">struct</span> B <span class="tok-punct">{</span> <span class="tok-kw">int</span> i<span class="tok-punct">;</span> <span class="tok-kw">short</span> s<span class="tok-punct">;</span> <span class="tok-kw">char</span> c<span class="tok-punct">;</span> <span class="tok-punct">};</span>   <span class="tok-com">/*  8 字节 */</span></code></pre></figure>
+<p><code>struct A</code>（char → int → short）的排布：</p>
+<div class="table-container"><table><thead><tr><th>成员</th><th>大小</th><th>对齐</th><th>偏移</th><th>说明</th></tr></thead><tbody><tr><td><code>c</code></td><td>1</td><td>1</td><td>0</td><td>占第 0 字节</td></tr><tr><td>填充</td><td>3</td><td>—</td><td>1~3</td><td>让 <code>i</code> 从 4 的倍数开始</td></tr><tr><td><code>i</code></td><td>4</td><td>4</td><td>4</td><td>占 4~7</td></tr><tr><td><code>s</code></td><td>2</td><td>2</td><td>8</td><td>占 8~9</td></tr><tr><td>填充</td><td>2</td><td>—</td><td>10~11</td><td>尾部补到 12（4 的倍数）</td></tr></tbody></table></div>
+<p><code>struct B</code>（int → short → char）的排布：</p>
+<div class="table-container"><table><thead><tr><th>成员</th><th>大小</th><th>对齐</th><th>偏移</th><th>说明</th></tr></thead><tbody><tr><td><code>i</code></td><td>4</td><td>4</td><td>0</td><td>占 0~3</td></tr><tr><td><code>s</code></td><td>2</td><td>2</td><td>4</td><td>占 4~5</td></tr><tr><td><code>c</code></td><td>1</td><td>1</td><td>6</td><td>占第 6 字节</td></tr><tr><td>填充</td><td>1</td><td>—</td><td>7</td><td>尾部补到 8（4 的倍数）</td></tr></tbody></table></div>
+<p>这就是"<strong>成员顺序改变结构体大小</strong>"的由来：字段没变、逻辑没变，只调了声明顺序，<code>sizeof</code> 就可能差几字节。</p>
+<ul><li><strong>优化手段</strong>：成员按对齐值从大到小排，填充自然最少。工程上把 <code>int</code>、指针、<code>double</code> 放前面，<code>char</code>、<code>short</code> 放最后。</li><li><strong>别手算写死长度</strong>：用 <code>sizeof</code> 取长度、用 <code>offsetof</code>（<code>&lt;stddef.h&gt;</code>）验偏移；换平台或换编译器时，<code>long</code>、指针、<code>double</code> 的对齐要求都可能变。</li><li><strong>一行代码守住布局</strong>：<code>_Static_assert(sizeof(struct A) == 12, "layout changed");</code>，布局一旦被改动，编译期就报错，比运行期踩内存好排查得多。</li><li><strong>紧凑布局有代价</strong>：通信协议与二进制文件要求无填充时可用 <code>#pragma pack(1)</code>（或 <code>__attribute__((packed))</code>），但成员可能落在非对齐地址 —— ARM 上直接取址会 fault 或明显变慢，逐字节序列化才是可移植做法。</li><li><strong>比较陷阱</strong>：<code>memcmp</code> 比较结构体会连填充字节一起比，字段完全相同的两个变量也可能"不相等"；务必逐字段比较。</li></ul>
+<h2 id="sec-3">（三）共用体：所有成员共用一块内存<a class="anchor" href="#sec-3" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p><code>union</code> 的成员共享同一段内存，任一时刻只有一个成员"有效"。它的对齐规则与结构体同源，也是<strong>先找对齐值，再定大小</strong>：</p>
+<ol><li><strong>对齐值</strong>：取成员中最大的对齐值，与结构体一致。</li><li><strong>大小</strong>：不小于最大成员的大小，且必须是"对齐值"的整数倍（向上取整）。</li></ol>
+<p>三行代码最能说明问题：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">union</span> U1 <span class="tok-punct">{</span> <span class="tok-kw">char</span> c<span class="tok-punct">[</span><span class="tok-num">5</span><span class="tok-punct">];</span> <span class="tok-kw">int</span> i<span class="tok-punct">;</span> <span class="tok-punct">};</span>        <span class="tok-com">/* 最大 5，对齐 4 → 8 字节 */</span>
+<span class="tok-kw">union</span> U2 <span class="tok-punct">{</span> <span class="tok-kw">char</span> c<span class="tok-punct">[</span><span class="tok-num">8</span><span class="tok-punct">];</span> <span class="tok-kw">int</span> i<span class="tok-punct">;</span> <span class="tok-punct">};</span>        <span class="tok-com">/* 最大 8，对齐 4 → 8 字节 */</span>
+<span class="tok-kw">union</span> U3 <span class="tok-punct">{</span> <span class="tok-kw">char</span> c<span class="tok-punct">[</span><span class="tok-num">5</span><span class="tok-punct">];</span> <span class="tok-punct">};</span>               <span class="tok-com">/* 最大 5，对齐 1 → 5 字节 */</span></code></pre></figure>
+<p><code>union U1</code> 的布局（共 8 字节，<code>c</code> 与 <code>i</code> 从同一地址开始）：</p>
+<div class="table-container"><table><thead><tr><th>成员</th><th>占几字节</th><th>落在哪些位置</th></tr></thead><tbody><tr><td><code>c[5]</code></td><td>5</td><td>第 0~4 字节</td></tr><tr><td><code>i</code></td><td>4</td><td>第 0~3 字节（与 <code>c[0]</code>~<code>c[3]</code> 重叠）</td></tr><tr><td>尾填充</td><td>3</td><td>第 5~7 字节（补到 4 的倍数）</td></tr></tbody></table></div>
+<p>注意最后一个坑：<strong>union 大小不等于"最大成员大小"</strong>。<code>char c[5]</code> 配 <code>int</code> 是 8 而不是 5，按 5 开缓冲区就会写越界。</p>
+<ul><li><strong>经典用法：判断大小端</strong>（同一段字节的两种解释）：</li></ul>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include</span> <span class="tok-str">&lt;stdio.h&gt;</span>
+
+<span class="tok-kw">int</span> <span class="tok-fn">main</span><span class="tok-punct">(</span><span class="tok-kw">void</span><span class="tok-punct">)</span>
+<span class="tok-punct">{</span>
+    <span class="tok-kw">union</span> <span class="tok-punct">{</span> <span class="tok-kw">unsigned</span> <span class="tok-kw">int</span> i<span class="tok-punct">;</span> <span class="tok-kw">unsigned</span> <span class="tok-kw">char</span> b<span class="tok-punct">[</span><span class="tok-num">4</span><span class="tok-punct">];</span> <span class="tok-punct">}</span> u<span class="tok-punct">;</span>
+    u<span class="tok-punct">.</span>i <span class="tok-punct">=</span> <span class="tok-num">1</span><span class="tok-punct">;</span>
+    <span class="tok-kw">if</span> <span class="tok-punct">(</span>u<span class="tok-punct">.</span>b<span class="tok-punct">[</span><span class="tok-num">0</span><span class="tok-punct">]</span> <span class="tok-punct">==</span> <span class="tok-num">1</span><span class="tok-punct">)</span> <span class="tok-fn">printf</span><span class="tok-punct">(</span><span class="tok-str">"小端\n"</span><span class="tok-punct">);</span>    <span class="tok-com">/* 低位字节放在低地址 */</span>
+    <span class="tok-kw">else</span>             <span class="tok-fn">printf</span><span class="tok-punct">(</span><span class="tok-str">"大端\n"</span><span class="tok-punct">);</span>
+    <span class="tok-kw">return</span> <span class="tok-num">0</span><span class="tok-punct">;</span>
+<span class="tok-punct">}</span></code></pre></figure>
+<ul><li><strong>写一个成员、读另一个成员</strong>在 C 里合法，但结果依赖字节序与填充；填充字节的值不确定，所以别把含 <code>union</code> 的结构体整体 <code>memcmp</code> 或直接写文件后跨平台读。</li><li><strong>标签联合体（tagged union）</strong>是 <code>union</code> 最常见的正经用法：一个 <code>enum kind</code> 标明当前哪个成员有效，再配一个 <code>union value</code> 存数据。<strong>必须先读 kind 再读 value</strong>，否则读到的是另一个成员的字节。</li><li>成员里含结构体时，对齐值按那个结构体的对齐值算：<code>union U4 { struct A a; char buf[3]; };</code> 的大小是 12，不是 3。</li></ul>
+<h2 id="sec-4">（四）枚举：名字比数字好，但管不住取值<a class="anchor" href="#sec-4" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p><code>enum</code> 给一组整型常量起名，用来替代魔法数字。默认从 0 开始递增，也可以显式赋值，值允许不连续。</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">enum</span> Color <span class="tok-punct">{</span> RED<span class="tok-punct">,</span> GREEN <span class="tok-punct">=</span> <span class="tok-num">5</span><span class="tok-punct">,</span> BLUE <span class="tok-punct">};</span>    <span class="tok-com">/* RED=0, GREEN=5, BLUE=6 */</span>
+<span class="tok-kw">enum</span> Color c <span class="tok-punct">=</span> BLUE<span class="tok-punct">;</span></code></pre></figure>
+<p><strong>关键一点：枚举变量并不会被限制在"定义过的那些值"里。</strong> C 的 <code>enum</code> 本质上是某个能容纳全部枚举值的整型（通常是 <code>int</code>），标准不要求编译器做任何取值范围检查：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">enum</span> Color c <span class="tok-punct">=</span> <span class="tok-punct">(</span><span class="tok-kw">enum</span> Color<span class="tok-punct">)</span><span class="tok-num">100</span><span class="tok-punct">;</span>    <span class="tok-com">/* 合法，能编译、能运行 */</span>
+c <span class="tok-punct">=</span> <span class="tok-num">3</span><span class="tok-punct">;</span>                             <span class="tok-com">/* C 里也合法（C++ 需显式转换） */</span>
+<span class="tok-fn">printf</span><span class="tok-punct">(</span><span class="tok-str">"%d\n"</span><span class="tok-punct">,</span> c<span class="tok-punct">);</span>                 <span class="tok-com">/* 输出 3，虽然 3 没有名字 */</span></code></pre></figure>
+<p>这不是编译器漏了检查，而是设计取舍：<code>enum</code> 是"给人和调试器看的名字集合"，不是"受限取值的数据类型"。由此带来几条实践约束：</p>
+<ul><li><strong>不要假设 <code>switch</code> 的 <code>default</code> 不可达</strong>：来自文件、网络、<code>scanf</code>、<code>argv</code> 的整型赋给枚举变量后，任何值都可能出现，<code>default</code> 必须处理。</li><li><strong>别直接拿枚举变量当下标</strong>：<code>table[c]</code> 会越界。先校验再使用：</li></ul>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">if</span> <span class="tok-punct">(</span>c <span class="tok-punct">&lt;</span> RED <span class="tok-punct">||</span> c <span class="tok-punct">&gt;</span> BLUE<span class="tok-punct">)</span> <span class="tok-punct">{</span> <span class="tok-com">/* 非法值，按错误处理 */</span> <span class="tok-punct">}</span></code></pre></figure>
+<ul><li><strong><code>sizeof(enum)</code> 由实现决定</strong>（常见为 4 字节），需要固定宽度就改用 <code>int32_t</code>/<code>uint8_t</code>，C23 也支持 <code>enum Color : uint8_t</code> 指定底层类型，别依赖默认大小。</li><li><strong>相比 <code>#define</code> 的优势</strong>：有作用域、参与类型检查、调试器里能显示名字、可自动连续编号。位标志（1、2、4、8）不适合用普通枚举，直接写 <code>1u &lt;&lt; n</code> 更清楚。</li></ul>
+<h2 id="sec-5">（五）typedef<a class="anchor" href="#sec-5" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p><code>typedef</code> 为已有类型起别名，简化书写并提升可移植性：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">typedef</span> <span class="tok-kw">struct</span> Node <span class="tok-punct">{</span>
+    <span class="tok-kw">int</span> data<span class="tok-punct">;</span>
+    <span class="tok-kw">struct</span> Node <span class="tok-punct">*</span>next<span class="tok-punct">;</span>    <span class="tok-com">/* 自引用必须用指针 */</span>
+<span class="tok-punct">}</span> Node<span class="tok-punct">;</span></code></pre></figure>
+    </article>
+    <hr class="page-rule">
+    <div class="page-footer"><a class="prev" href="07.html"><span class="nav-label">← 上一章</span>7. 指针</a><a class="next" href="09.html"><span class="nav-label">下一章 →</span>9. 动态内存管理</a></div>
+    <footer class="site-footer">按课程顺序整理的 C 语言知识库 · 内容源《C 语言知识总结与易错点复盘手册》<br>静态站点 · 亮暗模式与全文搜索均在本地运行，无需联网</footer>
+  </div>
+
+  <aside class="right sidebar">
+    <div class="toc"><h3>本页目录</h3><ul><li class="depth-0"><a href="#sec-1" data-for="sec-1">结构体定义与使用</a></li><li class="depth-0"><a href="#sec-2" data-for="sec-2">内存对齐：先找对齐值，再逐成员排，最后整体补齐</a></li><li class="depth-0"><a href="#sec-3" data-for="sec-3">共用体：所有成员共用一块内存</a></li><li class="depth-0"><a href="#sec-4" data-for="sec-4">枚举：名字比数字好，但管不住取值</a></li><li class="depth-0"><a href="#sec-5" data-for="sec-5">typedef</a></li></ul></div>
+    <div class="related"><h3>全部章节</h3><ul><li><a href="01.html">1. 程序结构与编译执行流程</a></li><li><a href="02.html">2. 数据类型与变量</a></li><li><a href="03.html">3. 运算符与表达式</a></li><li><a href="04.html">4. 控制流</a></li><li><a href="05.html">5. 函数</a></li><li><a href="06.html">6. 数组与字符串</a></li><li><a href="07.html">7. 指针</a></li><li><a href="08.html">8. 结构体、共用体、枚举与 typedef</a></li><li><a href="09.html">9. 动态内存管理</a></li><li><a href="10.html">10. 文件操作</a></li><li><a href="11.html">11. 预处理与多文件工程</a></li><li><a href="12.html">12. 我的易错点复盘</a></li><li><a href="appendix.html">附录 · 使用说明</a></li></ul></div>
+  </aside>
+</div>
+
+<div class="search-modal" hidden>
+  <div class="search-panel">
+    <input class="search-bar" type="text" placeholder="搜索内容..." autocomplete="off" aria-label="搜索内容">
+    <ul class="search-results"></ul>
+    <div class="search-hint">↑↓ 选择 · Enter 打开 · Esc 关闭 · 快捷键 / 或 Ctrl+K</div>
+  </div>
+</div>
+<script src="assets/search-index.js"></script>
+<script src="assets/quartz.js"></script>
+</body>
+</html>

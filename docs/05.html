@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5. 函数 – C语言知识库</title>
+<meta name="description" content="按课程顺序整理的 C 语言知识主干与易错点复盘笔记。">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem('cl-notes-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</head>
+<body class="page">
+<div class="mobile-bar">
+  <button class="nav-toggle" aria-label="切换目录">☰</button>
+  <span class="brand">C语言知识库</span>
+  <button class="search-button" aria-label="搜索" style="margin-left:auto;border:none;"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><span style="margin-left:.35rem">搜索</span></button>
+</div>
+<div id="quartz-body">
+  <aside class="left sidebar">
+    <h2 class="page-title"><a href="index.html">C语言知识库</a></h2>
+    <div class="sidebar-tools">
+      <button class="search-button" aria-label="搜索"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><p>搜索</p></button>
+      <button class="darkmode" aria-label="切换亮暗模式"><svg class="dayIcon" viewBox="0 0 35 35" aria-hidden="true"><path d="M17.5 7C11.71 7 7 11.71 7 17.5S11.71 28 17.5 28 28 23.29 28 17.5 23.29 7 17.5 7zm0 18c-4.136 0-7.5-3.364-7.5-7.5S13.364 10 17.5 10s7.5 3.364 7.5 7.5S21.636 25 17.5 25zM17.5 6c.829 0 1.5-.672 1.5-1.5v-3C19 .672 18.329 0 17.5 0S16 .672 16 1.5v3C16 5.328 16.671 6 17.5 6zm0 23c-.829 0-1.5.672-1.5 1.5v3c0 .828.671 1.5 1.5 1.5s1.5-.672 1.5-1.5v-3c0-.828-.671-1.5-1.5-1.5zM4.5 16h-3C.672 16 0 16.672 0 17.5S.672 19 1.5 19h3c.828 0 1.5-.672 1.5-1.5S5.328 16 4.5 16zm29 0h-3c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5h3c.828 0 1.5-.672 1.5-1.5S34.328 16 33.5 16zM7.5 26c-.414 0-.789.168-1.061.439l-2 2c-.271.272-.439.647-.439 1.061C4 30.328 4.671 31 5.5 31c.414 0 .789-.168 1.06-.44l2-2c.272-.271.44-.646.44-1.06C9 26.672 8.329 26 7.5 26zm20-18c.414 0 .789-.168 1.06-.439l2-2C30.832 5.289 31 4.914 31 4.5 31 3.672 30.329 3 29.5 3c-.414 0-.789.168-1.061.44l-2 2C26.168 5.711 26 6.086 26 6.5 26 7.328 26.671 8 27.5 8zm2 18c-.828 0-1.5.672-1.5 1.5 0 .414.168.789.439 1.06l2 2c.271.272.646.44 1.061.44.828 0 1.5-.672 1.5-1.5 0-.414-.168-.789-.439-1.061l-2-2c-.272-.271-.647-.439-1.061-.439zM6.439 8.561c.272.271.647.439 1.061.439C8.328 9 9 8.328 9 7.5c0-.414-.168-.789-.439-1.061l-2-2C6.289 4.168 5.914 4 5.5 4 4.672 4 4 4.672 4 5.5c0 .414.168.789.439 1.06l2 2z"/></svg><svg class="nightIcon" viewBox="0 0 100 100" aria-hidden="true"><path d="M96.76 66.458c-.853-.852-2.15-1.064-3.23-.534-6.063 2.991-12.858 4.571-19.655 4.571C62.022 70.495 50.88 65.88 42.5 57.5 29.043 44.043 25.658 23.536 34.076 6.47c.532-1.08.318-2.379-.534-3.23-.851-.852-2.15-1.064-3.23-.534-4.918 2.427-9.375 5.619-13.246 9.491C7.619 21.644 2.416 34.205 2.416 47.566c0 13.36 5.203 25.921 14.65 35.368s22.008 14.65 35.368 14.65c13.361 0 25.921-5.203 35.369-14.65 3.872-3.871 7.064-8.328 9.491-13.246.532-1.08.318-2.379-.534-3.23z"/></svg></button>
+    </div>
+    <div class="explorer">
+      <h2 class="explorer-title">课程目录</h2>
+      <ul class="explorer-list">
+        <li><a class="explorer-link" href="01.html"><span class="explorer-num">1</span><span>程序结构与编译执行流程</span></a></li><li><a class="explorer-link" href="02.html"><span class="explorer-num">2</span><span>数据类型与变量</span></a></li><li><a class="explorer-link" href="03.html"><span class="explorer-num">3</span><span>运算符与表达式</span></a></li><li><a class="explorer-link" href="04.html"><span class="explorer-num">4</span><span>控制流</span></a></li><li><a class="explorer-link active" href="05.html"><span class="explorer-num">5</span><span>函数</span></a><ul class="explorer-sub"><li><a href="05.html#sec-1">定义、声明与调用</a></li><li><a href="05.html#sec-2">返回值：结果要 return 出来，不要只靠副作用</a></li><li><a href="05.html#sec-3">回调函数：用函数指针做参数</a></li><li><a href="05.html#sec-4">递归</a></li><li><a href="05.html#sec-5">作用域与存储类</a></li></ul></li><li><a class="explorer-link" href="06.html"><span class="explorer-num">6</span><span>数组与字符串</span></a></li><li><a class="explorer-link" href="07.html"><span class="explorer-num">7</span><span>指针</span></a></li><li><a class="explorer-link" href="08.html"><span class="explorer-num">8</span><span>结构体、共用体、枚举与 typedef</span></a></li><li><a class="explorer-link" href="09.html"><span class="explorer-num">9</span><span>动态内存管理</span></a></li><li><a class="explorer-link" href="10.html"><span class="explorer-num">10</span><span>文件操作</span></a></li><li><a class="explorer-link" href="11.html"><span class="explorer-num">11</span><span>预处理与多文件工程</span></a></li><li><a class="explorer-link" href="12.html"><span class="explorer-num">12</span><span>我的易错点复盘</span></a></li><li><a class="explorer-link" href="appendix.html"><span class="explorer-num">·</span><span>使用说明</span></a></li>
+      </ul>
+    </div>
+    <div class="sidebar-foot">共 13 篇 · 约 14.8 千字<br>第十二章可在线填写复盘</div>
+  </aside>
+
+  <div class="center">
+        <header class="page-header">
+      <nav class="breadcrumb"><a href="index.html">首页</a><span class="sep">❯</span><span>第 5 章</span></nav>
+      <h1 class="article-title">5. 函数</h1>
+    </header>
+    
+    <article>
+<h2 id="sec-1">（一）定义、声明与调用<a class="anchor" href="#sec-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<ul><li>函数由返回类型、函数名、参数列表、函数体组成；调用前必须可见声明（原型）。</li><li>C99 起取消隐式声明，未声明就调用会产生告警或错误，且参数类型会被错误推断。</li><li>参数传递是<strong>值传递</strong>：函数内修改形参不影响实参。要修改实参，必须传地址（指针）。</li></ul>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">void</span> <span class="tok-fn">swap_wrong</span><span class="tok-punct">(</span><span class="tok-kw">int</span> a<span class="tok-punct">,</span> <span class="tok-kw">int</span> b<span class="tok-punct">)</span> <span class="tok-punct">{</span> <span class="tok-kw">int</span> t <span class="tok-punct">=</span> a<span class="tok-punct">;</span> a <span class="tok-punct">=</span> b<span class="tok-punct">;</span> b <span class="tok-punct">=</span> t<span class="tok-punct">;</span> <span class="tok-punct">}</span>   <span class="tok-com">/* 无效 */</span>
+<span class="tok-kw">void</span> <span class="tok-fn">swap_ok</span><span class="tok-punct">(</span><span class="tok-kw">int</span> <span class="tok-punct">*</span>a<span class="tok-punct">,</span> <span class="tok-kw">int</span> <span class="tok-punct">*</span>b<span class="tok-punct">)</span>  <span class="tok-punct">{</span> <span class="tok-kw">int</span> t <span class="tok-punct">=</span> <span class="tok-punct">*</span>a<span class="tok-punct">;</span> <span class="tok-punct">*</span>a <span class="tok-punct">=</span> <span class="tok-punct">*</span>b<span class="tok-punct">;</span> <span class="tok-punct">*</span>b <span class="tok-punct">=</span> t<span class="tok-punct">;</span> <span class="tok-punct">}</span> <span class="tok-com">/* 调用 swap_ok(&amp;x, &amp;y) */</span></code></pre></figure>
+<h2 id="sec-2">（二）返回值：结果要 return 出来，不要只靠副作用<a class="anchor" href="#sec-2" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>初学者常有两种毛病：一是函数清一色以 <code>void</code> 收尾，算完只在函数内 <code>printf</code>，调用方拿不到结果，想复用只能再抄一遍；二是结果靠"出参"或全局变量带出去，顺手把入参也改了，调用处的原数据就脏了。更稳的写法是三条纪律。</p>
+<ol><li><strong>能返回就返回</strong>：计算结果用 <code>return</code> 交出去；函数里不打印，打印与否由调用者决定。</li><li><strong>输入只读</strong>：入参加 <code>const</code>，声明"我不动你"；要产出新值，就另开返回值或新缓冲区，而不是就地改实参。</li><li><strong>每条路径都有返回</strong>：非 <code>void</code> 函数漏写 <code>return</code> 属 UB，编译器会告警 <code>control reaches end of non-void function</code>，务必清零这类告警。</li></ol>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-com">/* 不推荐：结果靠出参带出，还改了入参 */</span>
+<span class="tok-kw">void</span> <span class="tok-fn">normalize_bad</span><span class="tok-punct">(</span><span class="tok-kw">int</span> <span class="tok-punct">*</span>v<span class="tok-punct">,</span> <span class="tok-kw">int</span> n<span class="tok-punct">)</span>
+<span class="tok-punct">{</span>
+    <span class="tok-kw">for</span> <span class="tok-punct">(</span><span class="tok-kw">int</span> i <span class="tok-punct">=</span> <span class="tok-num">0</span><span class="tok-punct">;</span> i <span class="tok-punct">&lt;</span> n<span class="tok-punct">;</span> i<span class="tok-punct">++)</span>
+        v<span class="tok-punct">[</span>i<span class="tok-punct">]</span> <span class="tok-punct">=</span> v<span class="tok-punct">[</span>i<span class="tok-punct">]</span> <span class="tok-punct">/</span> <span class="tok-num">100</span><span class="tok-punct">;</span>           <span class="tok-com">/* 原数组被就地改写，无法回退 */</span>
+<span class="tok-punct">}</span>
+
+<span class="tok-com">/* 推荐：输入只读，结果写进调用者给的缓冲区，返回值表示处理了几个 */</span>
+<span class="tok-kw">int</span> <span class="tok-fn">normalize</span><span class="tok-punct">(</span><span class="tok-kw">const</span> <span class="tok-kw">int</span> <span class="tok-punct">*</span>src<span class="tok-punct">,</span> <span class="tok-kw">int</span> n<span class="tok-punct">,</span> <span class="tok-kw">int</span> <span class="tok-punct">*</span>dst<span class="tok-punct">,</span> <span class="tok-kw">int</span> cap<span class="tok-punct">)</span>
+<span class="tok-punct">{</span>
+    <span class="tok-kw">if</span> <span class="tok-punct">(</span>src <span class="tok-punct">==</span> <span class="tok-num">NULL</span> <span class="tok-punct">||</span> dst <span class="tok-punct">==</span> <span class="tok-num">NULL</span> <span class="tok-punct">||</span> n <span class="tok-punct">&gt;</span> cap<span class="tok-punct">)</span>
+        <span class="tok-kw">return</span> <span class="tok-punct">-</span><span class="tok-num">1</span><span class="tok-punct">;</span>                   <span class="tok-com">/* 用返回值表达失败，而不是静默继续 */</span>
+    <span class="tok-kw">for</span> <span class="tok-punct">(</span><span class="tok-kw">int</span> i <span class="tok-punct">=</span> <span class="tok-num">0</span><span class="tok-punct">;</span> i <span class="tok-punct">&lt;</span> n<span class="tok-punct">;</span> i<span class="tok-punct">++)</span>
+        dst<span class="tok-punct">[</span>i<span class="tok-punct">]</span> <span class="tok-punct">=</span> src<span class="tok-punct">[</span>i<span class="tok-punct">]</span> <span class="tok-punct">/</span> <span class="tok-num">100</span><span class="tok-punct">;</span>
+    <span class="tok-kw">return</span> n<span class="tok-punct">;</span>
+<span class="tok-punct">}</span></code></pre></figure>
+<ul><li><strong>要返回多个值时</strong>，优先用结构体按值返回（小结构体编译器会走寄存器，成本很低），而不是全局变量；只有大块数据才用出参。出参名字加 <code>_out</code> 后缀，一眼看出会被写。</li><li><strong>返回指针要管生命周期</strong>：不要返回局部数组的地址，栈帧一销毁就是悬垂指针。</li></ul>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">char</span> <span class="tok-punct">*</span><span class="tok-fn">bad</span><span class="tok-punct">(</span><span class="tok-kw">void</span><span class="tok-punct">)</span>      <span class="tok-punct">{</span> <span class="tok-kw">char</span> buf<span class="tok-punct">[</span><span class="tok-num">32</span><span class="tok-punct">];</span> <span class="tok-kw">return</span> buf<span class="tok-punct">;</span> <span class="tok-punct">}</span>   <span class="tok-com">/* 悬垂，调用即 UB */</span>
+<span class="tok-kw">static</span> <span class="tok-kw">char</span> sbuf<span class="tok-punct">[</span><span class="tok-num">32</span><span class="tok-punct">];</span>
+<span class="tok-kw">char</span> <span class="tok-punct">*</span><span class="tok-fn">ok</span><span class="tok-punct">(</span><span class="tok-kw">void</span><span class="tok-punct">)</span>       <span class="tok-punct">{</span> <span class="tok-com">/* 填 sbuf */</span> <span class="tok-kw">return</span> sbuf<span class="tok-punct">;</span> <span class="tok-punct">}</span>   <span class="tok-com">/* 可，但不可重入 */</span></code></pre></figure>
+<ul><li><strong><code>main</code> 的返回值就是退出码</strong>：<code>return 0</code> 表示成功，非 0 表示异常，脚本和 CI 靠它判断成败。</li></ul>
+<h2 id="sec-3">（三）回调函数：用函数指针做参数<a class="anchor" href="#sec-3" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>回调就是"把一段行为当参数传进去"。被调函数只管流程（何时遍历、何时比较），具体做什么由调用者决定。C 没有闭包，实现方式就是<strong>函数指针做参数</strong>。</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include</span> <span class="tok-str">&lt;stdio.h&gt;</span>
+
+<span class="tok-com">/* 参数里接收一个函数指针：它吃一个 int、吐一个 int */</span>
+<span class="tok-kw">void</span> <span class="tok-fn">for_each</span><span class="tok-punct">(</span><span class="tok-kw">int</span> <span class="tok-punct">*</span>arr<span class="tok-punct">,</span> <span class="tok-kw">int</span> n<span class="tok-punct">,</span> <span class="tok-kw">int</span> <span class="tok-punct">(*</span>fn<span class="tok-punct">)(</span><span class="tok-kw">int</span><span class="tok-punct">))</span>
+<span class="tok-punct">{</span>
+    <span class="tok-kw">for</span> <span class="tok-punct">(</span><span class="tok-kw">int</span> i <span class="tok-punct">=</span> <span class="tok-num">0</span><span class="tok-punct">;</span> i <span class="tok-punct">&lt;</span> n<span class="tok-punct">;</span> i<span class="tok-punct">++)</span>
+        arr<span class="tok-punct">[</span>i<span class="tok-punct">]</span> <span class="tok-punct">=</span> <span class="tok-fn">fn</span><span class="tok-punct">(</span>arr<span class="tok-punct">[</span>i<span class="tok-punct">]);</span>       <span class="tok-com">/* 这里不关心 fn 到底做什么 */</span>
+<span class="tok-punct">}</span>
+
+<span class="tok-kw">int</span> <span class="tok-fn">square</span><span class="tok-punct">(</span><span class="tok-kw">int</span> x<span class="tok-punct">)</span> <span class="tok-punct">{</span> <span class="tok-kw">return</span> x <span class="tok-punct">*</span> x<span class="tok-punct">;</span> <span class="tok-punct">}</span>
+<span class="tok-kw">int</span> <span class="tok-fn">negate</span><span class="tok-punct">(</span><span class="tok-kw">int</span> x<span class="tok-punct">)</span> <span class="tok-punct">{</span> <span class="tok-kw">return</span> <span class="tok-punct">-</span>x<span class="tok-punct">;</span> <span class="tok-punct">}</span>
+
+<span class="tok-kw">int</span> <span class="tok-fn">main</span><span class="tok-punct">(</span><span class="tok-kw">void</span><span class="tok-punct">)</span>
+<span class="tok-punct">{</span>
+    <span class="tok-kw">int</span> a<span class="tok-punct">[</span><span class="tok-num">3</span><span class="tok-punct">]</span> <span class="tok-punct">=</span> <span class="tok-punct">{</span><span class="tok-num">1</span><span class="tok-punct">,</span> <span class="tok-num">2</span><span class="tok-punct">,</span> <span class="tok-num">3</span><span class="tok-punct">};</span>
+    <span class="tok-fn">for_each</span><span class="tok-punct">(</span>a<span class="tok-punct">,</span> <span class="tok-num">3</span><span class="tok-punct">,</span> square<span class="tok-punct">);</span>        <span class="tok-com">/* 传函数名，不能写成 square() */</span>
+    <span class="tok-fn">for_each</span><span class="tok-punct">(</span>a<span class="tok-punct">,</span> <span class="tok-num">3</span><span class="tok-punct">,</span> negate<span class="tok-punct">);</span>        <span class="tok-com">/* 换行为只换参数，流程一行不改 */</span>
+    <span class="tok-kw">return</span> <span class="tok-num">0</span><span class="tok-punct">;</span>
+<span class="tok-punct">}</span></code></pre></figure>
+<p>写法的三件套：声明用 <code>返回类型 (*名字)(参数表)</code>；传参只写函数名，<strong>加括号就变成先调用</strong>；调用 <code>p(...)</code> 与 <code>(*p)(...)</code> 等价。</p>
+<ul><li><strong>用 <code>typedef</code> 起名</strong>，避免括号看错位置：</li></ul>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">typedef</span> <span class="tok-kw">int</span> <span class="tok-punct">(*</span>cmp_fn<span class="tok-punct">)(</span><span class="tok-kw">const</span> <span class="tok-kw">void</span> <span class="tok-punct">*,</span> <span class="tok-kw">const</span> <span class="tok-kw">void</span> <span class="tok-punct">*);</span>
+<span class="tok-kw">void</span> <span class="tok-fn">sort</span><span class="tok-punct">(</span><span class="tok-kw">int</span> <span class="tok-punct">*</span>a<span class="tok-punct">,</span> <span class="tok-kw">int</span> n<span class="tok-punct">,</span> cmp_fn cmp<span class="tok-punct">);</span></code></pre></figure>
+<ul><li><strong>标准库现成例子</strong>：<code>qsort</code> 的第四个参数就是回调。</li></ul>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include</span> <span class="tok-str">&lt;stdlib.h&gt;</span>
+
+<span class="tok-kw">int</span> <span class="tok-fn">cmp_int</span><span class="tok-punct">(</span><span class="tok-kw">const</span> <span class="tok-kw">void</span> <span class="tok-punct">*</span>a<span class="tok-punct">,</span> <span class="tok-kw">const</span> <span class="tok-kw">void</span> <span class="tok-punct">*</span>b<span class="tok-punct">)</span>
+<span class="tok-punct">{</span>
+    <span class="tok-kw">int</span> x <span class="tok-punct">=</span> <span class="tok-punct">*(</span><span class="tok-kw">const</span> <span class="tok-kw">int</span> <span class="tok-punct">*)</span>a<span class="tok-punct">,</span> y <span class="tok-punct">=</span> <span class="tok-punct">*(</span><span class="tok-kw">const</span> <span class="tok-kw">int</span> <span class="tok-punct">*)</span>b<span class="tok-punct">;</span>
+    <span class="tok-kw">return</span> <span class="tok-punct">(</span>x <span class="tok-punct">&gt;</span> y<span class="tok-punct">)</span> <span class="tok-punct">-</span> <span class="tok-punct">(</span>x <span class="tok-punct">&lt;</span> y<span class="tok-punct">);</span>      <span class="tok-com">/* 不要直接 return x - y，差值会溢出 */</span>
+<span class="tok-punct">}</span>
+
+<span class="tok-fn">qsort</span><span class="tok-punct">(</span>arr<span class="tok-punct">,</span> n<span class="tok-punct">,</span> <span class="tok-kw">sizeof</span><span class="tok-punct">(</span>arr<span class="tok-punct">[</span><span class="tok-num">0</span><span class="tok-punct">]),</span> cmp_int<span class="tok-punct">);</span></code></pre></figure>
+<ul><li><strong>四个常见错误</strong>：</li></ul>
+<ol><li>传成 <code>cmp_int()</code> —— 传的是返回值，类型不匹配，要么编译报错要么运行崩。</li><li>签名必须完全一致：参数表、返回类型都对得上，<code>qsort</code> 要的是 <code>const void *</code> 两个参数。</li><li>回调里不能用调用者栈上的局部变量地址（返回时已销毁）；需要携带上下文就多传一个 <code>void *ctx</code> 参数。</li><li>函数指针为 <code>NULL</code> 就直接调用，必然崩 —— 调用前判空。</li></ol>
+<blockquote><p>一句话记忆：看到参数里出现 <code>int (*)(...)</code> 这种写法，就知道这个函数在等"一段行为"，它自己只提供骨架。</p></blockquote>
+<h2 id="sec-4">（四）递归<a class="anchor" href="#sec-4" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>递归必须满足两点：有明确的终止条件；每次递归规模向终止条件收敛。缺失终止条件会导致栈溢出（stack overflow）。</p>
+<h2 id="sec-5">（五）作用域与存储类<a class="anchor" href="#sec-5" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<div class="table-container"><table><thead><tr><th>关键字</th><th>作用</th><th>生命周期</th></tr></thead><tbody><tr><td><code>auto</code></td><td>局部变量默认，可省略</td><td>函数执行期间</td></tr><tr><td><code>static</code>（局部）</td><td>值在函数调用间保留，只初始化一次</td><td>整个程序运行期</td></tr><tr><td><code>static</code>（全局/函数）</td><td>限制为内部链接，仅本文件可见</td><td>整个程序运行期</td></tr><tr><td><code>extern</code></td><td>声明外部定义的变量或函数</td><td>取决于定义处</td></tr><tr><td><code>register</code></td><td>建议放入寄存器（现代编译器多忽略）</td><td>函数执行期间</td></tr></tbody></table></div>
+    </article>
+    <hr class="page-rule">
+    <div class="page-footer"><a class="prev" href="04.html"><span class="nav-label">← 上一章</span>4. 控制流</a><a class="next" href="06.html"><span class="nav-label">下一章 →</span>6. 数组与字符串</a></div>
+    <footer class="site-footer">按课程顺序整理的 C 语言知识库 · 内容源《C 语言知识总结与易错点复盘手册》<br>静态站点 · 亮暗模式与全文搜索均在本地运行，无需联网</footer>
+  </div>
+
+  <aside class="right sidebar">
+    <div class="toc"><h3>本页目录</h3><ul><li class="depth-0"><a href="#sec-1" data-for="sec-1">定义、声明与调用</a></li><li class="depth-0"><a href="#sec-2" data-for="sec-2">返回值：结果要 return 出来，不要只靠副作用</a></li><li class="depth-0"><a href="#sec-3" data-for="sec-3">回调函数：用函数指针做参数</a></li><li class="depth-0"><a href="#sec-4" data-for="sec-4">递归</a></li><li class="depth-0"><a href="#sec-5" data-for="sec-5">作用域与存储类</a></li></ul></div>
+    <div class="related"><h3>全部章节</h3><ul><li><a href="01.html">1. 程序结构与编译执行流程</a></li><li><a href="02.html">2. 数据类型与变量</a></li><li><a href="03.html">3. 运算符与表达式</a></li><li><a href="04.html">4. 控制流</a></li><li><a href="05.html">5. 函数</a></li><li><a href="06.html">6. 数组与字符串</a></li><li><a href="07.html">7. 指针</a></li><li><a href="08.html">8. 结构体、共用体、枚举与 typedef</a></li><li><a href="09.html">9. 动态内存管理</a></li><li><a href="10.html">10. 文件操作</a></li><li><a href="11.html">11. 预处理与多文件工程</a></li><li><a href="12.html">12. 我的易错点复盘</a></li><li><a href="appendix.html">附录 · 使用说明</a></li></ul></div>
+  </aside>
+</div>
+
+<div class="search-modal" hidden>
+  <div class="search-panel">
+    <input class="search-bar" type="text" placeholder="搜索内容..." autocomplete="off" aria-label="搜索内容">
+    <ul class="search-results"></ul>
+    <div class="search-hint">↑↓ 选择 · Enter 打开 · Esc 关闭 · 快捷键 / 或 Ctrl+K</div>
+  </div>
+</div>
+<script src="assets/search-index.js"></script>
+<script src="assets/quartz.js"></script>
+</body>
+</html>
