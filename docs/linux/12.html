@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>12. 综合项目：MP3 播放器与复盘 – Linux系统编程知识库</title>
+<meta name="description" content="按课程顺序整理的 Linux 系统编程与 LVGL 知识主干、完整代码与易错点复盘笔记。">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('cl-notes-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</head>
+<body class="page">
+<div class="mobile-bar">
+  <button class="nav-toggle" aria-label="切换目录">☰</button>
+  <span class="brand">Linux系统编程知识库</span>
+  <button class="search-button" aria-label="搜索" style="margin-left:auto;border:none;"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><span style="margin-left:.35rem">搜索</span></button>
+</div>
+<div id="quartz-body">
+  <aside class="left sidebar">
+    <h2 class="page-title"><a href="index.html">Linux系统编程知识库</a></h2>
+    <div class="sidebar-tools">
+      <button class="search-button" aria-label="搜索"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><p>搜索</p></button>
+      <button class="darkmode" aria-label="切换亮暗模式"><svg class="dayIcon" viewBox="0 0 35 35" aria-hidden="true"><path d="M17.5 7C11.71 7 7 11.71 7 17.5S11.71 28 17.5 28 28 23.29 28 17.5 23.29 7 17.5 7zm0 18c-4.136 0-7.5-3.364-7.5-7.5S13.364 10 17.5 10s7.5 3.364 7.5 7.5S21.636 25 17.5 25zM17.5 6c.829 0 1.5-.672 1.5-1.5v-3C19 .672 18.329 0 17.5 0S16 .672 16 1.5v3C16 5.328 16.671 6 17.5 6zm0 23c-.829 0-1.5.672-1.5 1.5v3c0 .828.671 1.5 1.5 1.5s1.5-.672 1.5-1.5v-3c0-.828-.671-1.5-1.5-1.5zM4.5 16h-3C.672 16 0 16.672 0 17.5S.672 19 1.5 19h3c.828 0 1.5-.672 1.5-1.5S5.328 16 4.5 16zm29 0h-3c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5h3c.828 0 1.5-.672 1.5-1.5S34.328 16 33.5 16zM7.5 26c-.414 0-.789.168-1.061.439l-2 2c-.271.272-.439.647-.439 1.061C4 30.328 4.671 31 5.5 31c.414 0 .789-.168 1.06-.44l2-2c.272-.271.44-.646.44-1.06C9 26.672 8.329 26 7.5 26zm20-18c.414 0 .789-.168 1.06-.439l2-2C30.832 5.289 31 4.914 31 4.5 31 3.672 30.329 3 29.5 3c-.414 0-.789.168-1.061.44l-2 2C26.168 5.711 26 6.086 26 6.5 26 7.328 26.671 8 27.5 8zm2 18c-.828 0-1.5.672-1.5 1.5 0 .414.168.789.439 1.06l2 2c.271.272.646.44 1.061.44.828 0 1.5-.672 1.5-1.5 0-.414-.168-.789-.439-1.061l-2-2c-.272-.271-.647-.439-1.061-.439zM6.439 8.561c.272.271.647.439 1.061.439C8.328 9 9 8.328 9 7.5c0-.414-.168-.789-.439-1.061l-2-2C6.289 4.168 5.914 4 5.5 4 4.672 4 4 4.672 4 5.5c0 .414.168.789.439 1.06l2 2z"/></svg><svg class="nightIcon" viewBox="0 0 100 100" aria-hidden="true"><path d="M96.76 66.458c-.853-.852-2.15-1.064-3.23-.534-6.063 2.991-12.858 4.571-19.655 4.571C62.022 70.495 50.88 65.88 42.5 57.5 29.043 44.043 25.658 23.536 34.076 6.47c.532-1.08.318-2.379-.534-3.23-.851-.852-2.15-1.064-3.23-.534-4.918 2.427-9.375 5.619-13.246 9.491C7.619 21.644 2.416 34.205 2.416 47.566c0 13.36 5.203 25.921 14.65 35.368s22.008 14.65 35.368 14.65c13.361 0 25.921-5.203 35.369-14.65 3.872-3.871 7.064-8.328 9.491-13.246.532-1.08.318-2.379-.534-3.23z"/></svg></button>
+    </div>
+    <div class="explorer">
+      <h2 class="explorer-title">课程目录</h2>
+      <ul class="explorer-list">
+        <li><a class="explorer-link" href="01.html"><span class="explorer-num">1</span><span>课程地图：从系统编程到图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="02.html"><span class="explorer-num">2</span><span>工程组织：Makefile 与静态库、动态库</span></a>
+</li>
+        <li><a class="explorer-link" href="03.html"><span class="explorer-num">3</span><span>标准 I/O：缓冲文件操作</span></a>
+</li>
+        <li><a class="explorer-link" href="04.html"><span class="explorer-num">4</span><span>系统 I/O：文件描述符与非缓冲操作</span></a>
+</li>
+        <li><a class="explorer-link" href="05.html"><span class="explorer-num">5</span><span>时间编程</span></a>
+</li>
+        <li><a class="explorer-link" href="06.html"><span class="explorer-num">6</span><span>目录操作</span></a>
+</li>
+        <li><a class="explorer-link" href="07.html"><span class="explorer-num">7</span><span>文件属性：stat 家族与 ls -li 的实现</span></a>
+</li>
+        <li><a class="explorer-link" href="08.html"><span class="explorer-num">8</span><span>进程：概念、状态与管理</span></a>
+</li>
+        <li><a class="explorer-link" href="09.html"><span class="explorer-num">9</span><span>进程控制：fork、wait、exit、exec</span></a>
+</li>
+        <li><a class="explorer-link" href="10.html"><span class="explorer-num">10</span><span>信号</span></a>
+</li>
+        <li><a class="explorer-link" href="11.html"><span class="explorer-num">11</span><span>LVGL：嵌入式图形界面</span></a>
+</li>
+        <li><a class="explorer-link active" href="12.html"><span class="explorer-num">12</span><span>综合项目：MP3 播放器与复盘</span></a>
+<ul class="explorer-sub"><li><a href="12.html#sec-1">（一）需求拆解</a></li><li><a href="12.html#sec-2">（二）架构：一个父进程 + 一个「可替换」的子进程</a></li><li><a href="12.html#sec-3">（三）无界面版骨架</a></li><li><a href="12.html#sec-4">（四）LVGL 版的接法</a></li><li><a href="12.html#sec-5">（五）状态机：把边界情况穷举掉</a></li><li><a href="12.html#sec-6">（六）我的易错点复盘</a></li><li><a href="12.html#sec-7">（七）高频错误自查清单</a></li><li><a href="12.html#sec-8">（八）常见报错速查</a></li><li><a href="12.html#sec-9">（九）命令与头文件速查</a></li></ul>
+</li>
+        <li><a class="explorer-link" href="appendix.html"><span class="explorer-num">·</span><span>使用说明</span></a></li>
+      </ul>
+    </div>
+    <div class="sidebar-foot">共 13 篇 · 约 42.0 千字<br>按课程顺序整理</div>
+  </aside>
+  <div class="center">
+    <header class="page-header">
+      <nav class="breadcrumb"><a href="index.html">首页</a><span class="sep">❯</span><span>第 12 章</span></nav>
+      <h1 class="article-title">12. 综合项目：MP3 播放器与复盘</h1>
+    </header>
+    <article>
+<p>前面九章是零件，这一章把零件装成机器。两个版本共用同一套控制逻辑：<strong>无界面版</strong>用键盘驱动，<strong>LVGL 版</strong>用按钮驱动，差别只在「输入源」和「输出去哪」。</p>
+<h2 id="sec-1">（一）需求拆解<a class="anchor" href="#sec-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<div class="table-container"><table><thead><tr><th>功能</th><th>无界面版</th><th>LVGL 版</th><th>依赖的技术</th></tr></thead><tbody><tr><td>获取歌单</td><td><code>glob("*.mp3")</code></td><td>同左，结果存入数组</td><td>第 9 章 glob</td></tr><tr><td>播放</td><td><code>fork</code> + <code>execlp("mpg123", ...)</code></td><td>同左，封装成函数</td><td>第 9 章 exec</td></tr><tr><td>暂停</td><td><code>kill(pid, SIGSTOP)</code></td><td>按钮事件触发</td><td>第 10 章信号</td></tr><tr><td>继续</td><td><code>kill(pid, SIGCONT)</code></td><td>按钮事件触发</td><td>第 10 章信号</td></tr><tr><td>下一首</td><td><code>kill(pid, SIGKILL)</code> + 重新 <code>fork</code></td><td>同左</td><td>第 9、10 章</td></tr><tr><td>回收子进程</td><td><code>signal(SIGCHLD)</code> + <code>waitpid</code> 循环</td><td>同左</td><td>第 9、10 章</td></tr><tr><td>显示时间</td><td>无</td><td><code>pthread</code> + <code>lv_label_set_text</code></td><td>第 11 章、第 5 章时间</td></tr><tr><td>显示歌名</td><td><code>printf</code></td><td><code>lv_label_set_text</code> + 自制字库</td><td>第 11 章</td></tr><tr><td>退出清理</td><td><code>atexit</code> 恢复终端</td><td>同左</td><td>第 9 章 atexit</td></tr></tbody></table></div>
+<h2 id="sec-2">（二）架构：一个父进程 + 一个「可替换」的子进程<a class="anchor" href="#sec-2" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="text"><code>        ┌──────────────────────────────┐
+        │  父进程（菜单 / 界面 / 状态机）  │
+        │  - 维护歌单与当前索引            │
+        │  - 维护 playing / paused 状态    │
+        │  - 接收按键或按钮事件            │
+        └───────────┬──────────────────┘
+                    │ fork + exec
+                    ▼
+        ┌──────────────────────────────┐
+        │  子进程：mpg123 song_n.mp3     │
+        │  - 被 SIGSTOP / SIGCONT 控制   │
+        │  - 被 SIGKILL 结束             │
+        └───────────┬──────────────────┘
+                    │ 退出时
+                    ▼
+              SIGCHLD → 父进程 waitpid 回收</code></pre></figure>
+<p>核心设计原则：<strong>播放器永远不阻塞父进程</strong>。父进程只做「状态管理 + 发信号」，真正的音频解码全在子进程里。</p>
+<h2 id="sec-3">（三）无界面版骨架<a class="anchor" href="#sec-3" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include &lt;stdio.h&gt;</span>
+<span class="tok-pp">#include &lt;stdlib.h&gt;</span>
+<span class="tok-pp">#include &lt;string.h&gt;</span>
+<span class="tok-pp">#include &lt;unistd.h&gt;</span>
+<span class="tok-pp">#include &lt;signal.h&gt;</span>
+<span class="tok-pp">#include &lt;glob.h&gt;</span>
+<span class="tok-pp">#include &lt;sys/types.h&gt;</span>
+<span class="tok-pp">#include &lt;sys/wait.h&gt;</span>
+
+<span class="tok-kw">static</span> glob_t  g_list;
+<span class="tok-kw">static</span> <span class="tok-kw">int</span>     g_index  = <span class="tok-num">0</span>;
+<span class="tok-kw">static</span> pid_t   g_pid    = -<span class="tok-num">1</span>;
+<span class="tok-kw">static</span> <span class="tok-kw">int</span>     g_paused = <span class="tok-num">0</span>;
+
+<span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">restore_term</span>(<span class="tok-kw">void</span>)
+{
+    <span class="tok-fn">system</span>(<span class="tok-str">"stty echo"</span>);          <span class="tok-com">/* mpg123 关掉了回显 */</span>
+    <span class="tok-fn">printf</span>(<span class="tok-str">"\033[?25h"</span>);          <span class="tok-com">/* 恢复光标 */</span>
+    <span class="tok-fn">fflush</span>(stdout);
+}
+
+<span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">on_chld</span>(<span class="tok-kw">int</span> sig)
+{
+    <span class="tok-kw">int</span> st;
+    <span class="tok-kw">while</span> (<span class="tok-fn">waitpid</span>(-<span class="tok-num">1</span>, &amp;st, WNOHANG) &gt; <span class="tok-num">0</span>) { }
+}
+
+<span class="tok-kw">static</span> <span class="tok-kw">int</span> <span class="tok-fn">play_current</span>(<span class="tok-kw">void</span>)
+{
+    g_pid = <span class="tok-fn">fork</span>();
+    <span class="tok-kw">if</span> (g_pid &lt; <span class="tok-num">0</span>) { <span class="tok-fn">perror</span>(<span class="tok-str">"fork"</span>); <span class="tok-kw">return</span> -<span class="tok-num">1</span>; }
+
+    <span class="tok-kw">if</span> (g_pid == <span class="tok-num">0</span>) {
+        <span class="tok-fn">execlp</span>(<span class="tok-str">"mpg123"</span>, <span class="tok-str">"mpg123"</span>, <span class="tok-str">"-q"</span>, g_list.gl_pathv[g_index], <span class="tok-kw">NULL</span>);
+        <span class="tok-fn">perror</span>(<span class="tok-str">"execlp"</span>);         <span class="tok-com">/* exec 失败才会走到这里 */</span>
+        <span class="tok-fn">_exit</span>(<span class="tok-num">127</span>);
+    }
+    g_paused = <span class="tok-num">0</span>;
+    <span class="tok-kw">return</span> <span class="tok-num">0</span>;
+}
+
+<span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">stop_current</span>(<span class="tok-kw">void</span>)
+{
+    <span class="tok-kw">if</span> (g_pid &gt; <span class="tok-num">0</span>) {
+        <span class="tok-fn">kill</span>(g_pid, SIGKILL);
+        <span class="tok-fn">waitpid</span>(g_pid, <span class="tok-kw">NULL</span>, <span class="tok-num">0</span>);  <span class="tok-com">/* 立即回收，避免短暂僵尸 */</span>
+        g_pid = -<span class="tok-num">1</span>;
+    }
+}
+
+<span class="tok-kw">int</span> <span class="tok-fn">main</span>(<span class="tok-kw">int</span> argc, <span class="tok-kw">char</span> *argv[])
+{
+    <span class="tok-kw">const</span> <span class="tok-kw">char</span> *pattern = (argc &gt; <span class="tok-num">1</span>) ? argv[<span class="tok-num">1</span>] : <span class="tok-str">"./*.mp3"</span>;
+
+    <span class="tok-kw">if</span> (<span class="tok-fn">glob</span>(pattern, <span class="tok-num">0</span>, <span class="tok-kw">NULL</span>, &amp;g_list) != <span class="tok-num">0</span> || g_list.gl_pathc == <span class="tok-num">0</span>) {
+        <span class="tok-fn">fprintf</span>(stderr, <span class="tok-str">"没有找到匹配的音频文件\n"</span>);
+        <span class="tok-kw">return</span> -<span class="tok-num">1</span>;
+    }
+
+    <span class="tok-fn">atexit</span>(restore_term);
+    <span class="tok-fn">signal</span>(SIGCHLD, on_chld);
+    <span class="tok-fn">printf</span>(<span class="tok-str">"共 %zu 首，s=暂停 c=继续 n=下一首 l=上一首 q=退出\n"</span>,
+           g_list.gl_pathc);
+
+    <span class="tok-fn">play_current</span>();
+
+    <span class="tok-kw">int</span> ch;
+    <span class="tok-kw">while</span> ((ch = <span class="tok-fn">getchar</span>()) != EOF) {
+        <span class="tok-kw">switch</span> (ch) {
+        <span class="tok-kw">case</span> <span class="tok-str">'s'</span>:
+            <span class="tok-kw">if</span> (g_pid &gt; <span class="tok-num">0</span> &amp;&amp; !g_paused) { <span class="tok-fn">kill</span>(g_pid, SIGSTOP); g_paused = <span class="tok-num">1</span>; }
+            <span class="tok-kw">break</span>;
+        <span class="tok-kw">case</span> <span class="tok-str">'c'</span>:
+            <span class="tok-kw">if</span> (g_pid &gt; <span class="tok-num">0</span> &amp;&amp; g_paused)  { <span class="tok-fn">kill</span>(g_pid, SIGCONT); g_paused = <span class="tok-num">0</span>; }
+            <span class="tok-kw">break</span>;
+        <span class="tok-kw">case</span> <span class="tok-str">'n'</span>:
+            <span class="tok-fn">stop_current</span>();
+            g_index = (g_index + <span class="tok-num">1</span>) % (<span class="tok-kw">int</span>)g_list.gl_pathc;
+            <span class="tok-fn">play_current</span>();
+            <span class="tok-kw">break</span>;
+        <span class="tok-kw">case</span> <span class="tok-str">'l'</span>:
+            <span class="tok-fn">stop_current</span>();
+            g_index = (g_index - <span class="tok-num">1</span> + (<span class="tok-kw">int</span>)g_list.gl_pathc) % (<span class="tok-kw">int</span>)g_list.gl_pathc;
+            <span class="tok-fn">play_current</span>();
+            <span class="tok-kw">break</span>;
+        <span class="tok-kw">case</span> <span class="tok-str">'q'</span>:
+            <span class="tok-fn">stop_current</span>();
+            <span class="tok-fn">globfree</span>(&amp;g_list);
+            <span class="tok-kw">return</span> <span class="tok-num">0</span>;
+        <span class="tok-kw">default</span>:
+            <span class="tok-kw">break</span>;
+        }
+        <span class="tok-fn">printf</span>(<span class="tok-str">"正在播放：%s\n"</span>, g_list.gl_pathv[g_index]);
+    }
+
+    <span class="tok-fn">stop_current</span>();
+    <span class="tok-fn">globfree</span>(&amp;g_list);
+    <span class="tok-kw">return</span> <span class="tok-num">0</span>;
+}</code></pre></figure>
+<blockquote><p>易错点：<code>getchar()</code> 读到 EOF 后不 <code>clearerr</code> 就再读，会一直返回 EOF 导致死循环。交互式程序还要注意 <code>mpg123</code> 抢占终端——用 <code>-q</code> 静默，并在 <code>mpg123</code> 退出后 <code>stty echo</code>。</p></blockquote>
+<h2 id="sec-4">（四）LVGL 版的接法<a class="anchor" href="#sec-4" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>界面逻辑不变，只换输入与输出：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">on_play_pause</span>(lv_event_t *e)
+{
+    <span class="tok-kw">if</span> (<span class="tok-fn">lv_event_get_code</span>(e) != LV_EVENT_CLICKED) <span class="tok-kw">return</span>;
+
+    <span class="tok-kw">if</span> (g_paused) {
+        <span class="tok-fn">kill</span>(g_pid, SIGCONT);
+        g_paused = <span class="tok-num">0</span>;
+        <span class="tok-fn">lv_imgbtn_set_state</span>(guider_ui.screen_imgbtn_stop_or_start,
+                            LV_BTN_STATE_RELEASED);
+    } <span class="tok-kw">else</span> {
+        <span class="tok-fn">kill</span>(g_pid, SIGSTOP);
+        g_paused = <span class="tok-num">1</span>;
+        <span class="tok-fn">lv_imgbtn_set_state</span>(guider_ui.screen_imgbtn_stop_or_start,
+                            LV_BTN_STATE_CHECKED_RELEASED);
+    }
+}
+
+<span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">on_next</span>(lv_event_t *e)
+{
+    <span class="tok-kw">if</span> (<span class="tok-fn">lv_event_get_code</span>(e) != LV_EVENT_CLICKED) <span class="tok-kw">return</span>;
+    <span class="tok-fn">stop_current</span>();
+    g_index = (g_index + <span class="tok-num">1</span>) % (<span class="tok-kw">int</span>)g_list.gl_pathc;
+    <span class="tok-fn">play_current</span>();
+    <span class="tok-fn">lv_label_set_text</span>(guider_ui.screen_label_song,
+                      g_list.gl_pathv[g_index]);
+}</code></pre></figure>
+<p>时间显示线程按第 11 章的写法创建，但<strong>必须</strong>用互斥锁或 <code>lv_async_call</code> 保护，否则与主线程的 <code>lv_timer_handler</code> 竞争对象树。</p>
+<p>三个验收点（对应课程作业的「严苛测试」）：</p>
+<ol><li>连续按「上一首/下一首」20 次，<code>ps -ef | grep mpg123</code> 只能有 1 个进程；</li><li>暂停状态按「下一首」，新歌必须是播放态，不能继承暂停；</li><li>退出后终端回显正常、光标可见、无残留 <code>mpg123</code>。</li></ol>
+<h2 id="sec-5">（五）状态机：把边界情况穷举掉<a class="anchor" href="#sec-5" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<div class="table-container"><table><thead><tr><th>当前状态</th><th>事件</th><th>动作</th><th>新状态</th></tr></thead><tbody><tr><td>播放中</td><td>暂停</td><td><code>SIGSTOP</code></td><td>已暂停</td></tr><tr><td>播放中</td><td>下一首</td><td><code>SIGKILL</code> + <code>waitpid</code> + <code>fork</code></td><td>播放中（新歌）</td></tr><tr><td>已暂停</td><td>继续</td><td><code>SIGCONT</code></td><td>播放中</td></tr><tr><td>已暂停</td><td>下一首</td><td><code>SIGKILL</code> + <code>fork</code></td><td>播放中（新歌）</td></tr><tr><td>播放中</td><td>自然结束</td><td><code>SIGCHLD</code> 回收</td><td><strong>空闲</strong>（需决定是否自动下一首）</td></tr><tr><td>任意</td><td>退出</td><td><code>SIGKILL</code> + <code>globfree</code> + 恢复终端</td><td>结束</td></tr></tbody></table></div>
+<p>「自然结束」这一格是作业里最容易漏的：不处理就会停在「没有子进程但状态还是播放中」，再按暂停会 <code>kill</code> 到一个已回收的 PID（可能命中无关进程）。</p>
+<h2 id="sec-6">（六）我的易错点复盘<a class="anchor" href="#sec-6" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<div class="edit-toolbar"><span>下表可直接在页面上填写，内容只暂存在本机浏览器；Word 版可长期保存。</span><button class="clear-recap" type="button">清空本页记录</button><span class="save-state"></span></div>
+<div class="table-container"><table><thead><tr><th style="width:14%">日期</th><th style="width:30%">现象</th><th style="width:34%">根因</th><th style="width:22%">怎么改</th></tr></thead><tbody>
+<tr><td contenteditable="true" data-key="r1c1"></td><td contenteditable="true" data-key="r1c2"></td><td contenteditable="true" data-key="r1c3"></td><td contenteditable="true" data-key="r1c4"></td></tr>
+<tr><td contenteditable="true" data-key="r2c1"></td><td contenteditable="true" data-key="r2c2"></td><td contenteditable="true" data-key="r2c3"></td><td contenteditable="true" data-key="r2c4"></td></tr>
+<tr><td contenteditable="true" data-key="r3c1"></td><td contenteditable="true" data-key="r3c2"></td><td contenteditable="true" data-key="r3c3"></td><td contenteditable="true" data-key="r3c4"></td></tr>
+<tr><td contenteditable="true" data-key="r4c1"></td><td contenteditable="true" data-key="r4c2"></td><td contenteditable="true" data-key="r4c3"></td><td contenteditable="true" data-key="r4c4"></td></tr>
+<tr><td contenteditable="true" data-key="r5c1"></td><td contenteditable="true" data-key="r5c2"></td><td contenteditable="true" data-key="r5c3"></td><td contenteditable="true" data-key="r5c4"></td></tr>
+<tr><td contenteditable="true" data-key="r6c1"></td><td contenteditable="true" data-key="r6c2"></td><td contenteditable="true" data-key="r6c3"></td><td contenteditable="true" data-key="r6c4"></td></tr>
+</tbody></table></div>
+<h2 id="sec-7">（七）高频错误自查清单<a class="anchor" href="#sec-7" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>写完一屏代码，按这张表过一遍，能拦掉大部分低级错误：</p>
+<ul><li>☐ <code>open</code> 的 <code>flags</code> 含 <code>O_CREAT</code> 时，第三个 <code>mode</code> 参数写了吗？</li><li>☐ <code>read</code>/<code>write</code> 的返回值用 <code>ssize_t</code> 接了吗？判断条件写成 <code>&gt; 0</code> 而不是非零吗？</li><li>☐ 循环读写是否处理了「短读/短写」？</li><li>☐ <code>strlen</code> 与 <code>sizeof</code> 用对了吗（写字符串用前者，写结构体用后者）？</li><li>☐ <code>localtime</code> / <code>gmtime</code> / <code>readdir</code> 返回的静态缓冲区，是否在下次调用前就用掉了？</li><li>☐ <code>fork</code> 之前 <code>fflush</code> 了吗？子进程退出用 <code>_exit</code> 了吗？</li><li>☐ <code>wait</code> 的 <code>wstatus</code> 是否用 <code>WEXITSTATUS</code> 解析，而不是直接打印？</li><li>☐ 信号处理函数里只调用了异步信号安全函数吗？标志位是 <code>volatile sig_atomic_t</code> 吗？</li><li>☐ <code>exec</code> 的参数列表以 <code>NULL</code> 结尾了吗？<code>arg0</code> 写了吗？</li><li>☐ <code>glob</code> 的结果 <code>globfree</code> 了吗？</li><li>☐ 路径拼接用 <code>snprintf</code> 并检查返回值了吗？</li><li>☐ <code>lstat</code> 与 <code>stat</code> 选对了吗（遍历目录用前者）？</li><li>☐ 所有失败分支都 <code>perror</code> 了吗，还是只 <code>return -1</code>？</li><li>☐ <code>chdir</code> 之后有没有切回来，或改用完整路径？</li><li>☐ 多线程改 LVGL 对象时加锁 / 走 <code>lv_async_call</code> 了吗？</li></ul>
+<h2 id="sec-8">（八）常见报错速查<a class="anchor" href="#sec-8" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<div class="table-container"><table><thead><tr><th>报错信息</th><th>阶段</th><th>根因</th><th>处理</th></tr></thead><tbody><tr><td><code>undefined reference to 'xxx'</code></td><td>链接</td><td>函数只有声明没有实现，或没链接库</td><td>补 <code>.c</code> / 加 <code>-lxxx</code></td></tr><tr><td><code>multiple definition of 'xxx'</code></td><td>链接</td><td>变量或函数在头文件里定义，被多次包含</td><td>头文件改 <code>extern</code>，定义收到一个 <code>.c</code></td></tr><tr><td><code>implicit declaration of function 'xxx'</code></td><td>编译</td><td>缺头文件</td><td><code>man 2 xxx</code> 查所属头文件</td></tr><tr><td><code>cannot open shared object file</code></td><td>运行</td><td><code>.so</code> 不在搜索路径</td><td><code>LD_LIBRARY_PATH</code> / <code>rpath</code> / <code>ldconfig</code></td></tr><tr><td><code>Permission denied</code>（open）</td><td>运行</td><td>权限不足或文件属主不对</td><td><code>ls -l</code> 看权限，<code>chmod</code> 调整</td></tr><tr><td><code>No such file or directory</code>（open）</td><td>运行</td><td>路径错、相对路径基准错、<code>chdir</code> 副作用</td><td>打印 <code>getcwd()</code> 确认</td></tr><tr><td><code>Bad file descriptor</code></td><td>运行</td><td>用了未打开/已关闭的 <code>fd</code></td><td>检查 <code>open</code> 返回值与 <code>close</code> 时机</td></tr><tr><td><code>Segmentation fault (core dumped)</code></td><td>运行</td><td>空指针、越界、<code>vfork</code> 子进程 <code>return</code></td><td><code>gdb ./a.out core</code> 看栈</td></tr><tr><td><code>Resource temporarily unavailable</code></td><td>运行</td><td><code>fork</code> 达上限或非阻塞 I/O 无数据</td><td>查进程数，处理 <code>EAGAIN</code></td></tr><tr><td><code>Interrupted system call</code></td><td>运行</td><td>慢系统调用被信号打断</td><td>用 <code>sigaction</code> + <code>SA_RESTART</code> 或重试</td></tr><tr><td><code>missing separator</code></td><td>make</td><td>命令行用了空格而非 Tab</td><td>换 Tab</td></tr><tr><td><code>relocation R_X86_64_32 ... can not be used</code></td><td>链接</td><td>动态库没加 <code>-fPIC</code></td><td>编译加 <code>-fPIC</code></td></tr><tr><td>终端不显示输入、光标消失</td><td>运行</td><td><code>mpg123</code> 改了终端属性</td><td><code>stty echo</code> + <code>\033[?25h</code></td></tr><tr><td>界面汉字显示成方块</td><td>运行</td><td>未把 label 字体设为中文字库</td><td>引入字库并 <code>lv_obj_set_style_text_font</code></td></tr></tbody></table></div>
+<h2 id="sec-9">（九）命令与头文件速查<a class="anchor" href="#sec-9" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<div class="table-container"><table><thead><tr><th>任务</th><th>头文件</th><th>关键函数</th></tr></thead><tbody><tr><td>缓冲文件 I/O</td><td><code>&lt;stdio.h&gt;</code></td><td><code>fopen</code> <code>fclose</code> <code>fread</code> <code>fwrite</code> <code>fseek</code> <code>ftell</code> <code>fflush</code></td></tr><tr><td>非缓冲文件 I/O</td><td><code>&lt;fcntl.h&gt;</code> <code>&lt;unistd.h&gt;</code></td><td><code>open</code> <code>close</code> <code>read</code> <code>write</code> <code>lseek</code></td></tr><tr><td>目录</td><td><code>&lt;dirent.h&gt;</code> <code>&lt;sys/stat.h&gt;</code></td><td><code>opendir</code> <code>readdir</code> <code>closedir</code> <code>mkdir</code> <code>rmdir</code> <code>chdir</code> <code>getcwd</code></td></tr><tr><td>文件属性</td><td><code>&lt;sys/stat.h&gt;</code></td><td><code>stat</code> <code>lstat</code> <code>fstat</code> <code>chmod</code></td></tr><tr><td>时间</td><td><code>&lt;time.h&gt;</code></td><td><code>time</code> <code>localtime_r</code> <code>gmtime_r</code> <code>strftime</code> <code>mktime</code> <code>clock_gettime</code></td></tr><tr><td>进程</td><td><code>&lt;unistd.h&gt;</code> <code>&lt;sys/wait.h&gt;</code></td><td><code>fork</code> <code>vfork</code> <code>getpid</code> <code>getppid</code> <code>wait</code> <code>waitpid</code> <code>exec*</code> <code>_exit</code></td></tr><tr><td>信号</td><td><code>&lt;signal.h&gt;</code></td><td><code>signal</code> <code>sigaction</code> <code>kill</code> <code>raise</code> <code>alarm</code> <code>pause</code></td></tr><tr><td>路径匹配</td><td><code>&lt;glob.h&gt;</code></td><td><code>glob</code> <code>globfree</code></td></tr><tr><td>线程</td><td><code>&lt;pthread.h&gt;</code></td><td><code>pthread_create</code> <code>pthread_join</code> <code>pthread_mutex_lock</code></td></tr><tr><td>图形界面</td><td><code>&lt;lvgl.h&gt;</code></td><td><code>lv_label_set_text</code> <code>lv_imgbtn_set_state</code> <code>lv_obj_add_event_cb</code> <code>lv_timer_handler</code></td></tr></tbody></table></div>
+<figure data-rehype-pretty-code-figure><pre data-language="bash"><code><span class="tok-com"># 排查四板斧</span>
+strace -f ./a.out            # 看系统调用
+ltrace ./a.out               # 看库函数调用
+ldd ./a.out                  # 看动态依赖
+ps -ef | grep mpg123         # 看残留子进程</code></pre></figure>
+    </article>
+    <hr class="page-rule">
+    <div class="page-footer"><a class="prev" href="11.html"><span class="nav-label">← 上一章</span>11. LVGL：嵌入式图形界面</a><a class="next" href="appendix.html"><span class="nav-label">下一章 →</span>附录 · 使用说明</a></div>
+    <footer class="site-footer">按课程顺序整理的 Linux 系统编程知识库 · 内容源《Linux 系统编程与 LVGL 知识总结》<br>静态站点 · 亮暗模式与全文搜索均在本地运行，无需联网</footer>
+  </div>
+
+  <aside class="right sidebar">
+    <div class="toc"><h3>本页目录</h3><ul><li class="depth-0"><a href="#sec-1" data-for="sec-1">（一）需求拆解</a></li><li class="depth-0"><a href="#sec-2" data-for="sec-2">（二）架构：一个父进程 + 一个「可替换」的子进程</a></li><li class="depth-0"><a href="#sec-3" data-for="sec-3">（三）无界面版骨架</a></li><li class="depth-0"><a href="#sec-4" data-for="sec-4">（四）LVGL 版的接法</a></li><li class="depth-0"><a href="#sec-5" data-for="sec-5">（五）状态机：把边界情况穷举掉</a></li><li class="depth-0"><a href="#sec-6" data-for="sec-6">（六）我的易错点复盘</a></li><li class="depth-0"><a href="#sec-7" data-for="sec-7">（七）高频错误自查清单</a></li><li class="depth-0"><a href="#sec-8" data-for="sec-8">（八）常见报错速查</a></li><li class="depth-0"><a href="#sec-9" data-for="sec-9">（九）命令与头文件速查</a></li></ul></div>
+    <div class="related"><h3>全部章节</h3><ul><li><a href="01.html">1. 课程地图：从系统编程到图形界面</a></li><li><a href="02.html">2. 工程组织：Makefile 与静态库、动态库</a></li><li><a href="03.html">3. 标准 I/O：缓冲文件操作</a></li><li><a href="04.html">4. 系统 I/O：文件描述符与非缓冲操作</a></li><li><a href="05.html">5. 时间编程</a></li><li><a href="06.html">6. 目录操作</a></li><li><a href="07.html">7. 文件属性：stat 家族与 ls -li 的实现</a></li><li><a href="08.html">8. 进程：概念、状态与管理</a></li><li><a href="09.html">9. 进程控制：fork、wait、exit、exec</a></li><li><a href="10.html">10. 信号</a></li><li><a href="11.html">11. LVGL：嵌入式图形界面</a></li><li><a href="12.html">12. 综合项目：MP3 播放器与复盘</a></li><li><a href="appendix.html">附录 · 使用说明</a></li></ul></div>
+  </aside>
+</div>
+
+<div class="search-modal" hidden>
+  <div class="search-panel">
+    <input class="search-bar" type="text" placeholder="搜索内容..." autocomplete="off" aria-label="搜索内容">
+    <ul class="search-results"></ul>
+    <div class="search-hint">↑↓ 选择 · Enter 打开 · Esc 关闭 · 快捷键 / 或 Ctrl+K</div>
+  </div>
+</div>
+<script src="assets/search-index.js"></script>
+<script src="../assets/quartz.js"></script>
+</body>
+</html>

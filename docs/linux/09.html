@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>9. 进程控制：fork、wait、exit、exec – Linux系统编程知识库</title>
+<meta name="description" content="按课程顺序整理的 Linux 系统编程与 LVGL 知识主干、完整代码与易错点复盘笔记。">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('cl-notes-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</head>
+<body class="page">
+<div class="mobile-bar">
+  <button class="nav-toggle" aria-label="切换目录">☰</button>
+  <span class="brand">Linux系统编程知识库</span>
+  <button class="search-button" aria-label="搜索" style="margin-left:auto;border:none;"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><span style="margin-left:.35rem">搜索</span></button>
+</div>
+<div id="quartz-body">
+  <aside class="left sidebar">
+    <h2 class="page-title"><a href="index.html">Linux系统编程知识库</a></h2>
+    <div class="sidebar-tools">
+      <button class="search-button" aria-label="搜索"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><p>搜索</p></button>
+      <button class="darkmode" aria-label="切换亮暗模式"><svg class="dayIcon" viewBox="0 0 35 35" aria-hidden="true"><path d="M17.5 7C11.71 7 7 11.71 7 17.5S11.71 28 17.5 28 28 23.29 28 17.5 23.29 7 17.5 7zm0 18c-4.136 0-7.5-3.364-7.5-7.5S13.364 10 17.5 10s7.5 3.364 7.5 7.5S21.636 25 17.5 25zM17.5 6c.829 0 1.5-.672 1.5-1.5v-3C19 .672 18.329 0 17.5 0S16 .672 16 1.5v3C16 5.328 16.671 6 17.5 6zm0 23c-.829 0-1.5.672-1.5 1.5v3c0 .828.671 1.5 1.5 1.5s1.5-.672 1.5-1.5v-3c0-.828-.671-1.5-1.5-1.5zM4.5 16h-3C.672 16 0 16.672 0 17.5S.672 19 1.5 19h3c.828 0 1.5-.672 1.5-1.5S5.328 16 4.5 16zm29 0h-3c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5h3c.828 0 1.5-.672 1.5-1.5S34.328 16 33.5 16zM7.5 26c-.414 0-.789.168-1.061.439l-2 2c-.271.272-.439.647-.439 1.061C4 30.328 4.671 31 5.5 31c.414 0 .789-.168 1.06-.44l2-2c.272-.271.44-.646.44-1.06C9 26.672 8.329 26 7.5 26zm20-18c.414 0 .789-.168 1.06-.439l2-2C30.832 5.289 31 4.914 31 4.5 31 3.672 30.329 3 29.5 3c-.414 0-.789.168-1.061.44l-2 2C26.168 5.711 26 6.086 26 6.5 26 7.328 26.671 8 27.5 8zm2 18c-.828 0-1.5.672-1.5 1.5 0 .414.168.789.439 1.06l2 2c.271.272.646.44 1.061.44.828 0 1.5-.672 1.5-1.5 0-.414-.168-.789-.439-1.061l-2-2c-.272-.271-.647-.439-1.061-.439zM6.439 8.561c.272.271.647.439 1.061.439C8.328 9 9 8.328 9 7.5c0-.414-.168-.789-.439-1.061l-2-2C6.289 4.168 5.914 4 5.5 4 4.672 4 4 4.672 4 5.5c0 .414.168.789.439 1.06l2 2z"/></svg><svg class="nightIcon" viewBox="0 0 100 100" aria-hidden="true"><path d="M96.76 66.458c-.853-.852-2.15-1.064-3.23-.534-6.063 2.991-12.858 4.571-19.655 4.571C62.022 70.495 50.88 65.88 42.5 57.5 29.043 44.043 25.658 23.536 34.076 6.47c.532-1.08.318-2.379-.534-3.23-.851-.852-2.15-1.064-3.23-.534-4.918 2.427-9.375 5.619-13.246 9.491C7.619 21.644 2.416 34.205 2.416 47.566c0 13.36 5.203 25.921 14.65 35.368s22.008 14.65 35.368 14.65c13.361 0 25.921-5.203 35.369-14.65 3.872-3.871 7.064-8.328 9.491-13.246.532-1.08.318-2.379-.534-3.23z"/></svg></button>
+    </div>
+    <div class="explorer">
+      <h2 class="explorer-title">课程目录</h2>
+      <ul class="explorer-list">
+        <li><a class="explorer-link" href="01.html"><span class="explorer-num">1</span><span>课程地图：从系统编程到图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="02.html"><span class="explorer-num">2</span><span>工程组织：Makefile 与静态库、动态库</span></a>
+</li>
+        <li><a class="explorer-link" href="03.html"><span class="explorer-num">3</span><span>标准 I/O：缓冲文件操作</span></a>
+</li>
+        <li><a class="explorer-link" href="04.html"><span class="explorer-num">4</span><span>系统 I/O：文件描述符与非缓冲操作</span></a>
+</li>
+        <li><a class="explorer-link" href="05.html"><span class="explorer-num">5</span><span>时间编程</span></a>
+</li>
+        <li><a class="explorer-link" href="06.html"><span class="explorer-num">6</span><span>目录操作</span></a>
+</li>
+        <li><a class="explorer-link" href="07.html"><span class="explorer-num">7</span><span>文件属性：stat 家族与 ls -li 的实现</span></a>
+</li>
+        <li><a class="explorer-link" href="08.html"><span class="explorer-num">8</span><span>进程：概念、状态与管理</span></a>
+</li>
+        <li><a class="explorer-link active" href="09.html"><span class="explorer-num">9</span><span>进程控制：fork、wait、exit、exec</span></a>
+<ul class="explorer-sub"><li><a href="09.html#sec-1">（一）fork：一次调用，两次返回</a></li><li><a href="09.html#sec-2">（二）经典题型：三次 fork 打印几次</a></li><li><a href="09.html#sec-3">（三）比「打印几次」更隐蔽的坑：缓冲区复制</a></li><li><a href="09.html#sec-4">（四）wait 与 waitpid：回收与同步</a></li><li><a href="09.html#sec-5">（五）exit 与 _exit：缓冲区是否清理</a></li><li><a href="09.html#sec-6">（六）atexit：退出前的收尾</a></li><li><a href="09.html#sec-7">（七）vfork：共享地址空间的危险版本</a></li><li><a href="09.html#sec-8">（八）exec 函数族：换掉自己的躯壳</a></li><li><a href="09.html#sec-9">（九）system：一行调用 Shell</a></li><li><a href="09.html#sec-10">（十）glob：按通配符找文件</a></li></ul>
+</li>
+        <li><a class="explorer-link" href="10.html"><span class="explorer-num">10</span><span>信号</span></a>
+</li>
+        <li><a class="explorer-link" href="11.html"><span class="explorer-num">11</span><span>LVGL：嵌入式图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="12.html"><span class="explorer-num">12</span><span>综合项目：MP3 播放器与复盘</span></a>
+</li>
+        <li><a class="explorer-link" href="appendix.html"><span class="explorer-num">·</span><span>使用说明</span></a></li>
+      </ul>
+    </div>
+    <div class="sidebar-foot">共 13 篇 · 约 42.0 千字<br>按课程顺序整理</div>
+  </aside>
+  <div class="center">
+    <header class="page-header">
+      <nav class="breadcrumb"><a href="index.html">首页</a><span class="sep">❯</span><span>第 9 章</span></nav>
+      <h1 class="article-title">9. 进程控制：fork、wait、exit、exec</h1>
+    </header>
+    <article>
+<p>这一章是整门课的重心。五个原语组合起来，就是 Shell、守护进程、播放器、任务管理器的全部底层。</p>
+<h2 id="sec-1">（一）fork：一次调用，两次返回<a class="anchor" href="#sec-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include &lt;sys/types.h&gt;</span>
+<span class="tok-pp">#include &lt;unistd.h&gt;</span>
+pid_t <span class="tok-fn">fork</span>(<span class="tok-kw">void</span>);</code></pre></figure>
+<div class="table-container"><table><thead><tr><th>返回值</th><th>所在进程</th><th>含义</th></tr></thead><tbody><tr><td><code>&gt; 0</code></td><td>父进程</td><td>返回<strong>子进程的 PID</strong></td></tr><tr><td><code>== 0</code></td><td>子进程</td><td>表示「我是子进程」</td></tr><tr><td><code>&lt; 0</code></td><td>父进程</td><td>创建失败，<code>errno</code> 说明原因</td></tr></tbody></table></div>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code>pid_t pid = <span class="tok-fn">fork</span>();
+<span class="tok-kw">if</span> (pid &lt; <span class="tok-num">0</span>) {
+    <span class="tok-fn">perror</span>(<span class="tok-str">"fork"</span>);        <span class="tok-com">/* EAGAIN：进程数超限；ENOMEM：内存不足 */</span>
+} <span class="tok-kw">else</span> <span class="tok-kw">if</span> (pid == <span class="tok-num">0</span>) {
+    <span class="tok-com">/* 子进程分支 */</span>
+} <span class="tok-kw">else</span> {
+    <span class="tok-com">/* 父进程分支，pid 是子进程号 */</span>
+}</code></pre></figure>
+<p>三个必须记住的特点：</p>
+<ol><li><strong>执行顺序不确定</strong>：父子谁先跑由调度器决定，不能靠 <code>sleep</code> 假设顺序，要用 <code>wait</code> 同步。</li><li><strong>fork 之后的代码执行两遍</strong>：子进程从 <code>fork</code> 返回处继续，<code>fork</code> 之前的代码不重复执行（但地址空间是复制来的，变量值也复制）。</li><li><strong>资源独立</strong>：父子各有自己的堆栈与数据段，一方 <code>i++</code> 不影响另一方。</li></ol>
+<blockquote><p>扩展 · 写时复制（COW）：<code>fork</code> 并不真的复制整个地址空间，而是把父子页表都指向同一批物理页并标记只读。任一方写入时触发缺页异常，内核才复制那一页。这让 <code>fork</code> 的开销从「O(内存大小)」降到「O(页表项)」，是 <code>fork</code> 至今仍是主流创建方式的关键。</p></blockquote>
+<h2 id="sec-2">（二）经典题型：三次 fork 打印几次<a class="anchor" href="#sec-2" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-fn">fork</span>();
+<span class="tok-fn">fork</span>();
+<span class="tok-fn">fork</span>();
+<span class="tok-fn">printf</span>(<span class="tok-str">"hello world\n"</span>);</code></pre></figure>
+<p><strong>结论：8 个进程，8 次输出，7 个子进程。</strong></p>
+<p>推导：每次 <code>fork</code> 让当前进程数翻倍。1 → 2 → 4 → 8。每个进程都执行到 <code>printf</code>，所以 8 次。</p>
+<p>进程树（父 → 子）：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="text"><code>P
+├── C1                 (第 1 次 fork)
+│   ├── C1-1           (第 2 次)
+│   │   ├── C1-1-1     (第 3 次)
+│   │   └── C1-1-2
+│   └── C1-2
+│       ├── C1-2-1
+│       └── C1-2-2
+├── C2
+│   ├── C2-1
+│   │   ├── C2-1-1
+│   │   └── C2-1-2
+│   └── C2-2
+│       ├── C2-2-1
+│       └── C2-2-2</code></pre></figure>
+<p>教材的作业代码用 <code>pid1 … pid7</code> 的嵌套条件实现了同样的结构，验证时把 <code>getpid()</code> / <code>getppid()</code> 打出来即可对上。</p>
+<h2 id="sec-3">（三）比「打印几次」更隐蔽的坑：缓冲区复制<a class="anchor" href="#sec-3" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>把 <code>printf</code> 挪到 <code>fork</code> <strong>之前</strong>，且输出重定向到文件，结果会变化：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-fn">printf</span>(<span class="tok-str">"hello world\n"</span>);    <span class="tok-com">/* 重定向到文件 → 全缓冲，内容留在用户态缓冲区 */</span>
+<span class="tok-fn">fork</span>();</code></pre></figure>
+<p>此时 2 个进程<strong>各自持有一份被复制的缓冲区</strong>，退出时各刷一次，文件里出现 2 行。三次 fork 就是 8 行——恰好和上一节结果相同，容易让人误以为「没问题」。真正的差别在<strong>不加 <code>\n</code></strong> 的情形：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-fn">printf</span>(<span class="tok-str">"hello"</span>);    <span class="tok-com">/* 无换行，缓冲区未刷 */</span>
+<span class="tok-fn">fork</span>();</code></pre></figure>
+<p>到终端时行缓冲因无换行不刷，两个进程各刷一次 → 2 个 <code>hello</code>；看似正常，但若父进程在 <code>fork</code> 前已经 <code>fflush</code>，就只有 2 次；若没刷，缓冲区被复制，仍然 2 次。这类差异说明一条铁律：</p>
+<blockquote><p>铁律：<code>fork</code> 之前先 <code>fflush(NULL)</code>，或确保缓冲区为空。否则输出次数取决于缓冲类型和是否重定向，同一份代码在终端和文件里的行为可能不同。</p></blockquote>
+<h2 id="sec-4">（四）wait 与 waitpid：回收与同步<a class="anchor" href="#sec-4" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include &lt;sys/types.h&gt;</span>
+<span class="tok-pp">#include &lt;sys/wait.h&gt;</span>
+pid_t <span class="tok-fn">wait</span>(<span class="tok-kw">int</span> *wstatus);
+pid_t <span class="tok-fn">waitpid</span>(pid_t pid, <span class="tok-kw">int</span> *wstatus, <span class="tok-kw">int</span> options);</code></pre></figure>
+<div class="table-container"><table><thead><tr><th>参数</th><th>取值</th><th>含义</th></tr></thead><tbody><tr><td><code>pid</code></td><td><code>-1</code></td><td>等待任意子进程</td></tr><tr><td></td><td><code>&gt; 0</code></td><td>等待指定 PID</td></tr><tr><td></td><td><code>0</code></td><td>等待同进程组的任意子进程</td></tr><tr><td></td><td><code>&lt; -1</code></td><td>等待进程组 ID 为 <code>-pid</code> 的任意子进程</td></tr><tr><td><code>options</code></td><td><code>0</code></td><td>阻塞式等待</td></tr><tr><td></td><td><code>WNOHANG</code></td><td>非阻塞，没等到立即返回 0</td></tr></tbody></table></div>
+<p><code>wait(NULL)</code> 完全等价于 <code>waitpid(-1, NULL, 0)</code>。</p>
+<p><code>wstatus</code> 不是退出码本身，而是<strong>编码后的状态字</strong>，必须用宏解析：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">int</span> st;
+<span class="tok-fn">waitpid</span>(pid, &amp;st, <span class="tok-num">0</span>);
+<span class="tok-kw">if</span> (<span class="tok-fn">WIFEXITED</span>(st))        <span class="tok-fn">printf</span>(<span class="tok-str">"正常退出，码=%d\n"</span>, <span class="tok-fn">WEXITSTATUS</span>(st));
+<span class="tok-kw">else</span> <span class="tok-kw">if</span> (<span class="tok-fn">WIFSIGNALED</span>(st)) <span class="tok-fn">printf</span>(<span class="tok-str">"被信号杀死，信号=%d\n"</span>, <span class="tok-fn">WTERMSIG</span>(st));
+<span class="tok-kw">else</span> <span class="tok-kw">if</span> (<span class="tok-fn">WIFSTOPPED</span>(st))  <span class="tok-fn">printf</span>(<span class="tok-str">"被暂停，信号=%d\n"</span>, <span class="tok-fn">WSTOPSIG</span>(st));</code></pre></figure>
+<blockquote><p>易错点：直接 <code>printf("%d", st)</code> 会得到 <code>256</code> 这样的值——真实退出码在低 8 位，高位是信号信息。<code>exit(1)</code> 对应的 <code>st</code> 是 <code>256</code>，<code>exit(0)</code> 是 <code>0</code>。</p></blockquote>
+<h2 id="sec-5">（五）exit 与 _exit：缓冲区是否清理<a class="anchor" href="#sec-5" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<div class="table-container"><table><thead><tr><th>函数</th><th>头文件</th><th>刷 stdio 缓冲</th><th>执行 atexit 回调</th><th>关闭 fd</th></tr></thead><tbody><tr><td><code>exit(status)</code></td><td><code>&lt;stdlib.h&gt;</code></td><td><strong>是</strong></td><td>是</td><td>是</td></tr><tr><td><code>_exit(status)</code></td><td><code>&lt;unistd.h&gt;</code></td><td><strong>否</strong></td><td>否</td><td>是</td></tr><tr><td><code>return</code> from <code>main</code></td><td>—</td><td>是（等价 <code>exit</code>）</td><td>是</td><td>是</td></tr></tbody></table></div>
+<p><code>_exit</code> 用于 <code>fork</code> 出的子进程：子进程继承了父进程的缓冲区副本，若用 <code>exit</code> 会把这份副本也刷出去，造成重复输出。<strong>子进程退出一律用 <code>_exit</code></strong>（或 <code>exit</code> 前先 <code>fflush(NULL)</code>）。</p>
+<h2 id="sec-6">（六）atexit：退出前的收尾<a class="anchor" href="#sec-6" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include &lt;stdlib.h&gt;</span>
+<span class="tok-kw">int</span> <span class="tok-fn">atexit</span>(<span class="tok-kw">void</span> (*function)(<span class="tok-kw">void</span>));</code></pre></figure>
+<p>注册的函数在进程<strong>正常退出</strong>时按<strong>逆序</strong>（后注册先执行）调用。<code>SIGKILL</code> 杀掉、<code>_exit</code> 退出都不会触发。</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">void</span> <span class="tok-fn">cleanup</span>(<span class="tok-kw">void</span>) { <span class="tok-fn">printf</span>(<span class="tok-str">"清理资源\n"</span>); }
+<span class="tok-kw">int</span> <span class="tok-fn">main</span>(<span class="tok-kw">void</span>) { <span class="tok-fn">atexit</span>(cleanup); <span class="tok-kw">return</span> <span class="tok-num">0</span>; }</code></pre></figure>
+<blockquote><p>扩展 · 典型用途：恢复终端属性（<code>mpg123</code> 会关掉回显和光标，播放器必须在退出时 <code>system("stty echo")</code> 并显示光标）、删除临时文件、<code>munmap</code>、关闭日志。这也是教材说「进程退出清理函数放两行代码」的由来。</p></blockquote>
+<h2 id="sec-7">（七）vfork：共享地址空间的危险版本<a class="anchor" href="#sec-7" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code>pid_t <span class="tok-fn">vfork</span>(<span class="tok-kw">void</span>);</code></pre></figure>
+<div class="table-container"><table><thead><tr><th>对比项</th><th><code>fork</code></th><th><code>vfork</code></th></tr></thead><tbody><tr><td>地址空间</td><td>复制（COW）</td><td><strong>共享父进程的</strong></td></tr><tr><td>执行顺序</td><td>不确定</td><td>子进程先运行，父进程阻塞</td></tr><tr><td>开销</td><td>有页表复制</td><td>几乎为零</td></tr><tr><td>安全性</td><td>安全</td><td><strong>危险</strong>：子进程改任何变量都会影响父进程</td></tr></tbody></table></div>
+<p><code>vfork</code> 的子进程若用 <code>return</code> 返回 <code>main</code>，会破坏父进程的栈帧，表现为「段错误（核心已转储）」。两种正确收尾：</p>
+<ol><li>子进程中调用 <code>exit(0)</code> / <code>_exit(0)</code> 结束；</li><li>子进程中调用 <code>exec</code> 族函数替换自身。</li></ol>
+<blockquote><p>扩展 · 现代 Linux 上 <code>vfork</code> 的 COW 优化已经让 <code>fork</code> 足够快，<code>vfork</code> 的唯一优势场景是「立即 exec」，此时用 <code>posix_spawn</code> 更规范。</p></blockquote>
+<h2 id="sec-8">（八）exec 函数族：换掉自己的躯壳<a class="anchor" href="#sec-8" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p><code>exec</code> 不创建新进程，而是用新程序<strong>覆盖</strong>当前进程的代码段、数据段、堆栈，PID 不变。</p>
+<div class="table-container"><table><thead><tr><th>函数</th><th>参数形式</th><th>是否搜 PATH</th><th>是否传环境变量</th></tr></thead><tbody><tr><td><code>execl</code></td><td>列表 <code>(path, arg0, arg1, ..., NULL)</code></td><td>否（要绝对路径）</td><td>继承</td></tr><tr><td><code>execv</code></td><td>数组 <code>(path, argv[])</code></td><td>否</td><td>继承</td></tr><tr><td><code>execlp</code></td><td>列表</td><td><strong>是</strong></td><td>继承</td></tr><tr><td><code>execvp</code></td><td>数组</td><td><strong>是</strong></td><td>继承</td></tr><tr><td><code>execle</code></td><td>列表</td><td>否</td><td><strong>显式传入 envp</strong></td></tr><tr><td><code>execve</code></td><td>数组</td><td>否</td><td>显式传入 envp（唯一的系统调用）</td></tr></tbody></table></div>
+<p>命名规律：<code>l</code> = list（可变参数列表）、<code>v</code> = vector（数组）、<code>p</code> = PATH（搜索环境变量）、<code>e</code> = environment（自定义环境）。注意 <code>execve</code> <strong>没有</strong> <code>l</code> 版本。</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-fn">execl</span>(<span class="tok-str">"/usr/bin/ls"</span>, <span class="tok-str">"ls"</span>, <span class="tok-str">"-li"</span>, <span class="tok-kw">NULL</span>);   <span class="tok-com">/* 绝对路径 */</span>
+<span class="tok-fn">execlp</span>(<span class="tok-str">"ls"</span>, <span class="tok-str">"ls"</span>, <span class="tok-str">"-li"</span>, <span class="tok-kw">NULL</span>);           <span class="tok-com">/* 靠 PATH 查找 */</span></code></pre></figure>
+<p>三个必须遵守的规则：</p>
+<ol><li><strong>最后一个参数必须是 <code>NULL</code></strong>，它是可变参数的结束标记，少了会读到栈上垃圾导致崩溃。</li><li><code>arg0</code> 是「程序在 <code>argv[0]</code> 里看到的自己」，惯例写程序名，不必与路径一致。</li><li><code>exec</code> 成功后<strong>不返回</strong>，之后的代码永远不会执行；失败才返回 <code>-1</code>。所以 <code>exec</code> 后面不需要 <code>return</code>，但失败分支要处理。</li></ol>
+<blockquote><p>易错点：<code>execlp("ls", "-li", NULL)</code> 少了 <code>arg0</code>，<code>ls</code> 会把 <code>-li</code> 当成自己的名字，输出异常。参数个数永远是「程序名 + 参数 + NULL」。</p></blockquote>
+<h2 id="sec-9">（九）system：一行调用 Shell<a class="anchor" href="#sec-9" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include &lt;stdlib.h&gt;</span>
+<span class="tok-kw">int</span> <span class="tok-fn">system</span>(<span class="tok-kw">const</span> <span class="tok-kw">char</span> *command);</code></pre></figure>
+<p>内部实现就是 <code>fork</code> + <code>execl("/bin/sh", "sh", "-c", command, NULL)</code> + <code>waitpid</code>。返回值需要 <code>WIFEXITED</code> / <code>WEXITSTATUS</code> 解析；<code>command</code> 为 <code>NULL</code> 时返回非 0 表示 Shell 可用。</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">int</span> ret = <span class="tok-fn">system</span>(<span class="tok-str">"mpg123 -q song.mp3 &amp;"</span>);</code></pre></figure>
+<blockquote><p>扩展 · <code>system</code> 的代价：多起一个 Shell 进程、阻塞等待、命令串要防注入。生产代码优先 <code>fork</code> + <code>exec</code> 直接调用，或 <code>posix_spawn</code>。</p></blockquote>
+<h2 id="sec-10">（十）glob：按通配符找文件<a class="anchor" href="#sec-10" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include &lt;glob.h&gt;</span>
+<span class="tok-kw">int</span> <span class="tok-fn">glob</span>(<span class="tok-kw">const</span> <span class="tok-kw">char</span> *pattern, <span class="tok-kw">int</span> flags,
+         <span class="tok-kw">int</span> (*errfunc)(<span class="tok-kw">const</span> <span class="tok-kw">char</span> *epath, <span class="tok-kw">int</span> eerrno), glob_t *pglob);
+<span class="tok-kw">void</span> <span class="tok-fn">globfree</span>(glob_t *pglob);
+
+<span class="tok-kw">typedef</span> <span class="tok-kw">struct</span> {
+    size_t gl_pathc;    <span class="tok-com">/* 匹配到的个数 */</span>
+    <span class="tok-kw">char</span> **gl_pathv;    <span class="tok-com">/* 结果数组，以 NULL 结尾 */</span>
+    size_t gl_offs;
+} glob_t;</code></pre></figure>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code>glob_t g = {<span class="tok-num">0</span>};
+<span class="tok-kw">if</span> (<span class="tok-fn">glob</span>(<span class="tok-str">"/home/user/music/*.mp3"</span>, <span class="tok-num">0</span>, <span class="tok-kw">NULL</span>, &amp;g) == <span class="tok-num">0</span>) {
+    <span class="tok-kw">for</span> (size_t i = <span class="tok-num">0</span>; i &lt; g.gl_pathc; i++)
+        <span class="tok-fn">printf</span>(<span class="tok-str">"%s\n"</span>, g.gl_pathv[i]);
+}
+<span class="tok-fn">globfree</span>(&amp;g);</code></pre></figure>
+<p>常用 <code>flags</code>：<code>GLOB_NOSORT</code>（不排序，快）、<code>GLOB_NOCHECK</code>（无匹配时返回原模式）、<code>GLOB_ONLYDIR</code>（只匹配目录）。结果数组由 <code>glob</code> 内部 <code>malloc</code>，必须 <code>globfree</code> 释放。</p>
+<blockquote><p>易错点：<code>gl_pathc</code> 为 0 且返回 <code>GLOB_NOMATCH</code> 时，仍应调用 <code>globfree</code>（内部状态已分配）。忘记释放是长期运行的播放器/服务端的内存泄漏源。</p></blockquote>
+    </article>
+    <hr class="page-rule">
+    <div class="page-footer"><a class="prev" href="08.html"><span class="nav-label">← 上一章</span>8. 进程：概念、状态与管理</a><a class="next" href="10.html"><span class="nav-label">下一章 →</span>10. 信号</a></div>
+    <footer class="site-footer">按课程顺序整理的 Linux 系统编程知识库 · 内容源《Linux 系统编程与 LVGL 知识总结》<br>静态站点 · 亮暗模式与全文搜索均在本地运行，无需联网</footer>
+  </div>
+
+  <aside class="right sidebar">
+    <div class="toc"><h3>本页目录</h3><ul><li class="depth-0"><a href="#sec-1" data-for="sec-1">（一）fork：一次调用，两次返回</a></li><li class="depth-0"><a href="#sec-2" data-for="sec-2">（二）经典题型：三次 fork 打印几次</a></li><li class="depth-0"><a href="#sec-3" data-for="sec-3">（三）比「打印几次」更隐蔽的坑：缓冲区复制</a></li><li class="depth-0"><a href="#sec-4" data-for="sec-4">（四）wait 与 waitpid：回收与同步</a></li><li class="depth-0"><a href="#sec-5" data-for="sec-5">（五）exit 与 _exit：缓冲区是否清理</a></li><li class="depth-0"><a href="#sec-6" data-for="sec-6">（六）atexit：退出前的收尾</a></li><li class="depth-0"><a href="#sec-7" data-for="sec-7">（七）vfork：共享地址空间的危险版本</a></li><li class="depth-0"><a href="#sec-8" data-for="sec-8">（八）exec 函数族：换掉自己的躯壳</a></li><li class="depth-0"><a href="#sec-9" data-for="sec-9">（九）system：一行调用 Shell</a></li><li class="depth-0"><a href="#sec-10" data-for="sec-10">（十）glob：按通配符找文件</a></li></ul></div>
+    <div class="related"><h3>全部章节</h3><ul><li><a href="01.html">1. 课程地图：从系统编程到图形界面</a></li><li><a href="02.html">2. 工程组织：Makefile 与静态库、动态库</a></li><li><a href="03.html">3. 标准 I/O：缓冲文件操作</a></li><li><a href="04.html">4. 系统 I/O：文件描述符与非缓冲操作</a></li><li><a href="05.html">5. 时间编程</a></li><li><a href="06.html">6. 目录操作</a></li><li><a href="07.html">7. 文件属性：stat 家族与 ls -li 的实现</a></li><li><a href="08.html">8. 进程：概念、状态与管理</a></li><li><a href="09.html">9. 进程控制：fork、wait、exit、exec</a></li><li><a href="10.html">10. 信号</a></li><li><a href="11.html">11. LVGL：嵌入式图形界面</a></li><li><a href="12.html">12. 综合项目：MP3 播放器与复盘</a></li><li><a href="appendix.html">附录 · 使用说明</a></li></ul></div>
+  </aside>
+</div>
+
+<div class="search-modal" hidden>
+  <div class="search-panel">
+    <input class="search-bar" type="text" placeholder="搜索内容..." autocomplete="off" aria-label="搜索内容">
+    <ul class="search-results"></ul>
+    <div class="search-hint">↑↓ 选择 · Enter 打开 · Esc 关闭 · 快捷键 / 或 Ctrl+K</div>
+  </div>
+</div>
+<script src="assets/search-index.js"></script>
+<script src="../assets/quartz.js"></script>
+</body>
+</html>

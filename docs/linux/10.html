@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>10. 信号 – Linux系统编程知识库</title>
+<meta name="description" content="按课程顺序整理的 Linux 系统编程与 LVGL 知识主干、完整代码与易错点复盘笔记。">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('cl-notes-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</head>
+<body class="page">
+<div class="mobile-bar">
+  <button class="nav-toggle" aria-label="切换目录">☰</button>
+  <span class="brand">Linux系统编程知识库</span>
+  <button class="search-button" aria-label="搜索" style="margin-left:auto;border:none;"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><span style="margin-left:.35rem">搜索</span></button>
+</div>
+<div id="quartz-body">
+  <aside class="left sidebar">
+    <h2 class="page-title"><a href="index.html">Linux系统编程知识库</a></h2>
+    <div class="sidebar-tools">
+      <button class="search-button" aria-label="搜索"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><p>搜索</p></button>
+      <button class="darkmode" aria-label="切换亮暗模式"><svg class="dayIcon" viewBox="0 0 35 35" aria-hidden="true"><path d="M17.5 7C11.71 7 7 11.71 7 17.5S11.71 28 17.5 28 28 23.29 28 17.5 23.29 7 17.5 7zm0 18c-4.136 0-7.5-3.364-7.5-7.5S13.364 10 17.5 10s7.5 3.364 7.5 7.5S21.636 25 17.5 25zM17.5 6c.829 0 1.5-.672 1.5-1.5v-3C19 .672 18.329 0 17.5 0S16 .672 16 1.5v3C16 5.328 16.671 6 17.5 6zm0 23c-.829 0-1.5.672-1.5 1.5v3c0 .828.671 1.5 1.5 1.5s1.5-.672 1.5-1.5v-3c0-.828-.671-1.5-1.5-1.5zM4.5 16h-3C.672 16 0 16.672 0 17.5S.672 19 1.5 19h3c.828 0 1.5-.672 1.5-1.5S5.328 16 4.5 16zm29 0h-3c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5h3c.828 0 1.5-.672 1.5-1.5S34.328 16 33.5 16zM7.5 26c-.414 0-.789.168-1.061.439l-2 2c-.271.272-.439.647-.439 1.061C4 30.328 4.671 31 5.5 31c.414 0 .789-.168 1.06-.44l2-2c.272-.271.44-.646.44-1.06C9 26.672 8.329 26 7.5 26zm20-18c.414 0 .789-.168 1.06-.439l2-2C30.832 5.289 31 4.914 31 4.5 31 3.672 30.329 3 29.5 3c-.414 0-.789.168-1.061.44l-2 2C26.168 5.711 26 6.086 26 6.5 26 7.328 26.671 8 27.5 8zm2 18c-.828 0-1.5.672-1.5 1.5 0 .414.168.789.439 1.06l2 2c.271.272.646.44 1.061.44.828 0 1.5-.672 1.5-1.5 0-.414-.168-.789-.439-1.061l-2-2c-.272-.271-.647-.439-1.061-.439zM6.439 8.561c.272.271.647.439 1.061.439C8.328 9 9 8.328 9 7.5c0-.414-.168-.789-.439-1.061l-2-2C6.289 4.168 5.914 4 5.5 4 4.672 4 4 4.672 4 5.5c0 .414.168.789.439 1.06l2 2z"/></svg><svg class="nightIcon" viewBox="0 0 100 100" aria-hidden="true"><path d="M96.76 66.458c-.853-.852-2.15-1.064-3.23-.534-6.063 2.991-12.858 4.571-19.655 4.571C62.022 70.495 50.88 65.88 42.5 57.5 29.043 44.043 25.658 23.536 34.076 6.47c.532-1.08.318-2.379-.534-3.23-.851-.852-2.15-1.064-3.23-.534-4.918 2.427-9.375 5.619-13.246 9.491C7.619 21.644 2.416 34.205 2.416 47.566c0 13.36 5.203 25.921 14.65 35.368s22.008 14.65 35.368 14.65c13.361 0 25.921-5.203 35.369-14.65 3.872-3.871 7.064-8.328 9.491-13.246.532-1.08.318-2.379-.534-3.23z"/></svg></button>
+    </div>
+    <div class="explorer">
+      <h2 class="explorer-title">课程目录</h2>
+      <ul class="explorer-list">
+        <li><a class="explorer-link" href="01.html"><span class="explorer-num">1</span><span>课程地图：从系统编程到图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="02.html"><span class="explorer-num">2</span><span>工程组织：Makefile 与静态库、动态库</span></a>
+</li>
+        <li><a class="explorer-link" href="03.html"><span class="explorer-num">3</span><span>标准 I/O：缓冲文件操作</span></a>
+</li>
+        <li><a class="explorer-link" href="04.html"><span class="explorer-num">4</span><span>系统 I/O：文件描述符与非缓冲操作</span></a>
+</li>
+        <li><a class="explorer-link" href="05.html"><span class="explorer-num">5</span><span>时间编程</span></a>
+</li>
+        <li><a class="explorer-link" href="06.html"><span class="explorer-num">6</span><span>目录操作</span></a>
+</li>
+        <li><a class="explorer-link" href="07.html"><span class="explorer-num">7</span><span>文件属性：stat 家族与 ls -li 的实现</span></a>
+</li>
+        <li><a class="explorer-link" href="08.html"><span class="explorer-num">8</span><span>进程：概念、状态与管理</span></a>
+</li>
+        <li><a class="explorer-link" href="09.html"><span class="explorer-num">9</span><span>进程控制：fork、wait、exit、exec</span></a>
+</li>
+        <li><a class="explorer-link active" href="10.html"><span class="explorer-num">10</span><span>信号</span></a>
+<ul class="explorer-sub"><li><a href="10.html#sec-1">（一）信号与中断的关系</a></li><li><a href="10.html#sec-2">（二）62 个信号的编号规则</a></li><li><a href="10.html#sec-3">（三）必须记住的信号</a></li><li><a href="10.html#sec-4">（四）发送信号：kill 与 raise</a></li><li><a href="10.html#sec-5">（五）捕获信号：signal</a></li><li><a href="10.html#sec-6">（六）SIGCHLD：异步回收子进程</a></li><li><a href="10.html#sec-7">（七）signal 与 sigaction</a></li><li><a href="10.html#sec-8">（八）完整案例：键盘控制子进程</a></li></ul>
+</li>
+        <li><a class="explorer-link" href="11.html"><span class="explorer-num">11</span><span>LVGL：嵌入式图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="12.html"><span class="explorer-num">12</span><span>综合项目：MP3 播放器与复盘</span></a>
+</li>
+        <li><a class="explorer-link" href="appendix.html"><span class="explorer-num">·</span><span>使用说明</span></a></li>
+      </ul>
+    </div>
+    <div class="sidebar-foot">共 13 篇 · 约 42.0 千字<br>按课程顺序整理</div>
+  </aside>
+  <div class="center">
+    <header class="page-header">
+      <nav class="breadcrumb"><a href="index.html">首页</a><span class="sep">❯</span><span>第 10 章</span></nav>
+      <h1 class="article-title">10. 信号</h1>
+    </header>
+    <article>
+<p>信号是内核向进程投递的「软中断」：它异步到达，打断当前执行流，转去执行处理函数，处理完再回到断点。播放器的暂停、切歌、退出，全部靠它驱动。</p>
+<h2 id="sec-1">（一）信号与中断的关系<a class="anchor" href="#sec-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<div class="table-container"><table><thead><tr><th>对比项</th><th>硬件中断</th><th>信号</th></tr></thead><tbody><tr><td>发起者</td><td>外设 / CPU 异常</td><td>内核、其他进程、终端</td></tr><tr><td>作用对象</td><td>CPU</td><td>进程</td></tr><tr><td>响应方式</td><td>跳转中断服务程序</td><td>跳转信号处理函数</td></tr><tr><td>是否可屏蔽</td><td>可（关中断）</td><td>可（阻塞信号）</td></tr><tr><td>上下文</td><td>内核态</td><td>用户态（处理函数在用户态执行）</td></tr></tbody></table></div>
+<p>所以信号常被称作「软中断」：机制同构，但完全由软件触发。</p>
+<h2 id="sec-2">（二）62 个信号的编号规则<a class="anchor" href="#sec-2" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>Linux 共有 62 个信号，编号不连续：</p>
+<div class="table-container"><table><thead><tr><th>区间</th><th>数量</th><th>来源</th><th>特点</th></tr></thead><tbody><tr><td>1–31</td><td>31</td><td>继承自 Unix 传统信号</td><td>编号固定，含义标准化</td></tr><tr><td>32–33</td><td>2</td><td>内核内部保留（<code>SIGCANCEL</code>/<code>SIGSETXID</code>，NPTL 使用）</td><td>用户不可用</td></tr><tr><td>34–64</td><td>31</td><td>Linux 实时信号（<code>SIGRTMIN</code> ~ <code>SIGRTMAX</code>）</td><td>支持排队，不丢失</td></tr></tbody></table></div>
+<p>教材说的「前 31 个 + 后 31 个」即 1–31 与 34–64，中间的 32、33 被线程库占用了。</p>
+<h2 id="sec-3">（三）必须记住的信号<a class="anchor" href="#sec-3" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<div class="table-container"><table><thead><tr><th>编号</th><th>名称</th><th>默认动作</th><th>触发方式 / 含义</th></tr></thead><tbody><tr><td>1</td><td><code>SIGHUP</code></td><td>终止</td><td>终端挂断；守护进程常约定为重载配置</td></tr><tr><td>2</td><td><code>SIGINT</code></td><td>终止</td><td><strong>Ctrl+C</strong></td></tr><tr><td>3</td><td><code>SIGQUIT</code></td><td>终止 + core</td><td><strong>Ctrl+\\</strong></td></tr><tr><td>6</td><td><code>SIGABRT</code></td><td>终止 + core</td><td><code>abort()</code></td></tr><tr><td>9</td><td><code>SIGKILL</code></td><td>终止</td><td><strong>不可捕获、不可忽略</strong></td></tr><tr><td>11</td><td><code>SIGSEGV</code></td><td>终止 + core</td><td>段错误（空指针、越界）</td></tr><tr><td>13</td><td><code>SIGPIPE</code></td><td>终止</td><td>向已关闭的管道/套接字写</td></tr><tr><td>14</td><td><code>SIGALRM</code></td><td>终止</td><td><code>alarm()</code> 计时到</td></tr><tr><td>15</td><td><code>SIGTERM</code></td><td>终止</td><td><code>kill</code> 默认信号，可捕获做清理</td></tr><tr><td>17</td><td><code>SIGCHLD</code></td><td>忽略</td><td><strong>子进程状态改变</strong>（退出、暂停、继续）</td></tr><tr><td>18</td><td><code>SIGCONT</code></td><td>继续</td><td>恢复被暂停的进程</td></tr><tr><td>19</td><td><code>SIGSTOP</code></td><td>暂停</td><td><strong>不可捕获、不可忽略</strong></td></tr><tr><td>20</td><td><code>SIGTSTP</code></td><td>暂停</td><td><strong>Ctrl+Z</strong></td></tr></tbody></table></div>
+<blockquote><p>关键判据：<code>SIGKILL</code>（9）与 <code>SIGSTOP</code>（19）是仅有的两个「既不能捕获也不能忽略」的信号，这是内核的兜底设计——否则一个死循环的程序将无法被终止。</p></blockquote>
+<h2 id="sec-4">（四）发送信号：kill 与 raise<a class="anchor" href="#sec-4" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include &lt;signal.h&gt;</span>
+<span class="tok-kw">int</span> <span class="tok-fn">kill</span>(pid_t pid, <span class="tok-kw">int</span> sig);   <span class="tok-com">/* 成功 0，失败 -1 */</span>
+<span class="tok-kw">int</span> <span class="tok-fn">raise</span>(<span class="tok-kw">int</span> sig);             <span class="tok-com">/* 自己给自己发，成功 0 */</span></code></pre></figure>
+<p><code>kill</code> 的 <code>pid</code> 取值有四种语义：</p>
+<div class="table-container"><table><thead><tr><th><code>pid</code></th><th>含义</th></tr></thead><tbody><tr><td><code>&gt; 0</code></td><td>发给指定进程</td></tr><tr><td><code>== 0</code></td><td>发给<strong>同进程组</strong>的所有进程</td></tr><tr><td><code>== -1</code></td><td>发给所有有权限的进程（除 1 号）</td></tr><tr><td><code>&lt; -1</code></td><td>发给进程组 ID 为 <code>-pid</code> 的所有进程</td></tr></tbody></table></div>
+<p>命令行对应写法：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="bash"><code>kill -9 1234          # 强杀
+kill -19 1234         # 暂停
+kill -18 1234         # 继续
+kill -l               # 列出所有信号名</code></pre></figure>
+<p><code>raise(sig)</code> 等价于 <code>kill(getpid(), sig)</code>，常用于程序内部触发自身处理逻辑。</p>
+<blockquote><p>权限规则：普通进程只能给<strong>同 UID</strong> 的进程发信号，<code>root</code> 可以给任何进程发。发不出去返回 <code>-1</code>，<code>errno = EPERM</code>。</p></blockquote>
+<h2 id="sec-5">（五）捕获信号：signal<a class="anchor" href="#sec-5" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include &lt;signal.h&gt;</span>
+<span class="tok-kw">typedef</span> <span class="tok-kw">void</span> (*sighandler_t)(<span class="tok-kw">int</span>);
+sighandler_t <span class="tok-fn">signal</span>(<span class="tok-kw">int</span> signum, sighandler_t handler);</code></pre></figure>
+<p><code>handler</code> 三种取值：</p>
+<div class="table-container"><table><thead><tr><th>取值</th><th>含义</th></tr></thead><tbody><tr><td><code>SIG_DFL</code></td><td>恢复默认动作</td></tr><tr><td><code>SIG_IGN</code></td><td>忽略该信号（9、19 除外）</td></tr><tr><td>自定义函数名</td><td>捕获并执行该函数</td></tr></tbody></table></div>
+<p>自定义处理函数的签名固定为 <code>void func(int sig)</code>，参数是收到的信号编号：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">void</span> <span class="tok-fn">on_sig</span>(<span class="tok-kw">int</span> sig)
+{
+    <span class="tok-kw">if</span> (sig == SIGINT)  <span class="tok-fn">printf</span>(<span class="tok-str">"收到 Ctrl+C\n"</span>);
+}
+
+<span class="tok-kw">int</span> <span class="tok-fn">main</span>(<span class="tok-kw">void</span>)
+{
+    <span class="tok-fn">signal</span>(SIGINT, on_sig);        <span class="tok-com">/* 注册 */</span>
+    <span class="tok-kw">while</span> (<span class="tok-num">1</span>) <span class="tok-fn">pause</span>();             <span class="tok-com">/* 挂起，等信号 */</span>
+    <span class="tok-kw">return</span> <span class="tok-num">0</span>;
+}</code></pre></figure>
+<blockquote><p>易错点：<code>signal</code> 的返回值是「之前的处理函数指针」，失败返回 <code>SIG_ERR</code>。想「注册后恢复原样」必须保存返回值，不能假设原来是 <code>SIG_DFL</code>。</p></blockquote>
+<h2 id="sec-6">（六）SIGCHLD：异步回收子进程<a class="anchor" href="#sec-6" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>子进程退出、暂停、继续都会给父进程发 <code>SIGCHLD</code>（17）。这是「父进程不用 <code>wait</code> 阻塞也能知道子进程结束」的机制。</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">void</span> <span class="tok-fn">on_child</span>(<span class="tok-kw">int</span> sig)
+{
+    <span class="tok-kw">int</span> st;
+    pid_t pid;
+    <span class="tok-kw">while</span> ((pid = <span class="tok-fn">waitpid</span>(-<span class="tok-num">1</span>, &amp;st, WNOHANG)) &gt; <span class="tok-num">0</span>) {
+        <span class="tok-fn">printf</span>(<span class="tok-str">"子进程 %d 结束\n"</span>, pid);
+    }
+}
+
+<span class="tok-kw">int</span> <span class="tok-fn">main</span>(<span class="tok-kw">void</span>)
+{
+    <span class="tok-fn">signal</span>(SIGCHLD, on_child);
+    <span class="tok-com">/* ... */</span>
+}</code></pre></figure>
+<p>必须用 <code>while</code> 循环而非单次 <code>waitpid</code>，原因有两层：</p>
+<ol><li><code>SIGCHLD</code> 是<strong>不可排队</strong>的普通信号，多个子进程同时退出只会产生一个信号，单次 <code>wait</code> 会漏掉其余子进程，留下僵尸。</li><li><code>WNOHANG</code> 保证没有可回收子进程时立即返回 0，不会卡在信号处理函数里。</li></ol>
+<blockquote><p>扩展 · 信号处理的三大禁忌：</p><p>1. <strong>不可重入函数</strong>：处理函数里调 <code>printf</code>、<code>malloc</code> 是危险的（它们内部有锁，可能死锁）。真正安全的只有 <code>write</code>、<code>_exit</code>、<code>kill</code> 等「异步信号安全」函数（<code>man 7 signal-safety</code>）。</p><p>2. <strong>必须 <code>volatile sig_atomic_t</code></strong>：处理函数与主流程共享的标志位要用 <code>volatile sig_atomic_t flag;</code>，否则编译器优化会把 <code>while (!flag);</code> 优化成死循环。</p><p>3. <strong>不可假设执行流</strong>：信号随时可能打断任意一行代码，处理函数里不能访问可能处于中间状态的数据结构。</p></blockquote>
+<h2 id="sec-7">（七）signal 与 sigaction<a class="anchor" href="#sec-7" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p><code>signal</code> 在不同 Unix 上的语义不一致（是否自动重置、是否阻塞自身），POSIX 推荐用 <code>sigaction</code>：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include &lt;signal.h&gt;</span>
+<span class="tok-kw">struct</span> sigaction sa = {<span class="tok-num">0</span>};
+sa.sa_handler = on_child;
+<span class="tok-fn">sigemptyset</span>(&amp;sa.sa_mask);
+sa.sa_flags = SA_RESTART | SA_NOCLDSTOP;   <span class="tok-com">/* 自动重启被中断的系统调用 */</span>
+<span class="tok-fn">sigaction</span>(SIGCHLD, &amp;sa, <span class="tok-kw">NULL</span>);</code></pre></figure>
+<div class="table-container"><table><thead><tr><th>对比项</th><th><code>signal</code></th><th><code>sigaction</code></th></tr></thead><tbody><tr><td>可移植性</td><td>语义随实现变化</td><td>POSIX 统一</td></tr><tr><td>是否可带标志</td><td>否</td><td>是（<code>SA_RESTART</code>、<code>SA_NODEFER</code> 等）</td></tr><tr><td>是否可取旧值</td><td>返回函数指针</td><td>第三参数取完整结构</td></tr><tr><td>信号屏蔽</td><td>不可控</td><td><code>sa_mask</code> 精确控制</td></tr></tbody></table></div>
+<p><code>SA_RESTART</code> 解决的是「慢系统调用被信号打断返回 <code>EINTR</code>」问题：<code>read</code>、<code>accept</code>、<code>wait</code> 被打断后自动重试，而不是把 <code>-1</code> 抛给调用者。</p>
+<h2 id="sec-8">（八）完整案例：键盘控制子进程<a class="anchor" href="#sec-8" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include &lt;stdio.h&gt;</span>
+<span class="tok-pp">#include &lt;stdlib.h&gt;</span>
+<span class="tok-pp">#include &lt;unistd.h&gt;</span>
+<span class="tok-pp">#include &lt;signal.h&gt;</span>
+<span class="tok-pp">#include &lt;sys/wait.h&gt;</span>
+
+<span class="tok-kw">void</span> <span class="tok-fn">on_chld</span>(<span class="tok-kw">int</span> sig) { <span class="tok-fn">waitpid</span>(-<span class="tok-num">1</span>, <span class="tok-kw">NULL</span>, WNOHANG); }
+
+<span class="tok-kw">int</span> <span class="tok-fn">main</span>(<span class="tok-kw">void</span>)
+{
+    <span class="tok-fn">signal</span>(SIGCHLD, on_chld);
+
+    pid_t pid = <span class="tok-fn">fork</span>();
+    <span class="tok-kw">if</span> (pid == <span class="tok-num">0</span>) {
+        <span class="tok-kw">while</span> (<span class="tok-num">1</span>) { <span class="tok-fn">printf</span>(<span class="tok-str">"i am son\n"</span>); <span class="tok-fn">sleep</span>(<span class="tok-num">1</span>); }
+    }
+
+    <span class="tok-kw">char</span> ch;
+    <span class="tok-kw">while</span> ((ch = <span class="tok-fn">getchar</span>()) != EOF) {
+        <span class="tok-kw">switch</span> (ch) {
+        <span class="tok-kw">case</span> <span class="tok-str">'s'</span>: <span class="tok-fn">kill</span>(pid, SIGSTOP);  <span class="tok-kw">break</span>;   <span class="tok-com">/* 暂停 */</span>
+        <span class="tok-kw">case</span> <span class="tok-str">'c'</span>: <span class="tok-fn">kill</span>(pid, SIGCONT);  <span class="tok-kw">break</span>;   <span class="tok-com">/* 继续 */</span>
+        <span class="tok-kw">case</span> <span class="tok-str">'q'</span>: <span class="tok-fn">kill</span>(pid, SIGKILL);  <span class="tok-kw">return</span> <span class="tok-num">0</span>;
+        }
+    }
+    <span class="tok-kw">return</span> <span class="tok-num">0</span>;
+}</code></pre></figure>
+<p>这段代码就是「无界面 MP3 播放器」的骨架：<code>mpg123</code> 换成子进程，<code>SIGSTOP</code>/<code>SIGCONT</code> 实现暂停继续，<code>SIGKILL</code> + 重新 <code>fork</code> 实现切歌。</p>
+<blockquote><p>易错点：<code>mpg123</code> 会关闭终端回显、隐藏光标（「吃终端」）。程序退出前必须恢复，否则终端输入看不见。用 <code>atexit</code> 注册两行恢复代码：<code>system("stty echo"); printf("\033[?25h");</code>。</p></blockquote>
+    </article>
+    <hr class="page-rule">
+    <div class="page-footer"><a class="prev" href="09.html"><span class="nav-label">← 上一章</span>9. 进程控制：fork、wait、exit、exec</a><a class="next" href="11.html"><span class="nav-label">下一章 →</span>11. LVGL：嵌入式图形界面</a></div>
+    <footer class="site-footer">按课程顺序整理的 Linux 系统编程知识库 · 内容源《Linux 系统编程与 LVGL 知识总结》<br>静态站点 · 亮暗模式与全文搜索均在本地运行，无需联网</footer>
+  </div>
+
+  <aside class="right sidebar">
+    <div class="toc"><h3>本页目录</h3><ul><li class="depth-0"><a href="#sec-1" data-for="sec-1">（一）信号与中断的关系</a></li><li class="depth-0"><a href="#sec-2" data-for="sec-2">（二）62 个信号的编号规则</a></li><li class="depth-0"><a href="#sec-3" data-for="sec-3">（三）必须记住的信号</a></li><li class="depth-0"><a href="#sec-4" data-for="sec-4">（四）发送信号：kill 与 raise</a></li><li class="depth-0"><a href="#sec-5" data-for="sec-5">（五）捕获信号：signal</a></li><li class="depth-0"><a href="#sec-6" data-for="sec-6">（六）SIGCHLD：异步回收子进程</a></li><li class="depth-0"><a href="#sec-7" data-for="sec-7">（七）signal 与 sigaction</a></li><li class="depth-0"><a href="#sec-8" data-for="sec-8">（八）完整案例：键盘控制子进程</a></li></ul></div>
+    <div class="related"><h3>全部章节</h3><ul><li><a href="01.html">1. 课程地图：从系统编程到图形界面</a></li><li><a href="02.html">2. 工程组织：Makefile 与静态库、动态库</a></li><li><a href="03.html">3. 标准 I/O：缓冲文件操作</a></li><li><a href="04.html">4. 系统 I/O：文件描述符与非缓冲操作</a></li><li><a href="05.html">5. 时间编程</a></li><li><a href="06.html">6. 目录操作</a></li><li><a href="07.html">7. 文件属性：stat 家族与 ls -li 的实现</a></li><li><a href="08.html">8. 进程：概念、状态与管理</a></li><li><a href="09.html">9. 进程控制：fork、wait、exit、exec</a></li><li><a href="10.html">10. 信号</a></li><li><a href="11.html">11. LVGL：嵌入式图形界面</a></li><li><a href="12.html">12. 综合项目：MP3 播放器与复盘</a></li><li><a href="appendix.html">附录 · 使用说明</a></li></ul></div>
+  </aside>
+</div>
+
+<div class="search-modal" hidden>
+  <div class="search-panel">
+    <input class="search-bar" type="text" placeholder="搜索内容..." autocomplete="off" aria-label="搜索内容">
+    <ul class="search-results"></ul>
+    <div class="search-hint">↑↓ 选择 · Enter 打开 · Esc 关闭 · 快捷键 / 或 Ctrl+K</div>
+  </div>
+</div>
+<script src="assets/search-index.js"></script>
+<script src="../assets/quartz.js"></script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>6. 目录操作 – Linux系统编程知识库</title>
+<meta name="description" content="按课程顺序整理的 Linux 系统编程与 LVGL 知识主干、完整代码与易错点复盘笔记。">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('cl-notes-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</head>
+<body class="page">
+<div class="mobile-bar">
+  <button class="nav-toggle" aria-label="切换目录">☰</button>
+  <span class="brand">Linux系统编程知识库</span>
+  <button class="search-button" aria-label="搜索" style="margin-left:auto;border:none;"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><span style="margin-left:.35rem">搜索</span></button>
+</div>
+<div id="quartz-body">
+  <aside class="left sidebar">
+    <h2 class="page-title"><a href="index.html">Linux系统编程知识库</a></h2>
+    <div class="sidebar-tools">
+      <button class="search-button" aria-label="搜索"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><p>搜索</p></button>
+      <button class="darkmode" aria-label="切换亮暗模式"><svg class="dayIcon" viewBox="0 0 35 35" aria-hidden="true"><path d="M17.5 7C11.71 7 7 11.71 7 17.5S11.71 28 17.5 28 28 23.29 28 17.5 23.29 7 17.5 7zm0 18c-4.136 0-7.5-3.364-7.5-7.5S13.364 10 17.5 10s7.5 3.364 7.5 7.5S21.636 25 17.5 25zM17.5 6c.829 0 1.5-.672 1.5-1.5v-3C19 .672 18.329 0 17.5 0S16 .672 16 1.5v3C16 5.328 16.671 6 17.5 6zm0 23c-.829 0-1.5.672-1.5 1.5v3c0 .828.671 1.5 1.5 1.5s1.5-.672 1.5-1.5v-3c0-.828-.671-1.5-1.5-1.5zM4.5 16h-3C.672 16 0 16.672 0 17.5S.672 19 1.5 19h3c.828 0 1.5-.672 1.5-1.5S5.328 16 4.5 16zm29 0h-3c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5h3c.828 0 1.5-.672 1.5-1.5S34.328 16 33.5 16zM7.5 26c-.414 0-.789.168-1.061.439l-2 2c-.271.272-.439.647-.439 1.061C4 30.328 4.671 31 5.5 31c.414 0 .789-.168 1.06-.44l2-2c.272-.271.44-.646.44-1.06C9 26.672 8.329 26 7.5 26zm20-18c.414 0 .789-.168 1.06-.439l2-2C30.832 5.289 31 4.914 31 4.5 31 3.672 30.329 3 29.5 3c-.414 0-.789.168-1.061.44l-2 2C26.168 5.711 26 6.086 26 6.5 26 7.328 26.671 8 27.5 8zm2 18c-.828 0-1.5.672-1.5 1.5 0 .414.168.789.439 1.06l2 2c.271.272.646.44 1.061.44.828 0 1.5-.672 1.5-1.5 0-.414-.168-.789-.439-1.061l-2-2c-.272-.271-.647-.439-1.061-.439zM6.439 8.561c.272.271.647.439 1.061.439C8.328 9 9 8.328 9 7.5c0-.414-.168-.789-.439-1.061l-2-2C6.289 4.168 5.914 4 5.5 4 4.672 4 4 4.672 4 5.5c0 .414.168.789.439 1.06l2 2z"/></svg><svg class="nightIcon" viewBox="0 0 100 100" aria-hidden="true"><path d="M96.76 66.458c-.853-.852-2.15-1.064-3.23-.534-6.063 2.991-12.858 4.571-19.655 4.571C62.022 70.495 50.88 65.88 42.5 57.5 29.043 44.043 25.658 23.536 34.076 6.47c.532-1.08.318-2.379-.534-3.23-.851-.852-2.15-1.064-3.23-.534-4.918 2.427-9.375 5.619-13.246 9.491C7.619 21.644 2.416 34.205 2.416 47.566c0 13.36 5.203 25.921 14.65 35.368s22.008 14.65 35.368 14.65c13.361 0 25.921-5.203 35.369-14.65 3.872-3.871 7.064-8.328 9.491-13.246.532-1.08.318-2.379-.534-3.23z"/></svg></button>
+    </div>
+    <div class="explorer">
+      <h2 class="explorer-title">课程目录</h2>
+      <ul class="explorer-list">
+        <li><a class="explorer-link" href="01.html"><span class="explorer-num">1</span><span>课程地图：从系统编程到图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="02.html"><span class="explorer-num">2</span><span>工程组织：Makefile 与静态库、动态库</span></a>
+</li>
+        <li><a class="explorer-link" href="03.html"><span class="explorer-num">3</span><span>标准 I/O：缓冲文件操作</span></a>
+</li>
+        <li><a class="explorer-link" href="04.html"><span class="explorer-num">4</span><span>系统 I/O：文件描述符与非缓冲操作</span></a>
+</li>
+        <li><a class="explorer-link" href="05.html"><span class="explorer-num">5</span><span>时间编程</span></a>
+</li>
+        <li><a class="explorer-link active" href="06.html"><span class="explorer-num">6</span><span>目录操作</span></a>
+<ul class="explorer-sub"><li><a href="06.html#sec-1">（一）三步流程</a></li><li><a href="06.html#sec-2">（二）struct dirent 的字段</a></li><li><a href="06.html#sec-3">（三）目录自身的增删改查</a></li><li><a href="06.html#sec-4">（四）递归遍历的正确写法</a></li></ul>
+</li>
+        <li><a class="explorer-link" href="07.html"><span class="explorer-num">7</span><span>文件属性：stat 家族与 ls -li 的实现</span></a>
+</li>
+        <li><a class="explorer-link" href="08.html"><span class="explorer-num">8</span><span>进程：概念、状态与管理</span></a>
+</li>
+        <li><a class="explorer-link" href="09.html"><span class="explorer-num">9</span><span>进程控制：fork、wait、exit、exec</span></a>
+</li>
+        <li><a class="explorer-link" href="10.html"><span class="explorer-num">10</span><span>信号</span></a>
+</li>
+        <li><a class="explorer-link" href="11.html"><span class="explorer-num">11</span><span>LVGL：嵌入式图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="12.html"><span class="explorer-num">12</span><span>综合项目：MP3 播放器与复盘</span></a>
+</li>
+        <li><a class="explorer-link" href="appendix.html"><span class="explorer-num">·</span><span>使用说明</span></a></li>
+      </ul>
+    </div>
+    <div class="sidebar-foot">共 13 篇 · 约 42.0 千字<br>按课程顺序整理</div>
+  </aside>
+  <div class="center">
+    <header class="page-header">
+      <nav class="breadcrumb"><a href="index.html">首页</a><span class="sep">❯</span><span>第 6 章</span></nav>
+      <h1 class="article-title">6. 目录操作</h1>
+    </header>
+    <article>
+<p>目录在 Linux 里也是文件，只是内容特殊：它存放的是「文件名 → inode 号」的映射表。因此目录操作不能被 <code>read</code> 直接读，必须用 <code>opendir</code> / <code>readdir</code> 这一组封装。</p>
+<h2 id="sec-1">（一）三步流程<a class="anchor" href="#sec-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include &lt;sys/types.h&gt;</span>
+<span class="tok-pp">#include &lt;dirent.h&gt;</span>
+
+DIR *dir = <span class="tok-fn">opendir</span>(path);          <span class="tok-com">/* 1. 打开 */</span>
+<span class="tok-kw">if</span> (dir == <span class="tok-kw">NULL</span>) { <span class="tok-fn">perror</span>(<span class="tok-str">"opendir"</span>); <span class="tok-kw">return</span> -<span class="tok-num">1</span>; }
+
+<span class="tok-kw">struct</span> dirent *entry;
+<span class="tok-kw">while</span> ((entry = <span class="tok-fn">readdir</span>(dir)) != <span class="tok-kw">NULL</span>) {   <span class="tok-com">/* 2. 循环读取 */</span>
+    <span class="tok-fn">printf</span>(<span class="tok-str">"%s\n"</span>, entry-&gt;d_name);
+}
+
+<span class="tok-fn">closedir</span>(dir);                     <span class="tok-com">/* 3. 关闭 */</span></code></pre></figure>
+<h2 id="sec-2">（二）struct dirent 的字段<a class="anchor" href="#sec-2" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">struct</span> dirent {
+    ino_t          d_ino;      <span class="tok-com">/* inode 号 */</span>
+    off_t          d_off;      <span class="tok-com">/* 目录项偏移，一般不用 */</span>
+    <span class="tok-kw">unsigned</span> <span class="tok-kw">short</span> d_reclen;   <span class="tok-com">/* 本记录长度 */</span>
+    <span class="tok-kw">unsigned</span> <span class="tok-kw">char</span>  d_type;     <span class="tok-com">/* 文件类型，部分文件系统不支持 */</span>
+    <span class="tok-kw">char</span>           d_name[<span class="tok-num">256</span>];<span class="tok-com">/* 文件名，以 \0 结尾 */</span>
+};</code></pre></figure>
+<ul><li><code>d_name</code> 只有文件名，<strong>不含路径</strong>。要拿属性必须自己拼完整路径。</li><li><code>d_type</code> 常见值：<code>DT_REG</code>（普通文件）、<code>DT_DIR</code>（目录）、<code>DT_LNK</code>（符号链接）、<code>DT_FIFO</code>、<code>DT_SOCK</code>、<code>DT_CHR</code>、<code>DT_BLK</code>、<code>DT_UNKNOWN</code>。</li><li>每次 <code>readdir</code> 返回的是<strong>指向 DIR 内部静态缓冲区的指针</strong>，下一次调用会覆盖它。需要保存必须 <code>strcpy</code> 出来。</li></ul>
+<h2 id="sec-3">（三）目录自身的增删改查<a class="anchor" href="#sec-3" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<div class="table-container"><table><thead><tr><th>函数</th><th>原型</th><th>说明</th></tr></thead><tbody><tr><td><code>mkdir</code></td><td><code>int mkdir(const char *path, mode_t mode)</code></td><td>创建目录，权限受 <code>umask</code> 影响</td></tr><tr><td><code>rmdir</code></td><td><code>int rmdir(const char *path)</code></td><td><strong>只能删空目录</strong></td></tr><tr><td><code>chdir</code></td><td><code>int chdir(const char *path)</code></td><td>切换当前工作目录</td></tr><tr><td><code>getcwd</code></td><td><code>char *getcwd(char *buf, size_t size)</code></td><td>取绝对路径，<code>buf</code> 为 <code>NULL</code> 时自动 <code>malloc</code>（GNU 扩展）</td></tr><tr><td><code>chmod</code></td><td><code>int chmod(const char *path, mode_t mode)</code></td><td>改权限</td></tr></tbody></table></div>
+<p><code>chmod</code> 的两种命令行用法：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="bash"><code>chmod 644 file.txt        # 数字法：rw-r--r--
+chmod u+x file.txt        # 符号法：u/g/o + rwx，+/-/=</code></pre></figure>
+<blockquote><p>易错点：<code>chdir</code> 改的是<strong>进程级</strong>的当前目录，会影响之后所有相对路径。遍历目录时如果 <code>chdir</code> 进去却没有 <code>chdir</code> 回来，后续 <code>open("./x")</code> 会指向错误位置。稳妥做法是不 <code>chdir</code>，全程用 <code>snprintf</code> 拼绝对/相对完整路径。</p></blockquote>
+<h2 id="sec-4">（四）递归遍历的正确写法<a class="anchor" href="#sec-4" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">void</span> <span class="tok-fn">walk</span>(<span class="tok-kw">const</span> <span class="tok-kw">char</span> *path, <span class="tok-kw">int</span> depth)
+{
+    DIR *dir = <span class="tok-fn">opendir</span>(path);
+    <span class="tok-kw">if</span> (!dir) { <span class="tok-fn">perror</span>(path); <span class="tok-kw">return</span>; }
+
+    <span class="tok-kw">struct</span> dirent *e;
+    <span class="tok-kw">while</span> ((e = <span class="tok-fn">readdir</span>(dir)) != <span class="tok-kw">NULL</span>) {
+        <span class="tok-kw">if</span> (!<span class="tok-fn">strcmp</span>(e-&gt;d_name, <span class="tok-str">"."</span>) || !<span class="tok-fn">strcmp</span>(e-&gt;d_name, <span class="tok-str">".."</span>)) <span class="tok-kw">continue</span>;
+
+        <span class="tok-kw">char</span> full[PATH_MAX];
+        <span class="tok-fn">snprintf</span>(full, <span class="tok-kw">sizeof</span>(full), <span class="tok-str">"%s/%s"</span>, path, e-&gt;d_name);
+
+        <span class="tok-kw">struct</span> stat st;
+        <span class="tok-kw">if</span> (<span class="tok-fn">lstat</span>(full, &amp;st) &lt; <span class="tok-num">0</span>) <span class="tok-kw">continue</span>;
+
+        <span class="tok-fn">printf</span>(<span class="tok-str">"%*s%s\n"</span>, depth * <span class="tok-num">2</span>, <span class="tok-str">""</span>, e-&gt;d_name);
+
+        <span class="tok-kw">if</span> (<span class="tok-fn">S_ISDIR</span>(st.st_mode)) {
+            <span class="tok-fn">walk</span>(full, depth + <span class="tok-num">1</span>);
+        }
+    }
+    <span class="tok-fn">closedir</span>(dir);
+}</code></pre></figure>
+<p>四个必须处理的细节：</p>
+<ol><li>过滤 <code>.</code> 与 <code>..</code>，否则无限递归。</li><li>用 <code>lstat</code> 而非 <code>stat</code>，否则符号链接指向目录时会绕进去，可能形成环。</li><li>路径拼接用 <code>snprintf</code> 且检查返回值，<code>strcat</code> 溢出是遍历程序的头号崩溃原因。</li><li><code>PATH_MAX</code> 在 Linux 通常是 4096，但深层嵌套仍可能超限，工程上要判断 <code>snprintf</code> 返回值是否 <code>&gt;= sizeof(full)</code>。</li></ol>
+<blockquote><p>扩展 · 标准库已有成熟实现：<code>nftw(path, fn, 16, FTW_PHYS)</code> 一行完成递归遍历，<code>FTW_PHYS</code> 表示不跟随符号链接。手写递归用于教学和理解，生产代码优先考虑 <code>nftw</code> 或 <code>fts_open</code>。</p></blockquote>
+    </article>
+    <hr class="page-rule">
+    <div class="page-footer"><a class="prev" href="05.html"><span class="nav-label">← 上一章</span>5. 时间编程</a><a class="next" href="07.html"><span class="nav-label">下一章 →</span>7. 文件属性：stat 家族与 ls -li 的实现</a></div>
+    <footer class="site-footer">按课程顺序整理的 Linux 系统编程知识库 · 内容源《Linux 系统编程与 LVGL 知识总结》<br>静态站点 · 亮暗模式与全文搜索均在本地运行，无需联网</footer>
+  </div>
+
+  <aside class="right sidebar">
+    <div class="toc"><h3>本页目录</h3><ul><li class="depth-0"><a href="#sec-1" data-for="sec-1">（一）三步流程</a></li><li class="depth-0"><a href="#sec-2" data-for="sec-2">（二）struct dirent 的字段</a></li><li class="depth-0"><a href="#sec-3" data-for="sec-3">（三）目录自身的增删改查</a></li><li class="depth-0"><a href="#sec-4" data-for="sec-4">（四）递归遍历的正确写法</a></li></ul></div>
+    <div class="related"><h3>全部章节</h3><ul><li><a href="01.html">1. 课程地图：从系统编程到图形界面</a></li><li><a href="02.html">2. 工程组织：Makefile 与静态库、动态库</a></li><li><a href="03.html">3. 标准 I/O：缓冲文件操作</a></li><li><a href="04.html">4. 系统 I/O：文件描述符与非缓冲操作</a></li><li><a href="05.html">5. 时间编程</a></li><li><a href="06.html">6. 目录操作</a></li><li><a href="07.html">7. 文件属性：stat 家族与 ls -li 的实现</a></li><li><a href="08.html">8. 进程：概念、状态与管理</a></li><li><a href="09.html">9. 进程控制：fork、wait、exit、exec</a></li><li><a href="10.html">10. 信号</a></li><li><a href="11.html">11. LVGL：嵌入式图形界面</a></li><li><a href="12.html">12. 综合项目：MP3 播放器与复盘</a></li><li><a href="appendix.html">附录 · 使用说明</a></li></ul></div>
+  </aside>
+</div>
+
+<div class="search-modal" hidden>
+  <div class="search-panel">
+    <input class="search-bar" type="text" placeholder="搜索内容..." autocomplete="off" aria-label="搜索内容">
+    <ul class="search-results"></ul>
+    <div class="search-hint">↑↓ 选择 · Enter 打开 · Esc 关闭 · 快捷键 / 或 Ctrl+K</div>
+  </div>
+</div>
+<script src="assets/search-index.js"></script>
+<script src="../assets/quartz.js"></script>
+</body>
+</html>

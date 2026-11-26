@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3. 标准 I/O：缓冲文件操作 – Linux系统编程知识库</title>
+<meta name="description" content="按课程顺序整理的 Linux 系统编程与 LVGL 知识主干、完整代码与易错点复盘笔记。">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('cl-notes-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</head>
+<body class="page">
+<div class="mobile-bar">
+  <button class="nav-toggle" aria-label="切换目录">☰</button>
+  <span class="brand">Linux系统编程知识库</span>
+  <button class="search-button" aria-label="搜索" style="margin-left:auto;border:none;"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><span style="margin-left:.35rem">搜索</span></button>
+</div>
+<div id="quartz-body">
+  <aside class="left sidebar">
+    <h2 class="page-title"><a href="index.html">Linux系统编程知识库</a></h2>
+    <div class="sidebar-tools">
+      <button class="search-button" aria-label="搜索"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><p>搜索</p></button>
+      <button class="darkmode" aria-label="切换亮暗模式"><svg class="dayIcon" viewBox="0 0 35 35" aria-hidden="true"><path d="M17.5 7C11.71 7 7 11.71 7 17.5S11.71 28 17.5 28 28 23.29 28 17.5 23.29 7 17.5 7zm0 18c-4.136 0-7.5-3.364-7.5-7.5S13.364 10 17.5 10s7.5 3.364 7.5 7.5S21.636 25 17.5 25zM17.5 6c.829 0 1.5-.672 1.5-1.5v-3C19 .672 18.329 0 17.5 0S16 .672 16 1.5v3C16 5.328 16.671 6 17.5 6zm0 23c-.829 0-1.5.672-1.5 1.5v3c0 .828.671 1.5 1.5 1.5s1.5-.672 1.5-1.5v-3c0-.828-.671-1.5-1.5-1.5zM4.5 16h-3C.672 16 0 16.672 0 17.5S.672 19 1.5 19h3c.828 0 1.5-.672 1.5-1.5S5.328 16 4.5 16zm29 0h-3c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5h3c.828 0 1.5-.672 1.5-1.5S34.328 16 33.5 16zM7.5 26c-.414 0-.789.168-1.061.439l-2 2c-.271.272-.439.647-.439 1.061C4 30.328 4.671 31 5.5 31c.414 0 .789-.168 1.06-.44l2-2c.272-.271.44-.646.44-1.06C9 26.672 8.329 26 7.5 26zm20-18c.414 0 .789-.168 1.06-.439l2-2C30.832 5.289 31 4.914 31 4.5 31 3.672 30.329 3 29.5 3c-.414 0-.789.168-1.061.44l-2 2C26.168 5.711 26 6.086 26 6.5 26 7.328 26.671 8 27.5 8zm2 18c-.828 0-1.5.672-1.5 1.5 0 .414.168.789.439 1.06l2 2c.271.272.646.44 1.061.44.828 0 1.5-.672 1.5-1.5 0-.414-.168-.789-.439-1.061l-2-2c-.272-.271-.647-.439-1.061-.439zM6.439 8.561c.272.271.647.439 1.061.439C8.328 9 9 8.328 9 7.5c0-.414-.168-.789-.439-1.061l-2-2C6.289 4.168 5.914 4 5.5 4 4.672 4 4 4.672 4 5.5c0 .414.168.789.439 1.06l2 2z"/></svg><svg class="nightIcon" viewBox="0 0 100 100" aria-hidden="true"><path d="M96.76 66.458c-.853-.852-2.15-1.064-3.23-.534-6.063 2.991-12.858 4.571-19.655 4.571C62.022 70.495 50.88 65.88 42.5 57.5 29.043 44.043 25.658 23.536 34.076 6.47c.532-1.08.318-2.379-.534-3.23-.851-.852-2.15-1.064-3.23-.534-4.918 2.427-9.375 5.619-13.246 9.491C7.619 21.644 2.416 34.205 2.416 47.566c0 13.36 5.203 25.921 14.65 35.368s22.008 14.65 35.368 14.65c13.361 0 25.921-5.203 35.369-14.65 3.872-3.871 7.064-8.328 9.491-13.246.532-1.08.318-2.379-.534-3.23z"/></svg></button>
+    </div>
+    <div class="explorer">
+      <h2 class="explorer-title">课程目录</h2>
+      <ul class="explorer-list">
+        <li><a class="explorer-link" href="01.html"><span class="explorer-num">1</span><span>课程地图：从系统编程到图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="02.html"><span class="explorer-num">2</span><span>工程组织：Makefile 与静态库、动态库</span></a>
+</li>
+        <li><a class="explorer-link active" href="03.html"><span class="explorer-num">3</span><span>标准 I/O：缓冲文件操作</span></a>
+<ul class="explorer-sub"><li><a href="03.html#sec-1">（一）打开与关闭</a></li><li><a href="03.html#sec-2">（二）缓冲区的四个刷新时机</a></li><li><a href="03.html#sec-3">（三）默认打开的三个流</a></li><li><a href="03.html#sec-4">（四）字符、行、格式化、块：四组读写函数</a></li><li><a href="03.html#sec-5">（五）定位与状态</a></li><li><a href="03.html#sec-6">（六）一个完整的作业范例及其缺陷</a></li><li><a href="03.html#sec-7">（七）标准 I/O 的适用边界</a></li></ul>
+</li>
+        <li><a class="explorer-link" href="04.html"><span class="explorer-num">4</span><span>系统 I/O：文件描述符与非缓冲操作</span></a>
+</li>
+        <li><a class="explorer-link" href="05.html"><span class="explorer-num">5</span><span>时间编程</span></a>
+</li>
+        <li><a class="explorer-link" href="06.html"><span class="explorer-num">6</span><span>目录操作</span></a>
+</li>
+        <li><a class="explorer-link" href="07.html"><span class="explorer-num">7</span><span>文件属性：stat 家族与 ls -li 的实现</span></a>
+</li>
+        <li><a class="explorer-link" href="08.html"><span class="explorer-num">8</span><span>进程：概念、状态与管理</span></a>
+</li>
+        <li><a class="explorer-link" href="09.html"><span class="explorer-num">9</span><span>进程控制：fork、wait、exit、exec</span></a>
+</li>
+        <li><a class="explorer-link" href="10.html"><span class="explorer-num">10</span><span>信号</span></a>
+</li>
+        <li><a class="explorer-link" href="11.html"><span class="explorer-num">11</span><span>LVGL：嵌入式图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="12.html"><span class="explorer-num">12</span><span>综合项目：MP3 播放器与复盘</span></a>
+</li>
+        <li><a class="explorer-link" href="appendix.html"><span class="explorer-num">·</span><span>使用说明</span></a></li>
+      </ul>
+    </div>
+    <div class="sidebar-foot">共 13 篇 · 约 42.0 千字<br>按课程顺序整理</div>
+  </aside>
+  <div class="center">
+    <header class="page-header">
+      <nav class="breadcrumb"><a href="index.html">首页</a><span class="sep">❯</span><span>第 3 章</span></nav>
+      <h1 class="article-title">3. 标准 I/O：缓冲文件操作</h1>
+    </header>
+    <article>
+<p>标准 I/O 的核心抽象是 <code>FILE *</code>——一个「文件描述符 + 用户态缓冲区 + 读写位置 + 错误标志」的结构体指针。它的价值是把「每次读写都陷内核」变成「攒够一批再陷内核」。</p>
+<h2 id="sec-1">（一）打开与关闭<a class="anchor" href="#sec-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code>FILE *fp = <span class="tok-fn">fopen</span>(<span class="tok-str">"user.dat"</span>, <span class="tok-str">"wb+"</span>);
+<span class="tok-kw">if</span> (fp == <span class="tok-kw">NULL</span>) {
+    <span class="tok-fn">perror</span>(<span class="tok-str">"fopen"</span>);
+    <span class="tok-kw">return</span> -<span class="tok-num">1</span>;
+}
+<span class="tok-com">/* ... */</span>
+<span class="tok-fn">fclose</span>(fp);          <span class="tok-com">/* 成功返回 0，失败返回 EOF */</span></code></pre></figure>
+<div class="table-container"><table><thead><tr><th>模式</th><th>读</th><th>写</th><th>文件不存在</th><th>文件存在</th></tr></thead><tbody><tr><td><code>r</code></td><td>✓</td><td>✗</td><td>失败</td><td>从开头读</td></tr><tr><td><code>r+</code></td><td>✓</td><td>✓</td><td>失败</td><td>从开头读写</td></tr><tr><td><code>w</code></td><td>✗</td><td>✓</td><td>创建</td><td><strong>清空</strong></td></tr><tr><td><code>w+</code></td><td>✓</td><td>✓</td><td>创建</td><td><strong>清空</strong></td></tr><tr><td><code>a</code></td><td>✗</td><td>✓</td><td>创建</td><td>追加写</td></tr><tr><td><code>a+</code></td><td>✓</td><td>✓</td><td>创建</td><td>读任意位置，写始终追加</td></tr></tbody></table></div>
+<p>加 <code>b</code> 表示二进制模式。Linux 下 <code>b</code> 无实际作用（不转换 <code>\r\n</code>），但跨平台代码必须写，否则在 Windows 上读写结构体会错位。</p>
+<h2 id="sec-2">（二）缓冲区的四个刷新时机<a class="anchor" href="#sec-2" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p><code>printf</code> 的输出去向不是终端，而是缓冲区。数据真正落到内核，只在这四种情况：</p>
+<ol><li>遇到换行符 <code>\n</code>（<strong>仅行缓冲</strong>，即输出到终端时）；</li><li>缓冲区写满（大小由实现决定，<code>BUFSIZ</code> 通常为 8192，部分教材写 1024）；</li><li>程序正常结束（<code>return</code> 从 <code>main</code> 返回，或调用 <code>exit</code>）；</li><li>手动调用 <code>fflush(fp)</code>。</li></ol>
+<p>三种缓冲类型：<strong>全缓冲</strong>（重定向到文件/管道时的默认）、<strong>行缓冲</strong>（终端）、<strong>无缓冲</strong>（<code>stderr</code> 固定无缓冲，保证错误信息立即出现）。</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include &lt;stdio.h&gt;</span>
+<span class="tok-kw">int</span> <span class="tok-fn">fflush</span>(FILE *stream);      <span class="tok-com">/* 成功 0，失败 EOF */</span></code></pre></figure>
+<blockquote><p>易错点：<code>while(1) { printf("."); sleep(1); }</code> 在重定向到文件时不输出任何内容，因为既没换行也没满 8 KB。加 <code>fflush(stdout)</code> 或用 <code>stderr</code> 才能实时看到。</p></blockquote>
+<h2 id="sec-3">（三）默认打开的三个流<a class="anchor" href="#sec-3" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>程序启动时内核已经准备好三个描述符，标准库把它们包装成流指针：</p>
+<div class="table-container"><table><thead><tr><th>流</th><th>描述符</th><th>默认缓冲</th><th>用途</th></tr></thead><tbody><tr><td><code>stdin</code></td><td>0</td><td>行缓冲</td><td>标准输入</td></tr><tr><td><code>stdout</code></td><td>1</td><td>行缓冲（终端）/全缓冲（重定向）</td><td>标准输出</td></tr><tr><td><code>stderr</code></td><td>2</td><td>无缓冲</td><td>错误输出</td></tr></tbody></table></div>
+<h2 id="sec-4">（四）字符、行、格式化、块：四组读写函数<a class="anchor" href="#sec-4" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<div class="table-container"><table><thead><tr><th>组</th><th>写</th><th>读</th><th>特点</th></tr></thead><tbody><tr><td>字符</td><td><code>fputc</code> / <code>putc</code> / <code>putchar</code></td><td><code>fgetc</code> / <code>getc</code> / <code>getchar</code></td><td>单字节，适合逐字符处理</td></tr><tr><td>行</td><td><code>fputs</code> / <code>puts</code></td><td><code>fgets</code> / <code>gets</code>（<strong>已废弃</strong>）</td><td>以 <code>\n</code> 或 <code>EOF</code> 为界</td></tr><tr><td>格式化</td><td><code>fprintf</code> / <code>printf</code> / <code>sprintf</code> / <code>snprintf</code></td><td><code>fscanf</code> / <code>scanf</code> / <code>sscanf</code></td><td>文本可读，解析开销大</td></tr><tr><td>块</td><td><code>fwrite</code></td><td><code>fread</code></td><td>二进制整块，效率最高</td></tr></tbody></table></div>
+<p>结构体整块存取的标准写法：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">typedef</span> <span class="tok-kw">struct</span> {
+    <span class="tok-kw">int</span>   account;
+    <span class="tok-kw">char</span>  passwd[<span class="tok-num">20</span>];
+} USER;
+
+USER info = {<span class="tok-num">0</span>};
+<span class="tok-fn">fread</span>(&amp;info, <span class="tok-kw">sizeof</span>(info), <span class="tok-num">1</span>, fp);        <span class="tok-com">/* 返回值是"成功读到的块数" */</span>
+<span class="tok-fn">fwrite</span>(&amp;info, <span class="tok-kw">sizeof</span>(info), <span class="tok-num">1</span>, fp);</code></pre></figure>
+<blockquote><p>易错点：<code>fread</code> 的返回值是<strong>块数</strong>而不是字节数。若按字节判断，写成 <code>if (fread(buf, 1, n, fp) &lt; n)</code> 才正确（此时块大小为 1，块数即字节数）。混用 <code>sizeof(info)</code> 与字节判断会漏读。</p></blockquote>
+<blockquote><p>易错点：<code>sizeof(info)</code> 包含结构体填充字节，跨编译器/跨架构直接读写会错位。需要长期存储或跨平台交换时，用定长类型（<code>uint32_t</code>）+ 逐字段序列化，或改用文本格式（JSON/CSV）。</p></blockquote>
+<h2 id="sec-5">（五）定位与状态<a class="anchor" href="#sec-5" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">int</span>   <span class="tok-fn">fseek</span>(FILE *fp, <span class="tok-kw">long</span> offset, <span class="tok-kw">int</span> whence);   <span class="tok-com">/* SEEK_SET/CUR/END，成功 0 */</span>
+<span class="tok-kw">long</span>  <span class="tok-fn">ftell</span>(FILE *fp);                            <span class="tok-com">/* 当前偏移，失败 -1 */</span>
+<span class="tok-kw">void</span>  <span class="tok-fn">rewind</span>(FILE *fp);                           <span class="tok-com">/* 等价 fseek(fp,0,SEEK_SET) 并清错误标志 */</span>
+<span class="tok-kw">int</span>   <span class="tok-fn">feof</span>(FILE *fp);                             <span class="tok-com">/* 已读到末尾返回非 0 */</span>
+<span class="tok-kw">int</span>   <span class="tok-fn">ferror</span>(FILE *fp);                           <span class="tok-com">/* 出错返回非 0 */</span>
+<span class="tok-kw">void</span>  <span class="tok-fn">clearerr</span>(FILE *fp);                         <span class="tok-com">/* 清除两个标志 */</span></code></pre></figure>
+<p><code>feof</code> 的经典误用：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-com">/* 错误：多输出一行 */</span>
+<span class="tok-kw">while</span> (!<span class="tok-fn">feof</span>(fp)) {
+    <span class="tok-fn">fgets</span>(buf, <span class="tok-kw">sizeof</span>(buf), fp);
+    <span class="tok-fn">printf</span>(<span class="tok-str">"%s"</span>, buf);
+}
+
+<span class="tok-com">/* 正确：以读函数的返回值判断 */</span>
+<span class="tok-kw">while</span> (<span class="tok-fn">fgets</span>(buf, <span class="tok-kw">sizeof</span>(buf), fp) != <span class="tok-kw">NULL</span>) {
+    <span class="tok-fn">printf</span>(<span class="tok-str">"%s"</span>, buf);
+}</code></pre></figure>
+<p>原因：<code>feof</code> 只有在<strong>读过末尾之后</strong>才置位，它描述的是「上一次读的结果」，不是「下一次读会不会成功」。</p>
+<h2 id="sec-6">（六）一个完整的作业范例及其缺陷<a class="anchor" href="#sec-6" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>教材的「用户名密码」程序用 <code>fwrite</code> 存结构体、<code>fread</code> 读回，再循环三次校验。核心逻辑没问题，但输入循环里有两处典型缺陷：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">3</span>; i &gt; <span class="tok-num">0</span>; i--) {
+    <span class="tok-com">/* ... */</span>
+    <span class="tok-fn">printf</span>(<span class="tok-str">"还剩%d 次机会\n"</span>, i--);   <span class="tok-com">/* 缺陷 1：循环变量在循环体内又被减一次 */</span>
+}</code></pre></figure>
+<p><code>i--</code> 让循环体与 <code>for</code> 更新表达式各减一次，实际只给两次机会；且 <code>printf</code> 打印的是「减之前」的值，提示与实际次数对不上。正确写法是打印 <code>i - 1</code>，绝不动循环变量。</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-fn">scanf</span>(<span class="tok-str">"%d%s"</span>, &amp;info.account, info.passwd);   <span class="tok-com">/* 缺陷 2：无长度限制 */</span></code></pre></figure>
+<p><code>%s</code> 不限制长度，输入超过 19 字节就会覆盖结构体后续内存。应写 <code>%19s</code>，或用 <code>fgets</code> 读入后 <code>strtok</code> 切分。</p>
+<blockquote><p>扩展 · 更稳妥的输入封装：<code>fgets</code> 读到换行后再 <code>sscanf</code>，既能限长又能处理整行；交互式程序还要考虑清空残留输入（<code>while ((c = getchar()) != '\n' &amp;&amp; c != EOF);</code>），否则下一次读会立刻拿到上一次的残余。</p></blockquote>
+<h2 id="sec-7">（七）标准 I/O 的适用边界<a class="anchor" href="#sec-7" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>标准 I/O 适合<strong>普通文件</strong>和<strong>格式化文本</strong>。它不适合三类场景：需要精确控制每次系统调用的量（网络、管道）、需要用非文件句柄（套接字、设备）、需要多个进程共享同一打开文件。这三类都要下沉到系统调用层，也就是下一章的内容。</p>
+    </article>
+    <hr class="page-rule">
+    <div class="page-footer"><a class="prev" href="02.html"><span class="nav-label">← 上一章</span>2. 工程组织：Makefile 与静态库、动态库</a><a class="next" href="04.html"><span class="nav-label">下一章 →</span>4. 系统 I/O：文件描述符与非缓冲操作</a></div>
+    <footer class="site-footer">按课程顺序整理的 Linux 系统编程知识库 · 内容源《Linux 系统编程与 LVGL 知识总结》<br>静态站点 · 亮暗模式与全文搜索均在本地运行，无需联网</footer>
+  </div>
+
+  <aside class="right sidebar">
+    <div class="toc"><h3>本页目录</h3><ul><li class="depth-0"><a href="#sec-1" data-for="sec-1">（一）打开与关闭</a></li><li class="depth-0"><a href="#sec-2" data-for="sec-2">（二）缓冲区的四个刷新时机</a></li><li class="depth-0"><a href="#sec-3" data-for="sec-3">（三）默认打开的三个流</a></li><li class="depth-0"><a href="#sec-4" data-for="sec-4">（四）字符、行、格式化、块：四组读写函数</a></li><li class="depth-0"><a href="#sec-5" data-for="sec-5">（五）定位与状态</a></li><li class="depth-0"><a href="#sec-6" data-for="sec-6">（六）一个完整的作业范例及其缺陷</a></li><li class="depth-0"><a href="#sec-7" data-for="sec-7">（七）标准 I/O 的适用边界</a></li></ul></div>
+    <div class="related"><h3>全部章节</h3><ul><li><a href="01.html">1. 课程地图：从系统编程到图形界面</a></li><li><a href="02.html">2. 工程组织：Makefile 与静态库、动态库</a></li><li><a href="03.html">3. 标准 I/O：缓冲文件操作</a></li><li><a href="04.html">4. 系统 I/O：文件描述符与非缓冲操作</a></li><li><a href="05.html">5. 时间编程</a></li><li><a href="06.html">6. 目录操作</a></li><li><a href="07.html">7. 文件属性：stat 家族与 ls -li 的实现</a></li><li><a href="08.html">8. 进程：概念、状态与管理</a></li><li><a href="09.html">9. 进程控制：fork、wait、exit、exec</a></li><li><a href="10.html">10. 信号</a></li><li><a href="11.html">11. LVGL：嵌入式图形界面</a></li><li><a href="12.html">12. 综合项目：MP3 播放器与复盘</a></li><li><a href="appendix.html">附录 · 使用说明</a></li></ul></div>
+  </aside>
+</div>
+
+<div class="search-modal" hidden>
+  <div class="search-panel">
+    <input class="search-bar" type="text" placeholder="搜索内容..." autocomplete="off" aria-label="搜索内容">
+    <ul class="search-results"></ul>
+    <div class="search-hint">↑↓ 选择 · Enter 打开 · Esc 关闭 · 快捷键 / 或 Ctrl+K</div>
+  </div>
+</div>
+<script src="assets/search-index.js"></script>
+<script src="../assets/quartz.js"></script>
+</body>
+</html>

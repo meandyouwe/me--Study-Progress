@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1. 课程地图：从系统编程到图形界面 – Linux系统编程知识库</title>
+<meta name="description" content="按课程顺序整理的 Linux 系统编程与 LVGL 知识主干、完整代码与易错点复盘笔记。">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('cl-notes-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</head>
+<body class="page">
+<div class="mobile-bar">
+  <button class="nav-toggle" aria-label="切换目录">☰</button>
+  <span class="brand">Linux系统编程知识库</span>
+  <button class="search-button" aria-label="搜索" style="margin-left:auto;border:none;"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><span style="margin-left:.35rem">搜索</span></button>
+</div>
+<div id="quartz-body">
+  <aside class="left sidebar">
+    <h2 class="page-title"><a href="index.html">Linux系统编程知识库</a></h2>
+    <div class="sidebar-tools">
+      <button class="search-button" aria-label="搜索"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><p>搜索</p></button>
+      <button class="darkmode" aria-label="切换亮暗模式"><svg class="dayIcon" viewBox="0 0 35 35" aria-hidden="true"><path d="M17.5 7C11.71 7 7 11.71 7 17.5S11.71 28 17.5 28 28 23.29 28 17.5 23.29 7 17.5 7zm0 18c-4.136 0-7.5-3.364-7.5-7.5S13.364 10 17.5 10s7.5 3.364 7.5 7.5S21.636 25 17.5 25zM17.5 6c.829 0 1.5-.672 1.5-1.5v-3C19 .672 18.329 0 17.5 0S16 .672 16 1.5v3C16 5.328 16.671 6 17.5 6zm0 23c-.829 0-1.5.672-1.5 1.5v3c0 .828.671 1.5 1.5 1.5s1.5-.672 1.5-1.5v-3c0-.828-.671-1.5-1.5-1.5zM4.5 16h-3C.672 16 0 16.672 0 17.5S.672 19 1.5 19h3c.828 0 1.5-.672 1.5-1.5S5.328 16 4.5 16zm29 0h-3c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5h3c.828 0 1.5-.672 1.5-1.5S34.328 16 33.5 16zM7.5 26c-.414 0-.789.168-1.061.439l-2 2c-.271.272-.439.647-.439 1.061C4 30.328 4.671 31 5.5 31c.414 0 .789-.168 1.06-.44l2-2c.272-.271.44-.646.44-1.06C9 26.672 8.329 26 7.5 26zm20-18c.414 0 .789-.168 1.06-.439l2-2C30.832 5.289 31 4.914 31 4.5 31 3.672 30.329 3 29.5 3c-.414 0-.789.168-1.061.44l-2 2C26.168 5.711 26 6.086 26 6.5 26 7.328 26.671 8 27.5 8zm2 18c-.828 0-1.5.672-1.5 1.5 0 .414.168.789.439 1.06l2 2c.271.272.646.44 1.061.44.828 0 1.5-.672 1.5-1.5 0-.414-.168-.789-.439-1.061l-2-2c-.272-.271-.647-.439-1.061-.439zM6.439 8.561c.272.271.647.439 1.061.439C8.328 9 9 8.328 9 7.5c0-.414-.168-.789-.439-1.061l-2-2C6.289 4.168 5.914 4 5.5 4 4.672 4 4 4.672 4 5.5c0 .414.168.789.439 1.06l2 2z"/></svg><svg class="nightIcon" viewBox="0 0 100 100" aria-hidden="true"><path d="M96.76 66.458c-.853-.852-2.15-1.064-3.23-.534-6.063 2.991-12.858 4.571-19.655 4.571C62.022 70.495 50.88 65.88 42.5 57.5 29.043 44.043 25.658 23.536 34.076 6.47c.532-1.08.318-2.379-.534-3.23-.851-.852-2.15-1.064-3.23-.534-4.918 2.427-9.375 5.619-13.246 9.491C7.619 21.644 2.416 34.205 2.416 47.566c0 13.36 5.203 25.921 14.65 35.368s22.008 14.65 35.368 14.65c13.361 0 25.921-5.203 35.369-14.65 3.872-3.871 7.064-8.328 9.491-13.246.532-1.08.318-2.379-.534-3.23z"/></svg></button>
+    </div>
+    <div class="explorer">
+      <h2 class="explorer-title">课程目录</h2>
+      <ul class="explorer-list">
+        <li><a class="explorer-link active" href="01.html"><span class="explorer-num">1</span><span>课程地图：从系统编程到图形界面</span></a>
+<ul class="explorer-sub"><li><a href="01.html#sec-1">（一）知识依赖链</a></li><li><a href="01.html#sec-2">（二）三条并行的能力线</a></li><li><a href="01.html#sec-3">（三）每章的产出物</a></li><li><a href="01.html#sec-4">（四）环境与约定</a></li></ul>
+</li>
+        <li><a class="explorer-link" href="02.html"><span class="explorer-num">2</span><span>工程组织：Makefile 与静态库、动态库</span></a>
+</li>
+        <li><a class="explorer-link" href="03.html"><span class="explorer-num">3</span><span>标准 I/O：缓冲文件操作</span></a>
+</li>
+        <li><a class="explorer-link" href="04.html"><span class="explorer-num">4</span><span>系统 I/O：文件描述符与非缓冲操作</span></a>
+</li>
+        <li><a class="explorer-link" href="05.html"><span class="explorer-num">5</span><span>时间编程</span></a>
+</li>
+        <li><a class="explorer-link" href="06.html"><span class="explorer-num">6</span><span>目录操作</span></a>
+</li>
+        <li><a class="explorer-link" href="07.html"><span class="explorer-num">7</span><span>文件属性：stat 家族与 ls -li 的实现</span></a>
+</li>
+        <li><a class="explorer-link" href="08.html"><span class="explorer-num">8</span><span>进程：概念、状态与管理</span></a>
+</li>
+        <li><a class="explorer-link" href="09.html"><span class="explorer-num">9</span><span>进程控制：fork、wait、exit、exec</span></a>
+</li>
+        <li><a class="explorer-link" href="10.html"><span class="explorer-num">10</span><span>信号</span></a>
+</li>
+        <li><a class="explorer-link" href="11.html"><span class="explorer-num">11</span><span>LVGL：嵌入式图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="12.html"><span class="explorer-num">12</span><span>综合项目：MP3 播放器与复盘</span></a>
+</li>
+        <li><a class="explorer-link" href="appendix.html"><span class="explorer-num">·</span><span>使用说明</span></a></li>
+      </ul>
+    </div>
+    <div class="sidebar-foot">共 13 篇 · 约 42.0 千字<br>按课程顺序整理</div>
+  </aside>
+  <div class="center">
+    <header class="page-header">
+      <nav class="breadcrumb"><a href="index.html">首页</a><span class="sep">❯</span><span>第 1 章</span></nav>
+      <h1 class="article-title">1. 课程地图：从系统编程到图形界面</h1>
+    </header>
+    <article>
+<p>本课程的主线是「让程序脱离 C 标准库的舒适区，直接与内核打交道」：文件、时间、目录、进程、信号，最后用 LVGL 把这些能力包装成可交互的界面。五个 PDF 对应五个能力层，彼此不是并列关系，而是逐层收窄的依赖链。</p>
+<h2 id="sec-1">（一）知识依赖链<a class="anchor" href="#sec-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>把章节按依赖关系排开，可以看清为什么顺序不能乱：</p>
+<div class="table-container"><table><thead><tr><th>层</th><th>主题</th><th>前置依赖</th><th>没有它会卡在哪里</th></tr></thead><tbody><tr><td>L1</td><td>工程组织（Makefile、库）</td><td>C 语言基础</td><td>多文件编译、链接第三方库全部失败</td></tr><tr><td>L2</td><td>标准 I/O（<code>FILE *</code>）</td><td>L1</td><td>只能写单文件小 demo</td></tr><tr><td>L3</td><td>系统 I/O（<code>fd</code>）</td><td>L2、<code>errno</code></td><td>管道、套接字、设备文件无从下手</td></tr><tr><td>L4</td><td>时间与目录</td><td>L3</td><td>做不出带时间戳的日志、遍历不了目录</td></tr><tr><td>L5</td><td>文件属性（<code>stat</code>）</td><td>L4</td><td>实现不了 <code>ls -l</code>、判断不了文件类型</td></tr><tr><td>L6</td><td>进程（<code>fork</code>/<code>exec</code>）</td><td>L3</td><td>无法调用外部程序、无法并行</td></tr><tr><td>L7</td><td>信号（<code>signal</code>）</td><td>L6</td><td>无法异步通知、无法优雅停止子进程</td></tr><tr><td>L8</td><td>LVGL（图形界面）</td><td>L6、L7（线程）</td><td>界面里的播放控制没有事件驱动模型</td></tr></tbody></table></div>
+<blockquote><p>判据：任何一次「调不通」，先回到上表定位缺的是哪一层。<code>perror</code> 报 <code>No such file or directory</code> 是 L3 的路径问题，不是 L6 的进程问题。</p></blockquote>
+<h2 id="sec-2">（二）三条并行的能力线<a class="anchor" href="#sec-2" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>课程内容看似零散，实际只有三条线：</p>
+<ol><li><strong>资源线</strong>：文件描述符 → 目录流 → 进程号。三者都是「整数句柄 + 打开/使用/关闭」的同一套模式，<code>open/close</code>、<code>opendir/closedir</code>、<code>fork/wait</code> 结构完全同构。</li><li><strong>时间线</strong>：<code>time</code> 取秒数 → <code>localtime</code> 转结构体 → <code>strftime</code> 格式化。所有「按时间命名文件」「界面显示时钟」的需求都是这三步的排列组合。</li><li><strong>控制线</strong>：<code>fork</code> 造进程 → <code>exec</code> 换程序 → <code>kill</code> 发信号 → <code>wait</code> 收尸。播放器、守护进程、Shell 全部由这套原语拼出来。</li></ol>
+<blockquote><p>扩展 · 为什么强调「同构」：Linux 的设计哲学是「一切皆文件」，句柄化（handle）统一了设备、管道、套接字、目录。理解了这个抽象，<code>open</code> 的 <code>flags</code> 参数就能迁移到 <code>socket</code> 的 <code>type</code> 参数上，学习成本骤降。</p></blockquote>
+<h2 id="sec-3">（三）每章的产出物<a class="anchor" href="#sec-3" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>学习效果以「能否独立写出」为准，不以「看懂」为准：</p>
+<div class="table-container"><table><thead><tr><th>章节</th><th>应能独立完成</th><th>验收标准</th></tr></thead><tbody><tr><td>工程组织</td><td>静态库 + 动态库各一套 Makefile</td><td><code>make</code> 一次通过，<code>ldd</code> 能看到依赖</td></tr><tr><td>标准 I/O</td><td>结构体整块存取的用户名密码程序</td><td>二进制文件可被 <code>xxd</code> 读出字段</td></tr><tr><td>系统 I/O</td><td><code>cp</code> 命令的四种实现</td><td>大文件（&gt;100 MB）拷贝不丢字节</td></tr><tr><td>时间</td><td>每 5 秒建文件，文件名带时间戳</td><td>连续 10 个文件命名不重复</td></tr><tr><td>目录与属性</td><td><code>ls -li</code> 的完整复刻</td><td>输出与系统 <code>ls -li</code> 逐列对齐</td></tr><tr><td>进程</td><td><code>fork</code> 三次的进程树分析</td><td>能画出 8 个进程的父子关系图</td></tr><tr><td>信号</td><td>键盘控制的 MP3 播放器</td><td>暂停/继续/切歌无残留进程</td></tr><tr><td>LVGL</td><td>带时钟与播放控制的界面</td><td>连续操作 10 分钟不崩、不卡死</td></tr></tbody></table></div>
+<h2 id="sec-4">（四）环境与约定<a class="anchor" href="#sec-4" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<ul><li>平台：Ubuntu（图形界面版），编译器 <code>gcc</code>，调试 <code>gdb</code>，构建 <code>make</code>。</li><li>所有系统调用失败都会设置 <code>errno</code>，<strong>必须</strong>用 <code>perror</code> 或 <code>strerror(errno)</code> 打印，禁止只写 <code>return -1</code> 了事。</li><li>头文件按「系统调用 → 标准库」顺序排列，避免隐式声明告警。</li><li>代码中的路径一律用 <code>argv</code> 传入，不写死绝对路径，否则换机器就废。</li></ul>
+<blockquote><p>扩展 · 调试习惯：<code>strace -f ./a.out</code> 能看到每一次系统调用的入参与返回值，比在代码里撒 <code>printf</code> 高效得多。排查「文件打不开」时，<code>strace</code> 会直接告诉你内核返回的是 <code>EACCES</code> 还是 <code>ENOENT</code>。</p></blockquote>
+    </article>
+    <hr class="page-rule">
+    <div class="page-footer"><a class="prev" href="index.html"><span class="nav-label">← 返回</span>知识导航</a><a class="next" href="02.html"><span class="nav-label">下一章 →</span>2. 工程组织：Makefile 与静态库、动态库</a></div>
+    <footer class="site-footer">按课程顺序整理的 Linux 系统编程知识库 · 内容源《Linux 系统编程与 LVGL 知识总结》<br>静态站点 · 亮暗模式与全文搜索均在本地运行，无需联网</footer>
+  </div>
+
+  <aside class="right sidebar">
+    <div class="toc"><h3>本页目录</h3><ul><li class="depth-0"><a href="#sec-1" data-for="sec-1">（一）知识依赖链</a></li><li class="depth-0"><a href="#sec-2" data-for="sec-2">（二）三条并行的能力线</a></li><li class="depth-0"><a href="#sec-3" data-for="sec-3">（三）每章的产出物</a></li><li class="depth-0"><a href="#sec-4" data-for="sec-4">（四）环境与约定</a></li></ul></div>
+    <div class="related"><h3>全部章节</h3><ul><li><a href="01.html">1. 课程地图：从系统编程到图形界面</a></li><li><a href="02.html">2. 工程组织：Makefile 与静态库、动态库</a></li><li><a href="03.html">3. 标准 I/O：缓冲文件操作</a></li><li><a href="04.html">4. 系统 I/O：文件描述符与非缓冲操作</a></li><li><a href="05.html">5. 时间编程</a></li><li><a href="06.html">6. 目录操作</a></li><li><a href="07.html">7. 文件属性：stat 家族与 ls -li 的实现</a></li><li><a href="08.html">8. 进程：概念、状态与管理</a></li><li><a href="09.html">9. 进程控制：fork、wait、exit、exec</a></li><li><a href="10.html">10. 信号</a></li><li><a href="11.html">11. LVGL：嵌入式图形界面</a></li><li><a href="12.html">12. 综合项目：MP3 播放器与复盘</a></li><li><a href="appendix.html">附录 · 使用说明</a></li></ul></div>
+  </aside>
+</div>
+
+<div class="search-modal" hidden>
+  <div class="search-panel">
+    <input class="search-bar" type="text" placeholder="搜索内容..." autocomplete="off" aria-label="搜索内容">
+    <ul class="search-results"></ul>
+    <div class="search-hint">↑↓ 选择 · Enter 打开 · Esc 关闭 · 快捷键 / 或 Ctrl+K</div>
+  </div>
+</div>
+<script src="assets/search-index.js"></script>
+<script src="../assets/quartz.js"></script>
+</body>
+</html>

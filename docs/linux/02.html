@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2. 工程组织：Makefile 与静态库、动态库 – Linux系统编程知识库</title>
+<meta name="description" content="按课程顺序整理的 Linux 系统编程与 LVGL 知识主干、完整代码与易错点复盘笔记。">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('cl-notes-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</head>
+<body class="page">
+<div class="mobile-bar">
+  <button class="nav-toggle" aria-label="切换目录">☰</button>
+  <span class="brand">Linux系统编程知识库</span>
+  <button class="search-button" aria-label="搜索" style="margin-left:auto;border:none;"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><span style="margin-left:.35rem">搜索</span></button>
+</div>
+<div id="quartz-body">
+  <aside class="left sidebar">
+    <h2 class="page-title"><a href="index.html">Linux系统编程知识库</a></h2>
+    <div class="sidebar-tools">
+      <button class="search-button" aria-label="搜索"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><p>搜索</p></button>
+      <button class="darkmode" aria-label="切换亮暗模式"><svg class="dayIcon" viewBox="0 0 35 35" aria-hidden="true"><path d="M17.5 7C11.71 7 7 11.71 7 17.5S11.71 28 17.5 28 28 23.29 28 17.5 23.29 7 17.5 7zm0 18c-4.136 0-7.5-3.364-7.5-7.5S13.364 10 17.5 10s7.5 3.364 7.5 7.5S21.636 25 17.5 25zM17.5 6c.829 0 1.5-.672 1.5-1.5v-3C19 .672 18.329 0 17.5 0S16 .672 16 1.5v3C16 5.328 16.671 6 17.5 6zm0 23c-.829 0-1.5.672-1.5 1.5v3c0 .828.671 1.5 1.5 1.5s1.5-.672 1.5-1.5v-3c0-.828-.671-1.5-1.5-1.5zM4.5 16h-3C.672 16 0 16.672 0 17.5S.672 19 1.5 19h3c.828 0 1.5-.672 1.5-1.5S5.328 16 4.5 16zm29 0h-3c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5h3c.828 0 1.5-.672 1.5-1.5S34.328 16 33.5 16zM7.5 26c-.414 0-.789.168-1.061.439l-2 2c-.271.272-.439.647-.439 1.061C4 30.328 4.671 31 5.5 31c.414 0 .789-.168 1.06-.44l2-2c.272-.271.44-.646.44-1.06C9 26.672 8.329 26 7.5 26zm20-18c.414 0 .789-.168 1.06-.439l2-2C30.832 5.289 31 4.914 31 4.5 31 3.672 30.329 3 29.5 3c-.414 0-.789.168-1.061.44l-2 2C26.168 5.711 26 6.086 26 6.5 26 7.328 26.671 8 27.5 8zm2 18c-.828 0-1.5.672-1.5 1.5 0 .414.168.789.439 1.06l2 2c.271.272.646.44 1.061.44.828 0 1.5-.672 1.5-1.5 0-.414-.168-.789-.439-1.061l-2-2c-.272-.271-.647-.439-1.061-.439zM6.439 8.561c.272.271.647.439 1.061.439C8.328 9 9 8.328 9 7.5c0-.414-.168-.789-.439-1.061l-2-2C6.289 4.168 5.914 4 5.5 4 4.672 4 4 4.672 4 5.5c0 .414.168.789.439 1.06l2 2z"/></svg><svg class="nightIcon" viewBox="0 0 100 100" aria-hidden="true"><path d="M96.76 66.458c-.853-.852-2.15-1.064-3.23-.534-6.063 2.991-12.858 4.571-19.655 4.571C62.022 70.495 50.88 65.88 42.5 57.5 29.043 44.043 25.658 23.536 34.076 6.47c.532-1.08.318-2.379-.534-3.23-.851-.852-2.15-1.064-3.23-.534-4.918 2.427-9.375 5.619-13.246 9.491C7.619 21.644 2.416 34.205 2.416 47.566c0 13.36 5.203 25.921 14.65 35.368s22.008 14.65 35.368 14.65c13.361 0 25.921-5.203 35.369-14.65 3.872-3.871 7.064-8.328 9.491-13.246.532-1.08.318-2.379-.534-3.23z"/></svg></button>
+    </div>
+    <div class="explorer">
+      <h2 class="explorer-title">课程目录</h2>
+      <ul class="explorer-list">
+        <li><a class="explorer-link" href="01.html"><span class="explorer-num">1</span><span>课程地图：从系统编程到图形界面</span></a>
+</li>
+        <li><a class="explorer-link active" href="02.html"><span class="explorer-num">2</span><span>工程组织：Makefile 与静态库、动态库</span></a>
+<ul class="explorer-sub"><li><a href="02.html#sec-1">（一）四种赋值符号</a></li><li><a href="02.html#sec-2">（二）静态库</a></li><li><a href="02.html#sec-3">（三）动态库</a></li><li><a href="02.html#sec-4">（四）头文件与库的边界</a></li></ul>
+</li>
+        <li><a class="explorer-link" href="03.html"><span class="explorer-num">3</span><span>标准 I/O：缓冲文件操作</span></a>
+</li>
+        <li><a class="explorer-link" href="04.html"><span class="explorer-num">4</span><span>系统 I/O：文件描述符与非缓冲操作</span></a>
+</li>
+        <li><a class="explorer-link" href="05.html"><span class="explorer-num">5</span><span>时间编程</span></a>
+</li>
+        <li><a class="explorer-link" href="06.html"><span class="explorer-num">6</span><span>目录操作</span></a>
+</li>
+        <li><a class="explorer-link" href="07.html"><span class="explorer-num">7</span><span>文件属性：stat 家族与 ls -li 的实现</span></a>
+</li>
+        <li><a class="explorer-link" href="08.html"><span class="explorer-num">8</span><span>进程：概念、状态与管理</span></a>
+</li>
+        <li><a class="explorer-link" href="09.html"><span class="explorer-num">9</span><span>进程控制：fork、wait、exit、exec</span></a>
+</li>
+        <li><a class="explorer-link" href="10.html"><span class="explorer-num">10</span><span>信号</span></a>
+</li>
+        <li><a class="explorer-link" href="11.html"><span class="explorer-num">11</span><span>LVGL：嵌入式图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="12.html"><span class="explorer-num">12</span><span>综合项目：MP3 播放器与复盘</span></a>
+</li>
+        <li><a class="explorer-link" href="appendix.html"><span class="explorer-num">·</span><span>使用说明</span></a></li>
+      </ul>
+    </div>
+    <div class="sidebar-foot">共 13 篇 · 约 42.0 千字<br>按课程顺序整理</div>
+  </aside>
+  <div class="center">
+    <header class="page-header">
+      <nav class="breadcrumb"><a href="index.html">首页</a><span class="sep">❯</span><span>第 2 章</span></nav>
+      <h1 class="article-title">2. 工程组织：Makefile 与静态库、动态库</h1>
+    </header>
+    <article>
+<p>一个工程只要超过两个源文件，手敲 <code>gcc</code> 就会失控。Makefile 解决的是「增量编译 + 依赖描述」，库解决的是「代码复用 + 二进制交付」。</p>
+<h2 id="sec-1">（一）四种赋值符号<a class="anchor" href="#sec-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>Makefile 的赋值符号差异全在「展开时机」，这是最容易混淆的一组语法：</p>
+<div class="table-container"><table><thead><tr><th>符号</th><th>名称</th><th>展开时机</th><th>典型用途</th></tr></thead><tbody><tr><td><code>=</code></td><td>递归赋值</td><td>使用时才展开</td><td>依赖后续变量定义的场景</td></tr><tr><td><code>:=</code></td><td>立即赋值</td><td>定义时立刻展开</td><td>绝大多数情况，行为可预测</td></tr><tr><td><code>?=</code></td><td>条件赋值</td><td>仅当变量未定义时赋值</td><td>允许命令行覆盖默认值</td></tr><tr><td><code>+=</code></td><td>追加赋值</td><td>追加到已有值之后</td><td>累加源文件列表、编译选项</td></tr></tbody></table></div>
+<figure data-rehype-pretty-code-figure><pre data-language="make"><code>CC      := gcc
+CFLAGS  := -Wall -O2
+CFLAGS  += -g                  # 追加调试信息
+SRCS    := 1.c 2.c
+TARGET  ?= app                 # 命令行 make TARGET=test 可覆盖
+
+$(TARGET): $(SRCS)
+	$(CC) $(CFLAGS) -o $@ $^</code></pre></figure>
+<blockquote><p>易错点：命令行必须以 <strong>Tab</strong> 开头，四个空格会报 <code>missing separator</code>。这是新手第一个 Makefile 必踩的坑。</p></blockquote>
+<h2 id="sec-2">（二）静态库<a class="anchor" href="#sec-2" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>静态库在链接期把用到的目标代码「复制」进可执行文件。</p>
+<figure data-rehype-pretty-code-figure><pre data-language="make"><code>libmy.a: 1.o 2.o
+	ar rcs $@ $^
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $&lt; -o $@
+
+app: main.c libmy.a
+	$(CC) main.c -L. -lmy -o app</code></pre></figure>
+<ul><li><code>ar rcs</code>：<code>r</code> 替换或插入、<code>c</code> 创建、<code>s</code> 生成索引（没有索引链接会慢且可能失败）。</li><li><code>-L.</code> 指定库搜索路径，<code>-lmy</code> 对应 <code>libmy.a</code>（<strong>去掉 <code>lib</code> 前缀和扩展名</strong>）。</li><li>产物特点：体积大（代码被复制），但部署简单，不依赖外部 <code>.a</code>。</li></ul>
+<h2 id="sec-3">（三）动态库<a class="anchor" href="#sec-3" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>动态库在运行期加载，多个进程共享同一份代码段。</p>
+<figure data-rehype-pretty-code-figure><pre data-language="make"><code>libmy.so: 1.c 2.c
+	$(CC) -fPIC -shared -o $@ $^
+
+app: main.c libmy.so
+	$(CC) main.c -L. -lmy -Wl,-rpath,'$$ORIGIN' -o app</code></pre></figure>
+<ul><li><code>-fPIC</code>：生成位置无关代码，动态库<strong>必须</strong>加，否则链接报 <code>relocation R_X86_64_32 against ... can not be used</code>。</li><li><code>-shared</code>：产出共享对象。</li><li>运行时找不到库的三种解法：<code>export LD_LIBRARY_PATH=.</code>（临时）、<code>-Wl,-rpath</code>（编译期写入）、放入 <code>/etc/ld.so.conf.d/</code> 后 <code>sudo ldconfig</code>（系统级）。</li></ul>
+<div class="table-container"><table><thead><tr><th>对比项</th><th>静态库 <code>.a</code></th><th>动态库 <code>.so</code></th></tr></thead><tbody><tr><td>链接时机</td><td>编译链接期</td><td>程序启动/运行时</td></tr><tr><td>可执行文件体积</td><td>大</td><td>小</td></tr><tr><td>库更新</td><td>必须重新编译程序</td><td>替换 <code>.so</code> 即可生效</td></tr><tr><td>启动速度</td><td>快</td><td>略慢（需重定位）</td></tr><tr><td>部署</td><td>单文件即可</td><td>需保证库路径可被找到</td></tr><tr><td>内存占用</td><td>每进程一份</td><td>多进程共享代码段</td></tr></tbody></table></div>
+<blockquote><p>扩展 · 排查手段：<code>nm -D libmy.so</code> 看导出符号，<code>ldd app</code> 看运行时依赖，<code>readelf -d app | grep RPATH</code> 看运行路径。三个命令能定位 90% 的「库找不到 / 符号未定义」问题。</p></blockquote>
+<h2 id="sec-4">（四）头文件与库的边界<a class="anchor" href="#sec-4" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>库对外只暴露头文件：<code>.h</code> 放函数声明、类型定义、宏；<code>.c</code> 放实现。调用方 <code>#include "my.h"</code> 并链接 <code>-lmy</code>。若头文件在子目录，编译时补 <code>-I./include</code>。</p>
+<blockquote><p>易错点：把变量定义写进头文件，多文件包含时链接报 <code>multiple definition</code>。正确做法是头文件里写 <code>extern int g;</code>，在<strong>一个</strong> <code>.c</code> 里写 <code>int g = 0;</code>。C99 起的 <code>inline</code> 变量规则更细，工程上仍建议沿用 <code>extern</code> 方案。</p></blockquote>
+    </article>
+    <hr class="page-rule">
+    <div class="page-footer"><a class="prev" href="01.html"><span class="nav-label">← 上一章</span>1. 课程地图：从系统编程到图形界面</a><a class="next" href="03.html"><span class="nav-label">下一章 →</span>3. 标准 I/O：缓冲文件操作</a></div>
+    <footer class="site-footer">按课程顺序整理的 Linux 系统编程知识库 · 内容源《Linux 系统编程与 LVGL 知识总结》<br>静态站点 · 亮暗模式与全文搜索均在本地运行，无需联网</footer>
+  </div>
+
+  <aside class="right sidebar">
+    <div class="toc"><h3>本页目录</h3><ul><li class="depth-0"><a href="#sec-1" data-for="sec-1">（一）四种赋值符号</a></li><li class="depth-0"><a href="#sec-2" data-for="sec-2">（二）静态库</a></li><li class="depth-0"><a href="#sec-3" data-for="sec-3">（三）动态库</a></li><li class="depth-0"><a href="#sec-4" data-for="sec-4">（四）头文件与库的边界</a></li></ul></div>
+    <div class="related"><h3>全部章节</h3><ul><li><a href="01.html">1. 课程地图：从系统编程到图形界面</a></li><li><a href="02.html">2. 工程组织：Makefile 与静态库、动态库</a></li><li><a href="03.html">3. 标准 I/O：缓冲文件操作</a></li><li><a href="04.html">4. 系统 I/O：文件描述符与非缓冲操作</a></li><li><a href="05.html">5. 时间编程</a></li><li><a href="06.html">6. 目录操作</a></li><li><a href="07.html">7. 文件属性：stat 家族与 ls -li 的实现</a></li><li><a href="08.html">8. 进程：概念、状态与管理</a></li><li><a href="09.html">9. 进程控制：fork、wait、exit、exec</a></li><li><a href="10.html">10. 信号</a></li><li><a href="11.html">11. LVGL：嵌入式图形界面</a></li><li><a href="12.html">12. 综合项目：MP3 播放器与复盘</a></li><li><a href="appendix.html">附录 · 使用说明</a></li></ul></div>
+  </aside>
+</div>
+
+<div class="search-modal" hidden>
+  <div class="search-panel">
+    <input class="search-bar" type="text" placeholder="搜索内容..." autocomplete="off" aria-label="搜索内容">
+    <ul class="search-results"></ul>
+    <div class="search-hint">↑↓ 选择 · Enter 打开 · Esc 关闭 · 快捷键 / 或 Ctrl+K</div>
+  </div>
+</div>
+<script src="assets/search-index.js"></script>
+<script src="../assets/quartz.js"></script>
+</body>
+</html>

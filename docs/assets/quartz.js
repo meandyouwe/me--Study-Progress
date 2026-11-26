@@ -1,7 +1,7 @@
 /* ===========================================================
-   C 语言知识库 —— 交互脚本
+   学习笔记知识库（C 语言 / Linux 系统编程）—— 交互脚本
    1) 亮暗主题  2) 全文搜索  3) 目录滚动高亮  4) 移动端抽屉
-   5) 复盘表本地暂存
+   5) 复盘表本地暂存  6) 两站互跳入口
    =========================================================== */
 (function () {
   "use strict";
@@ -209,4 +209,22 @@
       if (bar) bar.textContent = "已清空";
     });
   }
+})();
+
+/* ---------- 6. 两站互跳入口（C 语言 ↔ Linux 系统编程） ---------- */
+(function () {
+  var explorer = document.querySelector(".left .explorer") || document.querySelector(".explorer");
+  if (!explorer) return;
+  var inLinux = location.pathname.replace(/\\/g, "/").indexOf("/linux/") !== -1;
+  var a = document.createElement("a");
+  a.className = "explorer-link cross-site-link";
+  a.href = inLinux ? "../index.html" : "linux/index.html";
+  a.innerHTML = inLinux
+    ? '<span class="explorer-num">&#8617;</span><span>C 语言知识库</span>'
+    : '<span class="explorer-num">&#8594;</span><span>Linux 系统编程与 LVGL</span>';
+  a.style.cssText = "display:flex;align-items:center;margin-top:.85rem;padding-top:.85rem;" +
+    "border-top:1px solid var(--lightgray);color:var(--secondary);font-size:.9rem;" +
+    "text-decoration:none;line-height:1.5;";
+  a.setAttribute("title", inLinux ? "返回 C 语言知识库" : "进入 Linux 系统编程与 LVGL 知识库");
+  explorer.appendChild(a);
 })();

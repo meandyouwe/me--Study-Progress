@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>知识导航 – Linux系统编程知识库</title>
+<meta name="description" content="按课程顺序整理的 Linux 系统编程与 LVGL 知识主干、完整代码与易错点复盘笔记。">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('cl-notes-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</head>
+<body class="page">
+<div class="mobile-bar">
+  <button class="nav-toggle" aria-label="切换目录">☰</button>
+  <span class="brand">Linux系统编程知识库</span>
+  <button class="search-button" aria-label="搜索" style="margin-left:auto;border:none;"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><span style="margin-left:.35rem">搜索</span></button>
+</div>
+<div id="quartz-body">
+  <aside class="left sidebar">
+    <h2 class="page-title"><a href="index.html">Linux系统编程知识库</a></h2>
+    <div class="sidebar-tools">
+      <button class="search-button" aria-label="搜索"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><p>搜索</p></button>
+      <button class="darkmode" aria-label="切换亮暗模式"><svg class="dayIcon" viewBox="0 0 35 35" aria-hidden="true"><path d="M17.5 7C11.71 7 7 11.71 7 17.5S11.71 28 17.5 28 28 23.29 28 17.5 23.29 7 17.5 7zm0 18c-4.136 0-7.5-3.364-7.5-7.5S13.364 10 17.5 10s7.5 3.364 7.5 7.5S21.636 25 17.5 25zM17.5 6c.829 0 1.5-.672 1.5-1.5v-3C19 .672 18.329 0 17.5 0S16 .672 16 1.5v3C16 5.328 16.671 6 17.5 6zm0 23c-.829 0-1.5.672-1.5 1.5v3c0 .828.671 1.5 1.5 1.5s1.5-.672 1.5-1.5v-3c0-.828-.671-1.5-1.5-1.5zM4.5 16h-3C.672 16 0 16.672 0 17.5S.672 19 1.5 19h3c.828 0 1.5-.672 1.5-1.5S5.328 16 4.5 16zm29 0h-3c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5h3c.828 0 1.5-.672 1.5-1.5S34.328 16 33.5 16zM7.5 26c-.414 0-.789.168-1.061.439l-2 2c-.271.272-.439.647-.439 1.061C4 30.328 4.671 31 5.5 31c.414 0 .789-.168 1.06-.44l2-2c.272-.271.44-.646.44-1.06C9 26.672 8.329 26 7.5 26zm20-18c.414 0 .789-.168 1.06-.439l2-2C30.832 5.289 31 4.914 31 4.5 31 3.672 30.329 3 29.5 3c-.414 0-.789.168-1.061.44l-2 2C26.168 5.711 26 6.086 26 6.5 26 7.328 26.671 8 27.5 8zm2 18c-.828 0-1.5.672-1.5 1.5 0 .414.168.789.439 1.06l2 2c.271.272.646.44 1.061.44.828 0 1.5-.672 1.5-1.5 0-.414-.168-.789-.439-1.061l-2-2c-.272-.271-.647-.439-1.061-.439zM6.439 8.561c.272.271.647.439 1.061.439C8.328 9 9 8.328 9 7.5c0-.414-.168-.789-.439-1.061l-2-2C6.289 4.168 5.914 4 5.5 4 4.672 4 4 4.672 4 5.5c0 .414.168.789.439 1.06l2 2z"/></svg><svg class="nightIcon" viewBox="0 0 100 100" aria-hidden="true"><path d="M96.76 66.458c-.853-.852-2.15-1.064-3.23-.534-6.063 2.991-12.858 4.571-19.655 4.571C62.022 70.495 50.88 65.88 42.5 57.5 29.043 44.043 25.658 23.536 34.076 6.47c.532-1.08.318-2.379-.534-3.23-.851-.852-2.15-1.064-3.23-.534-4.918 2.427-9.375 5.619-13.246 9.491C7.619 21.644 2.416 34.205 2.416 47.566c0 13.36 5.203 25.921 14.65 35.368s22.008 14.65 35.368 14.65c13.361 0 25.921-5.203 35.369-14.65 3.872-3.871 7.064-8.328 9.491-13.246.532-1.08.318-2.379-.534-3.23z"/></svg></button>
+    </div>
+    <div class="explorer">
+      <h2 class="explorer-title">课程目录</h2>
+      <ul class="explorer-list">
+        <li><a class="explorer-link" href="01.html"><span class="explorer-num">1</span><span>课程地图：从系统编程到图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="02.html"><span class="explorer-num">2</span><span>工程组织：Makefile 与静态库、动态库</span></a>
+</li>
+        <li><a class="explorer-link" href="03.html"><span class="explorer-num">3</span><span>标准 I/O：缓冲文件操作</span></a>
+</li>
+        <li><a class="explorer-link" href="04.html"><span class="explorer-num">4</span><span>系统 I/O：文件描述符与非缓冲操作</span></a>
+</li>
+        <li><a class="explorer-link" href="05.html"><span class="explorer-num">5</span><span>时间编程</span></a>
+</li>
+        <li><a class="explorer-link" href="06.html"><span class="explorer-num">6</span><span>目录操作</span></a>
+</li>
+        <li><a class="explorer-link" href="07.html"><span class="explorer-num">7</span><span>文件属性：stat 家族与 ls -li 的实现</span></a>
+</li>
+        <li><a class="explorer-link" href="08.html"><span class="explorer-num">8</span><span>进程：概念、状态与管理</span></a>
+</li>
+        <li><a class="explorer-link" href="09.html"><span class="explorer-num">9</span><span>进程控制：fork、wait、exit、exec</span></a>
+</li>
+        <li><a class="explorer-link" href="10.html"><span class="explorer-num">10</span><span>信号</span></a>
+</li>
+        <li><a class="explorer-link" href="11.html"><span class="explorer-num">11</span><span>LVGL：嵌入式图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="12.html"><span class="explorer-num">12</span><span>综合项目：MP3 播放器与复盘</span></a>
+</li>
+        <li><a class="explorer-link" href="appendix.html"><span class="explorer-num">·</span><span>使用说明</span></a></li>
+      </ul>
+    </div>
+    <div class="sidebar-foot">共 13 篇 · 约 42.0 千字<br>按课程顺序整理</div>
+  </aside>
+  <div class="center">
+    <header class="page-header">
+      <nav class="breadcrumb"><span>Home</span></nav>
+      <h1 class="article-title">Linux 系统编程与 LVGL 知识总结</h1>
+    </header>
+    <article>
+      <dl class="home-props">
+        <dt>description</dt>
+        <dd>按课程顺序整理的 Linux 系统编程知识主干：文件 I/O、时间、目录与属性、进程、信号，以及 LVGL 图形界面。</dd>
+      </dl>
+      <p>本书以五份课程讲义为骨架，按「工程组织 → 文件 I/O → 时间与文件系统 → 进程与信号 → 图形界面」的顺序组织。每章保留可复用的判断规则、完整示例代码与常见错误对照表，第十二章给出综合项目拆解和可在线填写的复盘区。</p>
+      <div class="home-stats">
+        <span><b>12</b>章正文</span>
+        <span><b>83</b>个小节</span>
+        <span><b>5</b>份课程讲义</span>
+        <span><b>83</b>条可检索条目</span>
+      </div>
+<div class="home-group"><h2><a href="01.html">1. 课程地图：从系统编程到图形界面</a></h2><ul class="home-links"><li><a href="01.html#sec-1"><span class="num">1</span>（一）知识依赖链</a></li><li><a href="01.html#sec-2"><span class="num">2</span>（二）三条并行的能力线</a></li><li><a href="01.html#sec-3"><span class="num">3</span>（三）每章的产出物</a></li><li><a href="01.html#sec-4"><span class="num">4</span>（四）环境与约定</a></li></ul></div>
+<div class="home-group"><h2><a href="02.html">2. 工程组织：Makefile 与静态库、动态库</a></h2><ul class="home-links"><li><a href="02.html#sec-1"><span class="num">1</span>（一）四种赋值符号</a></li><li><a href="02.html#sec-2"><span class="num">2</span>（二）静态库</a></li><li><a href="02.html#sec-3"><span class="num">3</span>（三）动态库</a></li><li><a href="02.html#sec-4"><span class="num">4</span>（四）头文件与库的边界</a></li></ul></div>
+<div class="home-group"><h2><a href="03.html">3. 标准 I/O：缓冲文件操作</a></h2><ul class="home-links"><li><a href="03.html#sec-1"><span class="num">1</span>（一）打开与关闭</a></li><li><a href="03.html#sec-2"><span class="num">2</span>（二）缓冲区的四个刷新时机</a></li><li><a href="03.html#sec-3"><span class="num">3</span>（三）默认打开的三个流</a></li><li><a href="03.html#sec-4"><span class="num">4</span>（四）字符、行、格式化、块：四组读写函数</a></li><li><a href="03.html#sec-5"><span class="num">5</span>（五）定位与状态</a></li><li><a href="03.html#sec-6"><span class="num">6</span>（六）一个完整的作业范例及其缺陷</a></li><li><a href="03.html#sec-7"><span class="num">7</span>（七）标准 I/O 的适用边界</a></li></ul></div>
+<div class="home-group"><h2><a href="04.html">4. 系统 I/O：文件描述符与非缓冲操作</a></h2><ul class="home-links"><li><a href="04.html#sec-1"><span class="num">1</span>（一）为什么必须学非缓冲 I/O</a></li><li><a href="04.html#sec-2"><span class="num">2</span>（二）open：flags 与 mode</a></li><li><a href="04.html#sec-3"><span class="num">3</span>（三）权限：mode 与 umask 的与运算</a></li><li><a href="04.html#sec-4"><span class="num">4</span>（四）read / write：字节数语义</a></li><li><a href="04.html#sec-5"><span class="num">5</span>（五）lseek：定位与「求大小」</a></li><li><a href="04.html#sec-6"><span class="num">6</span>（六）缓冲与非缓冲的对应关系</a></li><li><a href="04.html#sec-7"><span class="num">7</span>（七）cp 的四种实现与取舍</a></li></ul></div>
+<div class="home-group"><h2><a href="05.html">5. 时间编程</a></h2><ul class="home-links"><li><a href="05.html#sec-1"><span class="num">1</span>（一）命令行工具</a></li><li><a href="05.html#sec-2"><span class="num">2</span>（二）time：取日历时间</a></li><li><a href="05.html#sec-3"><span class="num">3</span>（三）struct tm 与转换函数</a></li><li><a href="05.html#sec-4"><span class="num">4</span>（四）strftime 常用格式符</a></li><li><a href="05.html#sec-5"><span class="num">5</span>（五）完整案例：每 5 秒建一个带时间戳的文件</a></li><li><a href="05.html#sec-6"><span class="num">6</span>（六）延时与计时</a></li></ul></div>
+<div class="home-group"><h2><a href="06.html">6. 目录操作</a></h2><ul class="home-links"><li><a href="06.html#sec-1"><span class="num">1</span>（一）三步流程</a></li><li><a href="06.html#sec-2"><span class="num">2</span>（二）struct dirent 的字段</a></li><li><a href="06.html#sec-3"><span class="num">3</span>（三）目录自身的增删改查</a></li><li><a href="06.html#sec-4"><span class="num">4</span>（四）递归遍历的正确写法</a></li></ul></div>
+<div class="home-group"><h2><a href="07.html">7. 文件属性：stat 家族与 ls -li 的实现</a></h2><ul class="home-links"><li><a href="07.html#sec-1"><span class="num">1</span>（一）三个函数的分工</a></li><li><a href="07.html#sec-2"><span class="num">2</span>（二）struct stat 关键字段</a></li><li><a href="07.html#sec-3"><span class="num">3</span>（三）st_mode 的位布局</a></li><li><a href="07.html#sec-4"><span class="num">4</span>（四）实现 ls -li</a></li><li><a href="07.html#sec-5"><span class="num">5</span>（五）硬链接与符号链接</a></li></ul></div>
+<div class="home-group"><h2><a href="08.html">8. 进程：概念、状态与管理</a></h2><ul class="home-links"><li><a href="08.html#sec-1"><span class="num">1</span>（一）程序、进程、线程</a></li><li><a href="08.html#sec-2"><span class="num">2</span>（二）进程的资源空间</a></li><li><a href="08.html#sec-3"><span class="num">3</span>（三）进程的三个状态与扩展五态</a></li><li><a href="08.html#sec-4"><span class="num">4</span>（四）查看与管理进程</a></li><li><a href="08.html#sec-5"><span class="num">5</span>（五）0 号、1 号与两类异常进程</a></li></ul></div>
+<div class="home-group"><h2><a href="09.html">9. 进程控制：fork、wait、exit、exec</a></h2><ul class="home-links"><li><a href="09.html#sec-1"><span class="num">1</span>（一）fork：一次调用，两次返回</a></li><li><a href="09.html#sec-2"><span class="num">2</span>（二）经典题型：三次 fork 打印几次</a></li><li><a href="09.html#sec-3"><span class="num">3</span>（三）比「打印几次」更隐蔽的坑：缓冲区复制</a></li><li><a href="09.html#sec-4"><span class="num">4</span>（四）wait 与 waitpid：回收与同步</a></li><li><a href="09.html#sec-5"><span class="num">5</span>（五）exit 与 _exit：缓冲区是否清理</a></li><li><a href="09.html#sec-6"><span class="num">6</span>（六）atexit：退出前的收尾</a></li><li><a href="09.html#sec-7"><span class="num">7</span>（七）vfork：共享地址空间的危险版本</a></li><li><a href="09.html#sec-8"><span class="num">8</span>（八）exec 函数族：换掉自己的躯壳</a></li><li><a href="09.html#sec-9"><span class="num">9</span>（九）system：一行调用 Shell</a></li><li><a href="09.html#sec-10"><span class="num">10</span>（十）glob：按通配符找文件</a></li></ul></div>
+<div class="home-group"><h2><a href="10.html">10. 信号</a></h2><ul class="home-links"><li><a href="10.html#sec-1"><span class="num">1</span>（一）信号与中断的关系</a></li><li><a href="10.html#sec-2"><span class="num">2</span>（二）62 个信号的编号规则</a></li><li><a href="10.html#sec-3"><span class="num">3</span>（三）必须记住的信号</a></li><li><a href="10.html#sec-4"><span class="num">4</span>（四）发送信号：kill 与 raise</a></li><li><a href="10.html#sec-5"><span class="num">5</span>（五）捕获信号：signal</a></li><li><a href="10.html#sec-6"><span class="num">6</span>（六）SIGCHLD：异步回收子进程</a></li><li><a href="10.html#sec-7"><span class="num">7</span>（七）signal 与 sigaction</a></li><li><a href="10.html#sec-8"><span class="num">8</span>（八）完整案例：键盘控制子进程</a></li></ul></div>
+<div class="home-group"><h2><a href="11.html">11. LVGL：嵌入式图形界面</a></h2><ul class="home-links"><li><a href="11.html#sec-1"><span class="num">1</span>（一）定位与取舍</a></li><li><a href="11.html#sec-2"><span class="num">2</span>（二）环境安装</a></li><li><a href="11.html#sec-3"><span class="num">3</span>（三）GUI Guider 的工作流</a></li><li><a href="11.html#sec-4"><span class="num">4</span>（四）生成工程的结构</a></li><li><a href="11.html#sec-5"><span class="num">5</span>（五）两个核心函数</a></li><li><a href="11.html#sec-6"><span class="num">6</span>（六）事件：界面的「信号」</a></li><li><a href="11.html#sec-7"><span class="num">7</span>（七）线程显示时间</a></li><li><a href="11.html#sec-8"><span class="num">8</span>（八）移植中文字库</a></li><li><a href="11.html#sec-9"><span class="num">9</span>（九）LVGL 的移植三要素</a></li></ul></div>
+<div class="home-group"><h2><a href="12.html">12. 综合项目：MP3 播放器与复盘</a></h2><ul class="home-links"><li><a href="12.html#sec-1"><span class="num">1</span>（一）需求拆解</a></li><li><a href="12.html#sec-2"><span class="num">2</span>（二）架构：一个父进程 + 一个「可替换」的子进程</a></li><li><a href="12.html#sec-3"><span class="num">3</span>（三）无界面版骨架</a></li><li><a href="12.html#sec-4"><span class="num">4</span>（四）LVGL 版的接法</a></li><li><a href="12.html#sec-5"><span class="num">5</span>（五）状态机：把边界情况穷举掉</a></li><li><a href="12.html#sec-6"><span class="num">6</span>（六）我的易错点复盘</a></li><li><a href="12.html#sec-7"><span class="num">7</span>（七）高频错误自查清单</a></li><li><a href="12.html#sec-8"><span class="num">8</span>（八）常见报错速查</a></li><li><a href="12.html#sec-9"><span class="num">9</span>（九）命令与头文件速查</a></li></ul></div>
+<div class="home-group"><h2><a href="appendix.html">附录 · 使用说明</a></h2><ul class="home-links"><li><a href="appendix.html#sec-1"><span class="num">1</span>（一）这份笔记和原始 PDF 的关系</a></li><li><a href="appendix.html#sec-2"><span class="num">2</span>（二）三种形态怎么用</a></li><li><a href="appendix.html#sec-3"><span class="num">3</span>（三）内容维护约定</a></li><li><a href="appendix.html#sec-4"><span class="num">4</span>（四）建议的学习顺序</a></li><li><a href="appendix.html#sec-5"><span class="num">5</span>（五）自测题</a></li></ul></div>
+    </article>
+    <hr class="page-rule">
+    <div class="page-footer"><a class="next" href="01.html"><span class="nav-label">开始阅读</span>1. 课程地图：从系统编程到图形界面 →</a></div>
+    <footer class="site-footer">按课程顺序整理的 Linux 系统编程知识库 · 内容源《Linux 系统编程与 LVGL 知识总结》<br>静态站点 · 亮暗模式与全文搜索均在本地运行，无需联网</footer>
+  </div>
+
+  <aside class="right sidebar">
+    <div class="related"><h3>全部章节</h3><ul><li><a href="01.html">1. 课程地图：从系统编程到图形界面</a></li><li><a href="02.html">2. 工程组织：Makefile 与静态库、动态库</a></li><li><a href="03.html">3. 标准 I/O：缓冲文件操作</a></li><li><a href="04.html">4. 系统 I/O：文件描述符与非缓冲操作</a></li><li><a href="05.html">5. 时间编程</a></li><li><a href="06.html">6. 目录操作</a></li><li><a href="07.html">7. 文件属性：stat 家族与 ls -li 的实现</a></li><li><a href="08.html">8. 进程：概念、状态与管理</a></li><li><a href="09.html">9. 进程控制：fork、wait、exit、exec</a></li><li><a href="10.html">10. 信号</a></li><li><a href="11.html">11. LVGL：嵌入式图形界面</a></li><li><a href="12.html">12. 综合项目：MP3 播放器与复盘</a></li><li><a href="appendix.html">附录 · 使用说明</a></li></ul></div>
+  </aside>
+</div>
+
+<div class="search-modal" hidden>
+  <div class="search-panel">
+    <input class="search-bar" type="text" placeholder="搜索内容..." autocomplete="off" aria-label="搜索内容">
+    <ul class="search-results"></ul>
+    <div class="search-hint">↑↓ 选择 · Enter 打开 · Esc 关闭 · 快捷键 / 或 Ctrl+K</div>
+  </div>
+</div>
+<script src="assets/search-index.js"></script>
+<script src="../assets/quartz.js"></script>
+</body>
+</html>

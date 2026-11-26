@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>7. 文件属性：stat 家族与 ls -li 的实现 – Linux系统编程知识库</title>
+<meta name="description" content="按课程顺序整理的 Linux 系统编程与 LVGL 知识主干、完整代码与易错点复盘笔记。">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('cl-notes-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</head>
+<body class="page">
+<div class="mobile-bar">
+  <button class="nav-toggle" aria-label="切换目录">☰</button>
+  <span class="brand">Linux系统编程知识库</span>
+  <button class="search-button" aria-label="搜索" style="margin-left:auto;border:none;"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><span style="margin-left:.35rem">搜索</span></button>
+</div>
+<div id="quartz-body">
+  <aside class="left sidebar">
+    <h2 class="page-title"><a href="index.html">Linux系统编程知识库</a></h2>
+    <div class="sidebar-tools">
+      <button class="search-button" aria-label="搜索"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><p>搜索</p></button>
+      <button class="darkmode" aria-label="切换亮暗模式"><svg class="dayIcon" viewBox="0 0 35 35" aria-hidden="true"><path d="M17.5 7C11.71 7 7 11.71 7 17.5S11.71 28 17.5 28 28 23.29 28 17.5 23.29 7 17.5 7zm0 18c-4.136 0-7.5-3.364-7.5-7.5S13.364 10 17.5 10s7.5 3.364 7.5 7.5S21.636 25 17.5 25zM17.5 6c.829 0 1.5-.672 1.5-1.5v-3C19 .672 18.329 0 17.5 0S16 .672 16 1.5v3C16 5.328 16.671 6 17.5 6zm0 23c-.829 0-1.5.672-1.5 1.5v3c0 .828.671 1.5 1.5 1.5s1.5-.672 1.5-1.5v-3c0-.828-.671-1.5-1.5-1.5zM4.5 16h-3C.672 16 0 16.672 0 17.5S.672 19 1.5 19h3c.828 0 1.5-.672 1.5-1.5S5.328 16 4.5 16zm29 0h-3c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5h3c.828 0 1.5-.672 1.5-1.5S34.328 16 33.5 16zM7.5 26c-.414 0-.789.168-1.061.439l-2 2c-.271.272-.439.647-.439 1.061C4 30.328 4.671 31 5.5 31c.414 0 .789-.168 1.06-.44l2-2c.272-.271.44-.646.44-1.06C9 26.672 8.329 26 7.5 26zm20-18c.414 0 .789-.168 1.06-.439l2-2C30.832 5.289 31 4.914 31 4.5 31 3.672 30.329 3 29.5 3c-.414 0-.789.168-1.061.44l-2 2C26.168 5.711 26 6.086 26 6.5 26 7.328 26.671 8 27.5 8zm2 18c-.828 0-1.5.672-1.5 1.5 0 .414.168.789.439 1.06l2 2c.271.272.646.44 1.061.44.828 0 1.5-.672 1.5-1.5 0-.414-.168-.789-.439-1.061l-2-2c-.272-.271-.647-.439-1.061-.439zM6.439 8.561c.272.271.647.439 1.061.439C8.328 9 9 8.328 9 7.5c0-.414-.168-.789-.439-1.061l-2-2C6.289 4.168 5.914 4 5.5 4 4.672 4 4 4.672 4 5.5c0 .414.168.789.439 1.06l2 2z"/></svg><svg class="nightIcon" viewBox="0 0 100 100" aria-hidden="true"><path d="M96.76 66.458c-.853-.852-2.15-1.064-3.23-.534-6.063 2.991-12.858 4.571-19.655 4.571C62.022 70.495 50.88 65.88 42.5 57.5 29.043 44.043 25.658 23.536 34.076 6.47c.532-1.08.318-2.379-.534-3.23-.851-.852-2.15-1.064-3.23-.534-4.918 2.427-9.375 5.619-13.246 9.491C7.619 21.644 2.416 34.205 2.416 47.566c0 13.36 5.203 25.921 14.65 35.368s22.008 14.65 35.368 14.65c13.361 0 25.921-5.203 35.369-14.65 3.872-3.871 7.064-8.328 9.491-13.246.532-1.08.318-2.379-.534-3.23z"/></svg></button>
+    </div>
+    <div class="explorer">
+      <h2 class="explorer-title">课程目录</h2>
+      <ul class="explorer-list">
+        <li><a class="explorer-link" href="01.html"><span class="explorer-num">1</span><span>课程地图：从系统编程到图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="02.html"><span class="explorer-num">2</span><span>工程组织：Makefile 与静态库、动态库</span></a>
+</li>
+        <li><a class="explorer-link" href="03.html"><span class="explorer-num">3</span><span>标准 I/O：缓冲文件操作</span></a>
+</li>
+        <li><a class="explorer-link" href="04.html"><span class="explorer-num">4</span><span>系统 I/O：文件描述符与非缓冲操作</span></a>
+</li>
+        <li><a class="explorer-link" href="05.html"><span class="explorer-num">5</span><span>时间编程</span></a>
+</li>
+        <li><a class="explorer-link" href="06.html"><span class="explorer-num">6</span><span>目录操作</span></a>
+</li>
+        <li><a class="explorer-link active" href="07.html"><span class="explorer-num">7</span><span>文件属性：stat 家族与 ls -li 的实现</span></a>
+<ul class="explorer-sub"><li><a href="07.html#sec-1">（一）三个函数的分工</a></li><li><a href="07.html#sec-2">（二）struct stat 关键字段</a></li><li><a href="07.html#sec-3">（三）st_mode 的位布局</a></li><li><a href="07.html#sec-4">（四）实现 ls -li</a></li><li><a href="07.html#sec-5">（五）硬链接与符号链接</a></li></ul>
+</li>
+        <li><a class="explorer-link" href="08.html"><span class="explorer-num">8</span><span>进程：概念、状态与管理</span></a>
+</li>
+        <li><a class="explorer-link" href="09.html"><span class="explorer-num">9</span><span>进程控制：fork、wait、exit、exec</span></a>
+</li>
+        <li><a class="explorer-link" href="10.html"><span class="explorer-num">10</span><span>信号</span></a>
+</li>
+        <li><a class="explorer-link" href="11.html"><span class="explorer-num">11</span><span>LVGL：嵌入式图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="12.html"><span class="explorer-num">12</span><span>综合项目：MP3 播放器与复盘</span></a>
+</li>
+        <li><a class="explorer-link" href="appendix.html"><span class="explorer-num">·</span><span>使用说明</span></a></li>
+      </ul>
+    </div>
+    <div class="sidebar-foot">共 13 篇 · 约 42.0 千字<br>按课程顺序整理</div>
+  </aside>
+  <div class="center">
+    <header class="page-header">
+      <nav class="breadcrumb"><a href="index.html">首页</a><span class="sep">❯</span><span>第 7 章</span></nav>
+      <h1 class="article-title">7. 文件属性：stat 家族与 ls -li 的实现</h1>
+    </header>
+    <article>
+<p><code>ls -l</code> 输出的每一列都来自 <code>struct stat</code>。理解这个结构体的位布局，才能真正读懂权限字符串。</p>
+<h2 id="sec-1">（一）三个函数的分工<a class="anchor" href="#sec-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include &lt;sys/types.h&gt;</span>
+<span class="tok-pp">#include &lt;sys/stat.h&gt;</span>
+<span class="tok-pp">#include &lt;unistd.h&gt;</span>
+
+<span class="tok-kw">int</span> <span class="tok-fn">stat</span> (<span class="tok-kw">const</span> <span class="tok-kw">char</span> *pathname, <span class="tok-kw">struct</span> stat *buf);   <span class="tok-com">/* 跟随符号链接 */</span>
+<span class="tok-kw">int</span> <span class="tok-fn">lstat</span>(<span class="tok-kw">const</span> <span class="tok-kw">char</span> *pathname, <span class="tok-kw">struct</span> stat *buf);   <span class="tok-com">/* 不跟随，取链接自身 */</span>
+<span class="tok-kw">int</span> <span class="tok-fn">fstat</span>(<span class="tok-kw">int</span> fd,               <span class="tok-kw">struct</span> stat *buf);   <span class="tok-com">/* 已打开的文件 */</span></code></pre></figure>
+<div class="table-container"><table><thead><tr><th>函数</th><th>输入</th><th>符号链接行为</th><th>典型场景</th></tr></thead><tbody><tr><td><code>stat</code></td><td>路径</td><td>取<strong>目标文件</strong>的属性</td><td>查看链接指向的真实文件大小</td></tr><tr><td><code>lstat</code></td><td>路径</td><td>取<strong>链接自身</strong>的属性</td><td>遍历目录、<code>ls -l</code> 显示 <code>l</code> 类型</td></tr><tr><td><code>fstat</code></td><td>描述符</td><td>对已打开文件操作</td><td>避免 TOCTOU（检查与使用之间被替换）</td></tr></tbody></table></div>
+<h2 id="sec-2">（二）struct stat 关键字段<a class="anchor" href="#sec-2" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<div class="table-container"><table><thead><tr><th>字段</th><th>类型</th><th>含义</th></tr></thead><tbody><tr><td><code>st_dev</code></td><td><code>dev_t</code></td><td>所在设备号</td></tr><tr><td><code>st_ino</code></td><td><code>ino_t</code></td><td>inode 号，同一文件系统内唯一</td></tr><tr><td><code>st_mode</code></td><td><code>mode_t</code></td><td><strong>文件类型 + 权限</strong>，核心字段</td></tr><tr><td><code>st_nlink</code></td><td><code>nlink_t</code></td><td>硬链接数</td></tr><tr><td><code>st_uid</code> / <code>st_gid</code></td><td><code>uid_t</code> / <code>gid_t</code></td><td>属主 / 属组</td></tr><tr><td><code>st_rdev</code></td><td><code>dev_t</code></td><td>设备文件的主次设备号</td></tr><tr><td><code>st_size</code></td><td><code>off_t</code></td><td>文件大小（字节）；目录的大小是目录项占用</td></tr><tr><td><code>st_blksize</code></td><td><code>blksize_t</code></td><td>最优 I/O 块大小，通常 4096</td></tr><tr><td><code>st_blocks</code></td><td><code>blkcnt_t</code></td><td>占用 512 字节块的数量</td></tr><tr><td><code>st_atime</code></td><td><code>time_t</code></td><td>最后访问时间</td></tr><tr><td><code>st_mtime</code></td><td><code>time_t</code></td><td>最后<strong>内容修改</strong>时间</td></tr><tr><td><code>st_ctime</code></td><td><code>time_t</code></td><td>最后<strong>状态改变</strong>时间</td></tr></tbody></table></div>
+<blockquote><p>重要纠正：教材把 <code>st_ctime</code> 注释为「创建时间」，这是错的。Linux 的 <code>ctime</code> 是 <strong>change time</strong>——inode 状态（权限、属主、链接数、内容）任一改变都会更新它，改名、<code>chmod</code> 都会刷新。真正的创建时间需要 <code>statx()</code> 的 <code>STATX_BTIME</code> 字段，且依赖文件系统支持。用 <code>ctime</code> 当「创建时间」会导致「改了权限，创建时间就变了」的诡异现象。</p></blockquote>
+<h2 id="sec-3">（三）st_mode 的位布局<a class="anchor" href="#sec-3" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p><code>st_mode</code> 是 16 位，高 4 位是文件类型，低 12 位是权限（含三位特殊权限）：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="text"><code> 15 14 13 12 | 11 10 9 | 8 7 6 | 5 4 3 | 2 1 0
+ [ 文件类型 ] [ 特殊位 ] [ 属主 ] [ 属组 ] [ 其他 ]
+               S U S G S T   r w x   r w x   r w x</code></pre></figure>
+<p>文件类型取值（八进制）：</p>
+<div class="table-container"><table><thead><tr><th>宏</th><th>值</th><th>字符</th><th>类型</th></tr></thead><tbody><tr><td><code>S_IFREG</code></td><td>0100000</td><td><code>-</code></td><td>普通文件</td></tr><tr><td><code>S_IFDIR</code></td><td>0040000</td><td><code>d</code></td><td>目录</td></tr><tr><td><code>S_IFCHR</code></td><td>0020000</td><td><code>c</code></td><td>字符设备</td></tr><tr><td><code>S_IFBLK</code></td><td>0060000</td><td><code>b</code></td><td>块设备</td></tr><tr><td><code>S_IFIFO</code></td><td>0010000</td><td><code>p</code></td><td>命名管道</td></tr><tr><td><code>S_IFLNK</code></td><td>0120000</td><td><code>l</code></td><td>符号链接</td></tr><tr><td><code>S_IFSOCK</code></td><td>0140000</td><td><code>s</code></td><td>套接字</td></tr></tbody></table></div>
+<p>判断类型优先用宏，可读性和可移植性都更好：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">if</span> (<span class="tok-fn">S_ISREG</span>(st.st_mode))  ch = <span class="tok-str">'-'</span>;
+<span class="tok-kw">else</span> <span class="tok-kw">if</span> (<span class="tok-fn">S_ISDIR</span>(st.st_mode))  ch = <span class="tok-str">'d'</span>;
+<span class="tok-com">/* S_ISCHR / S_ISBLK / S_ISFIFO / S_ISLNK / S_ISSOCK */</span></code></pre></figure>
+<p>权限位宏：<code>S_IRUSR</code>(0400)、<code>S_IWUSR</code>(0200)、<code>S_IXUSR</code>(0100)，<code>GRP</code> 与 <code>OTH</code> 依次右移 3 位、6 位。</p>
+<h2 id="sec-4">（四）实现 ls -li<a class="anchor" href="#sec-4" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include &lt;stdio.h&gt;</span>
+<span class="tok-pp">#include &lt;string.h&gt;</span>
+<span class="tok-pp">#include &lt;stdlib.h&gt;</span>
+<span class="tok-pp">#include &lt;unistd.h&gt;</span>
+<span class="tok-pp">#include &lt;dirent.h&gt;</span>
+<span class="tok-pp">#include &lt;time.h&gt;</span>
+<span class="tok-pp">#include &lt;sys/stat.h&gt;</span>
+<span class="tok-pp">#include &lt;sys/types.h&gt;</span>
+
+<span class="tok-kw">static</span> <span class="tok-kw">char</span> <span class="tok-fn">type_char</span>(mode_t m)
+{
+    <span class="tok-kw">if</span> (<span class="tok-fn">S_ISREG</span>(m))  <span class="tok-kw">return</span> <span class="tok-str">'-'</span>;
+    <span class="tok-kw">if</span> (<span class="tok-fn">S_ISDIR</span>(m))  <span class="tok-kw">return</span> <span class="tok-str">'d'</span>;
+    <span class="tok-kw">if</span> (<span class="tok-fn">S_ISLNK</span>(m))  <span class="tok-kw">return</span> <span class="tok-str">'l'</span>;
+    <span class="tok-kw">if</span> (<span class="tok-fn">S_ISCHR</span>(m))  <span class="tok-kw">return</span> <span class="tok-str">'c'</span>;
+    <span class="tok-kw">if</span> (<span class="tok-fn">S_ISBLK</span>(m))  <span class="tok-kw">return</span> <span class="tok-str">'b'</span>;
+    <span class="tok-kw">if</span> (<span class="tok-fn">S_ISFIFO</span>(m)) <span class="tok-kw">return</span> <span class="tok-str">'p'</span>;
+    <span class="tok-kw">if</span> (<span class="tok-fn">S_ISSOCK</span>(m)) <span class="tok-kw">return</span> <span class="tok-str">'s'</span>;
+    <span class="tok-kw">return</span> <span class="tok-str">'?'</span>;
+}
+
+<span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">mode_str</span>(mode_t m, <span class="tok-kw">char</span> out[<span class="tok-num">11</span>])
+{
+    <span class="tok-kw">const</span> <span class="tok-kw">char</span> rwx[<span class="tok-num">3</span>] = {<span class="tok-str">'r'</span>, <span class="tok-str">'w'</span>, <span class="tok-str">'x'</span>};
+    out[<span class="tok-num">0</span>] = <span class="tok-fn">type_char</span>(m);
+    <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; <span class="tok-num">9</span>; i++) {
+        out[i + <span class="tok-num">1</span>] = (m &amp; (<span class="tok-num">0400</span> &gt;&gt; i)) ? rwx[i % <span class="tok-num">3</span>] : <span class="tok-str">'-'</span>;
+    }
+    out[<span class="tok-num">10</span>] = <span class="tok-str">'\0'</span>;
+}
+
+<span class="tok-kw">int</span> <span class="tok-fn">main</span>(<span class="tok-kw">int</span> argc, <span class="tok-kw">char</span> *argv[])
+{
+    <span class="tok-kw">const</span> <span class="tok-kw">char</span> *path = (argc &gt; <span class="tok-num">1</span>) ? argv[<span class="tok-num">1</span>] : <span class="tok-str">"."</span>;
+    DIR *dir = <span class="tok-fn">opendir</span>(path);
+    <span class="tok-kw">if</span> (!dir) { <span class="tok-fn">perror</span>(<span class="tok-str">"opendir"</span>); <span class="tok-kw">return</span> -<span class="tok-num">1</span>; }
+
+    <span class="tok-kw">struct</span> dirent *e;
+    <span class="tok-kw">while</span> ((e = <span class="tok-fn">readdir</span>(dir)) != <span class="tok-kw">NULL</span>) {
+        <span class="tok-kw">if</span> (e-&gt;d_name[<span class="tok-num">0</span>] == <span class="tok-str">'.'</span>) <span class="tok-kw">continue</span>;        <span class="tok-com">/* 简化：跳过隐藏项 */</span>
+
+        <span class="tok-kw">char</span> full[<span class="tok-num">4096</span>];
+        <span class="tok-fn">snprintf</span>(full, <span class="tok-kw">sizeof</span>(full), <span class="tok-str">"%s/%s"</span>, path, e-&gt;d_name);
+
+        <span class="tok-kw">struct</span> stat st;
+        <span class="tok-kw">if</span> (<span class="tok-fn">lstat</span>(full, &amp;st) &lt; <span class="tok-num">0</span>) { <span class="tok-fn">perror</span>(<span class="tok-str">"lstat"</span>); <span class="tok-kw">continue</span>; }
+
+        <span class="tok-kw">char</span> perm[<span class="tok-num">11</span>];
+        <span class="tok-fn">mode_str</span>(st.st_mode, perm);
+
+        <span class="tok-kw">char</span> tbuf[<span class="tok-num">32</span>];
+        <span class="tok-kw">struct</span> tm tm_buf;
+        <span class="tok-fn">localtime_r</span>(&amp;st.st_mtime, &amp;tm_buf);
+        <span class="tok-fn">strftime</span>(tbuf, <span class="tok-kw">sizeof</span>(tbuf), <span class="tok-str">"%m月 %d %H:%M"</span>, &amp;tm_buf);
+
+        <span class="tok-fn">printf</span>(<span class="tok-str">"%8ld %s %2ld %5ld %s %s\n"</span>,
+               (<span class="tok-kw">long</span>)st.st_ino, perm, (<span class="tok-kw">long</span>)st.st_nlink,
+               (<span class="tok-kw">long</span>)st.st_size, tbuf, e-&gt;d_name);
+    }
+    <span class="tok-fn">closedir</span>(dir);
+    <span class="tok-kw">return</span> <span class="tok-num">0</span>;
+}</code></pre></figure>
+<p>几个实现要点：</p>
+<ul><li><code>st_ino</code> 是 <code>ino_t</code>，打印要显式转 <code>long</code> 或 <code>%ju</code> + <code>uintmax_t</code>，否则 64 位下有告警。</li><li>时间用 <code>localtime_r</code> 而非 <code>localtime</code>，避免静态缓冲区被覆盖。</li><li>权限字符串里的 <code>x</code> 位在 <code>setuid</code>/<code>setgid</code>/<code>sticky</code> 存在时应显示 <code>s</code>/<code>s</code>/<code>t</code>，标准 <code>ls</code> 用 <code>S_ISUID</code> 等宏处理，这是完整复刻的最后一块拼图。</li></ul>
+<h2 id="sec-5">（五）硬链接与符号链接<a class="anchor" href="#sec-5" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<div class="table-container"><table><thead><tr><th>对比项</th><th>硬链接</th><th>符号链接</th></tr></thead><tbody><tr><td>本质</td><td>同一 inode 的新目录项</td><td>独立文件，内容是目标路径</td></tr><tr><td>inode</td><td>与源文件相同</td><td>与源文件不同</td></tr><tr><td><code>st_nlink</code></td><td>增加</td><td>不变</td></tr><tr><td>跨文件系统</td><td>不允许</td><td>允许</td></tr><tr><td>链接目录</td><td>不允许（普通用户）</td><td>允许</td></tr><tr><td>源文件删除</td><td>数据仍在，链接仍可用</td><td>变成断链（dangling）</td></tr><tr><td><code>ls -l</code> 显示</td><td>普通文件</td><td><code>l</code> 类型 + <code>-&gt; 目标</code></td></tr></tbody></table></div>
+<figure data-rehype-pretty-code-figure><pre data-language="bash"><code>ln  src.txt hard.txt     # 硬链接
+ln -s src.txt soft.txt   # 符号链接
+stat -c "%i %h %n" src.txt hard.txt soft.txt</code></pre></figure>
+<blockquote><p>易错点：用 <code>stat</code> 判断符号链接指向的是不是目录，得到的是目标的信息；要判断链接<strong>自身</strong>必须用 <code>lstat</code>。这是递归删除、目录遍历出错的高频原因。</p></blockquote>
+    </article>
+    <hr class="page-rule">
+    <div class="page-footer"><a class="prev" href="06.html"><span class="nav-label">← 上一章</span>6. 目录操作</a><a class="next" href="08.html"><span class="nav-label">下一章 →</span>8. 进程：概念、状态与管理</a></div>
+    <footer class="site-footer">按课程顺序整理的 Linux 系统编程知识库 · 内容源《Linux 系统编程与 LVGL 知识总结》<br>静态站点 · 亮暗模式与全文搜索均在本地运行，无需联网</footer>
+  </div>
+
+  <aside class="right sidebar">
+    <div class="toc"><h3>本页目录</h3><ul><li class="depth-0"><a href="#sec-1" data-for="sec-1">（一）三个函数的分工</a></li><li class="depth-0"><a href="#sec-2" data-for="sec-2">（二）struct stat 关键字段</a></li><li class="depth-0"><a href="#sec-3" data-for="sec-3">（三）st_mode 的位布局</a></li><li class="depth-0"><a href="#sec-4" data-for="sec-4">（四）实现 ls -li</a></li><li class="depth-0"><a href="#sec-5" data-for="sec-5">（五）硬链接与符号链接</a></li></ul></div>
+    <div class="related"><h3>全部章节</h3><ul><li><a href="01.html">1. 课程地图：从系统编程到图形界面</a></li><li><a href="02.html">2. 工程组织：Makefile 与静态库、动态库</a></li><li><a href="03.html">3. 标准 I/O：缓冲文件操作</a></li><li><a href="04.html">4. 系统 I/O：文件描述符与非缓冲操作</a></li><li><a href="05.html">5. 时间编程</a></li><li><a href="06.html">6. 目录操作</a></li><li><a href="07.html">7. 文件属性：stat 家族与 ls -li 的实现</a></li><li><a href="08.html">8. 进程：概念、状态与管理</a></li><li><a href="09.html">9. 进程控制：fork、wait、exit、exec</a></li><li><a href="10.html">10. 信号</a></li><li><a href="11.html">11. LVGL：嵌入式图形界面</a></li><li><a href="12.html">12. 综合项目：MP3 播放器与复盘</a></li><li><a href="appendix.html">附录 · 使用说明</a></li></ul></div>
+  </aside>
+</div>
+
+<div class="search-modal" hidden>
+  <div class="search-panel">
+    <input class="search-bar" type="text" placeholder="搜索内容..." autocomplete="off" aria-label="搜索内容">
+    <ul class="search-results"></ul>
+    <div class="search-hint">↑↓ 选择 · Enter 打开 · Esc 关闭 · 快捷键 / 或 Ctrl+K</div>
+  </div>
+</div>
+<script src="assets/search-index.js"></script>
+<script src="../assets/quartz.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+name: build-linux-notes
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/linux/**"
+      - "tools/build_linux_site.py"
+      - "tools/build_linux_docx.py"
+      - ".github/workflows/build-linux-notes.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-linux-notes
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 安装依赖
+        run: pip install --quiet python-docx
+
+      - name: 生成网页版
+        run: python tools/build_linux_site.py
+
+      - name: 生成 Word 版
+        run: python tools/build_linux_docx.py
+
+      - name: 回写生成物
+        continue-on-error: true
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/linux notes/linux
+          if git diff --cached --quiet; then
+            echo "生成物无变化"
+          else
+            git commit -m "chore(linux): 重新生成网页版与 Word 版 [skip ci]"
+            git push
+          fi

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5. 时间编程 – Linux系统编程知识库</title>
+<meta name="description" content="按课程顺序整理的 Linux 系统编程与 LVGL 知识主干、完整代码与易错点复盘笔记。">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('cl-notes-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</head>
+<body class="page">
+<div class="mobile-bar">
+  <button class="nav-toggle" aria-label="切换目录">☰</button>
+  <span class="brand">Linux系统编程知识库</span>
+  <button class="search-button" aria-label="搜索" style="margin-left:auto;border:none;"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><span style="margin-left:.35rem">搜索</span></button>
+</div>
+<div id="quartz-body">
+  <aside class="left sidebar">
+    <h2 class="page-title"><a href="index.html">Linux系统编程知识库</a></h2>
+    <div class="sidebar-tools">
+      <button class="search-button" aria-label="搜索"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><p>搜索</p></button>
+      <button class="darkmode" aria-label="切换亮暗模式"><svg class="dayIcon" viewBox="0 0 35 35" aria-hidden="true"><path d="M17.5 7C11.71 7 7 11.71 7 17.5S11.71 28 17.5 28 28 23.29 28 17.5 23.29 7 17.5 7zm0 18c-4.136 0-7.5-3.364-7.5-7.5S13.364 10 17.5 10s7.5 3.364 7.5 7.5S21.636 25 17.5 25zM17.5 6c.829 0 1.5-.672 1.5-1.5v-3C19 .672 18.329 0 17.5 0S16 .672 16 1.5v3C16 5.328 16.671 6 17.5 6zm0 23c-.829 0-1.5.672-1.5 1.5v3c0 .828.671 1.5 1.5 1.5s1.5-.672 1.5-1.5v-3c0-.828-.671-1.5-1.5-1.5zM4.5 16h-3C.672 16 0 16.672 0 17.5S.672 19 1.5 19h3c.828 0 1.5-.672 1.5-1.5S5.328 16 4.5 16zm29 0h-3c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5h3c.828 0 1.5-.672 1.5-1.5S34.328 16 33.5 16zM7.5 26c-.414 0-.789.168-1.061.439l-2 2c-.271.272-.439.647-.439 1.061C4 30.328 4.671 31 5.5 31c.414 0 .789-.168 1.06-.44l2-2c.272-.271.44-.646.44-1.06C9 26.672 8.329 26 7.5 26zm20-18c.414 0 .789-.168 1.06-.439l2-2C30.832 5.289 31 4.914 31 4.5 31 3.672 30.329 3 29.5 3c-.414 0-.789.168-1.061.44l-2 2C26.168 5.711 26 6.086 26 6.5 26 7.328 26.671 8 27.5 8zm2 18c-.828 0-1.5.672-1.5 1.5 0 .414.168.789.439 1.06l2 2c.271.272.646.44 1.061.44.828 0 1.5-.672 1.5-1.5 0-.414-.168-.789-.439-1.061l-2-2c-.272-.271-.647-.439-1.061-.439zM6.439 8.561c.272.271.647.439 1.061.439C8.328 9 9 8.328 9 7.5c0-.414-.168-.789-.439-1.061l-2-2C6.289 4.168 5.914 4 5.5 4 4.672 4 4 4.672 4 5.5c0 .414.168.789.439 1.06l2 2z"/></svg><svg class="nightIcon" viewBox="0 0 100 100" aria-hidden="true"><path d="M96.76 66.458c-.853-.852-2.15-1.064-3.23-.534-6.063 2.991-12.858 4.571-19.655 4.571C62.022 70.495 50.88 65.88 42.5 57.5 29.043 44.043 25.658 23.536 34.076 6.47c.532-1.08.318-2.379-.534-3.23-.851-.852-2.15-1.064-3.23-.534-4.918 2.427-9.375 5.619-13.246 9.491C7.619 21.644 2.416 34.205 2.416 47.566c0 13.36 5.203 25.921 14.65 35.368s22.008 14.65 35.368 14.65c13.361 0 25.921-5.203 35.369-14.65 3.872-3.871 7.064-8.328 9.491-13.246.532-1.08.318-2.379-.534-3.23z"/></svg></button>
+    </div>
+    <div class="explorer">
+      <h2 class="explorer-title">课程目录</h2>
+      <ul class="explorer-list">
+        <li><a class="explorer-link" href="01.html"><span class="explorer-num">1</span><span>课程地图：从系统编程到图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="02.html"><span class="explorer-num">2</span><span>工程组织：Makefile 与静态库、动态库</span></a>
+</li>
+        <li><a class="explorer-link" href="03.html"><span class="explorer-num">3</span><span>标准 I/O：缓冲文件操作</span></a>
+</li>
+        <li><a class="explorer-link" href="04.html"><span class="explorer-num">4</span><span>系统 I/O：文件描述符与非缓冲操作</span></a>
+</li>
+        <li><a class="explorer-link active" href="05.html"><span class="explorer-num">5</span><span>时间编程</span></a>
+<ul class="explorer-sub"><li><a href="05.html#sec-1">（一）命令行工具</a></li><li><a href="05.html#sec-2">（二）time：取日历时间</a></li><li><a href="05.html#sec-3">（三）struct tm 与转换函数</a></li><li><a href="05.html#sec-4">（四）strftime 常用格式符</a></li><li><a href="05.html#sec-5">（五）完整案例：每 5 秒建一个带时间戳的文件</a></li><li><a href="05.html#sec-6">（六）延时与计时</a></li></ul>
+</li>
+        <li><a class="explorer-link" href="06.html"><span class="explorer-num">6</span><span>目录操作</span></a>
+</li>
+        <li><a class="explorer-link" href="07.html"><span class="explorer-num">7</span><span>文件属性：stat 家族与 ls -li 的实现</span></a>
+</li>
+        <li><a class="explorer-link" href="08.html"><span class="explorer-num">8</span><span>进程：概念、状态与管理</span></a>
+</li>
+        <li><a class="explorer-link" href="09.html"><span class="explorer-num">9</span><span>进程控制：fork、wait、exit、exec</span></a>
+</li>
+        <li><a class="explorer-link" href="10.html"><span class="explorer-num">10</span><span>信号</span></a>
+</li>
+        <li><a class="explorer-link" href="11.html"><span class="explorer-num">11</span><span>LVGL：嵌入式图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="12.html"><span class="explorer-num">12</span><span>综合项目：MP3 播放器与复盘</span></a>
+</li>
+        <li><a class="explorer-link" href="appendix.html"><span class="explorer-num">·</span><span>使用说明</span></a></li>
+      </ul>
+    </div>
+    <div class="sidebar-foot">共 13 篇 · 约 42.0 千字<br>按课程顺序整理</div>
+  </aside>
+  <div class="center">
+    <header class="page-header">
+      <nav class="breadcrumb"><a href="index.html">首页</a><span class="sep">❯</span><span>第 5 章</span></nav>
+      <h1 class="article-title">5. 时间编程</h1>
+    </header>
+    <article>
+<p>嵌入式与系统编程里的「时间」有三层含义：<strong>日历时间</strong>（人类可读）、<strong>时间戳</strong>（秒数）、<strong>单调时间</strong>（只增不减的计数器）。混用会写出「系统改时间后定时器错乱」这类隐蔽 bug。</p>
+<h2 id="sec-1">（一）命令行工具<a class="anchor" href="#sec-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="bash"><code>date                    # 当前日期时间
+date +"%F %T"           # 格式化输出 2026-11-25 19:20:44
+date -d "1970-01-01 UTC 1700000000 seconds"   # 时间戳反解
+cal                     # 本月日历
+cal 2026                # 整年
+cal 11 2026             # 指定年月</code></pre></figure>
+<h2 id="sec-2">（二）time：取日历时间<a class="anchor" href="#sec-2" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include &lt;time.h&gt;</span>
+time_t <span class="tok-fn">time</span>(time_t *tloc);</code></pre></figure>
+<p>返回<strong>自 1970-01-01 00:00:00 UTC 起经过的秒数</strong>（Unix 时间戳）。参数可为 <code>NULL</code>，也可传入地址由函数回填。两种写法等价：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code>time_t t = <span class="tok-fn">time</span>(<span class="tok-kw">NULL</span>);
+time_t t; <span class="tok-fn">time</span>(&amp;t);</code></pre></figure>
+<p><code>time_t</code> 在 32 位系统上是 32 位有符号整数，最大到 2038-01-19 03:14:07，这就是「2038 问题」。现代 64 位 Linux 已改为 64 位。</p>
+<h2 id="sec-3">（三）struct tm 与转换函数<a class="anchor" href="#sec-3" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">struct</span> tm {
+    <span class="tok-kw">int</span> tm_sec;    <span class="tok-com">/* 秒 0-60（60 用于闰秒） */</span>
+    <span class="tok-kw">int</span> tm_min;    <span class="tok-com">/* 分 0-59 */</span>
+    <span class="tok-kw">int</span> tm_hour;   <span class="tok-com">/* 时 0-23 */</span>
+    <span class="tok-kw">int</span> tm_mday;   <span class="tok-com">/* 日 1-31 */</span>
+    <span class="tok-kw">int</span> tm_mon;    <span class="tok-com">/* 月 0-11  ← 从 0 开始 */</span>
+    <span class="tok-kw">int</span> tm_year;   <span class="tok-com">/* 年 -1900 ← 需加 1900 */</span>
+    <span class="tok-kw">int</span> tm_wday;   <span class="tok-com">/* 星期 0-6，周日为 0 */</span>
+    <span class="tok-kw">int</span> tm_yday;   <span class="tok-com">/* 年内第几天 0-365 */</span>
+    <span class="tok-kw">int</span> tm_isdst;  <span class="tok-com">/* 夏令时标志 */</span>
+};</code></pre></figure>
+<div class="table-container"><table><thead><tr><th>函数</th><th>原型</th><th>作用</th></tr></thead><tbody><tr><td><code>localtime</code></td><td><code>struct tm *localtime(const time_t *)</code></td><td>秒数 → 本地时间</td></tr><tr><td><code>gmtime</code></td><td><code>struct tm *gmtime(const time_t *)</code></td><td>秒数 → UTC（比北京时间慢 8 小时）</td></tr><tr><td><code>ctime</code></td><td><code>char *ctime(const time_t *)</code></td><td>秒数 → 固定格式字符串</td></tr><tr><td><code>asctime</code></td><td><code>char *asctime(const struct tm *)</code></td><td>结构体 → 固定格式字符串</td></tr><tr><td><code>strftime</code></td><td><code>size_t strftime(char *, size_t, const char *, const struct tm *)</code></td><td>结构体 → 自定义格式</td></tr><tr><td><code>mktime</code></td><td><code>time_t mktime(struct tm *)</code></td><td>本地时间结构体 → 秒数（逆向）</td></tr></tbody></table></div>
+<blockquote><p>严重易错点：<code>localtime</code> 与 <code>gmtime</code> 返回的是<strong>指向静态全局变量的指针</strong>。连续调用两次，第一次的结果会被覆盖：</p></blockquote>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">struct</span> tm *a = <span class="tok-fn">localtime</span>(&amp;t1);
+<span class="tok-kw">struct</span> tm *b = <span class="tok-fn">localtime</span>(&amp;t2);
+<span class="tok-fn">printf</span>(<span class="tok-str">"%d"</span>, a-&gt;tm_hour);   <span class="tok-com">/* 已经是 t2 的值！ */</span></code></pre></figure>
+<p>多线程环境必须用可重入版本 <code>localtime_r</code> / <code>gmtime_r</code>（POSIX 扩展，需定义 <code>_POSIX_C_SOURCE</code> 或在 Linux 下直接可用）：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">struct</span> tm tm_buf;
+<span class="tok-fn">localtime_r</span>(&amp;t, &amp;tm_buf);</code></pre></figure>
+<h2 id="sec-4">（四）strftime 常用格式符<a class="anchor" href="#sec-4" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<div class="table-container"><table><thead><tr><th>符</th><th>含义</th><th>示例</th></tr></thead><tbody><tr><td><code>%Y</code></td><td>四位年</td><td>2026</td></tr><tr><td><code>%m</code></td><td>两位月</td><td>11</td></tr><tr><td><code>%d</code></td><td>两位日</td><td>25</td></tr><tr><td><code>%H</code> <code>%M</code> <code>%S</code></td><td>时 分 秒</td><td>19 20 44</td></tr><tr><td><code>%F</code></td><td>等价 <code>%Y-%m-%d</code></td><td>2026-11-25</td></tr><tr><td><code>%T</code></td><td>等价 <code>%H:%M:%S</code></td><td>19:20:44</td></tr><tr><td><code>%A</code> <code>%B</code></td><td>星期全名、月全名</td><td>Wednesday / November</td></tr><tr><td><code>%j</code></td><td>年内第几天</td><td>329</td></tr><tr><td><code>%p</code></td><td>AM / PM</td><td>PM</td></tr><tr><td><code>%s</code></td><td>Unix 时间戳</td><td>1795605644</td></tr><tr><td><code>%%</code></td><td>百分号本身</td><td>%</td></tr></tbody></table></div>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">char</span> buf[<span class="tok-num">64</span>] = {<span class="tok-num">0</span>};
+<span class="tok-fn">strftime</span>(buf, <span class="tok-kw">sizeof</span>(buf), <span class="tok-str">"%F %T"</span>, &amp;tm_buf);    <span class="tok-com">/* 2026-11-25 19:20:44 */</span></code></pre></figure>
+<blockquote><p>易错点：<code>strftime</code> 返回 0 有两种可能——格式化结果为空串，或<strong>缓冲区不足</strong>。判断失败要看 <code>errno</code>，不能只看返回值。</p></blockquote>
+<h2 id="sec-5">（五）完整案例：每 5 秒建一个带时间戳的文件<a class="anchor" href="#sec-5" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include &lt;stdio.h&gt;</span>
+<span class="tok-pp">#include &lt;string.h&gt;</span>
+<span class="tok-pp">#include &lt;unistd.h&gt;</span>
+<span class="tok-pp">#include &lt;fcntl.h&gt;</span>
+<span class="tok-pp">#include &lt;time.h&gt;</span>
+
+<span class="tok-kw">int</span> <span class="tok-fn">main</span>(<span class="tok-kw">void</span>)
+{
+    <span class="tok-kw">for</span> (<span class="tok-kw">int</span> cnt = <span class="tok-num">1</span>; cnt &lt;= <span class="tok-num">10</span>; cnt++) {
+        time_t t = <span class="tok-fn">time</span>(<span class="tok-kw">NULL</span>);
+        <span class="tok-kw">struct</span> tm *lt = <span class="tok-fn">localtime</span>(&amp;t);
+
+        <span class="tok-kw">char</span> name[<span class="tok-num">64</span>] = {<span class="tok-num">0</span>};
+        <span class="tok-fn">strftime</span>(name, <span class="tok-kw">sizeof</span>(name), <span class="tok-str">"%F %T"</span>, lt);
+        <span class="tok-fn">strcat</span>(name, <span class="tok-str">".txt"</span>);
+
+        <span class="tok-kw">int</span> fd = <span class="tok-fn">open</span>(name, O_WRONLY | O_CREAT | O_TRUNC, <span class="tok-num">0666</span>);
+        <span class="tok-kw">if</span> (fd &lt; <span class="tok-num">0</span>) { <span class="tok-fn">perror</span>(<span class="tok-str">"open"</span>); <span class="tok-kw">return</span> -<span class="tok-num">1</span>; }
+
+        <span class="tok-kw">char</span> content[<span class="tok-num">64</span>] = {<span class="tok-num">0</span>};
+        <span class="tok-kw">int</span> len = <span class="tok-fn">snprintf</span>(content, <span class="tok-kw">sizeof</span>(content), <span class="tok-str">"这是我创建的第%d 个文件"</span>, cnt);
+        <span class="tok-fn">write</span>(fd, content, len);
+        <span class="tok-fn">close</span>(fd);
+
+        <span class="tok-kw">if</span> (cnt &lt; <span class="tok-num">10</span>) <span class="tok-fn">sleep</span>(<span class="tok-num">5</span>);
+    }
+    <span class="tok-kw">return</span> <span class="tok-num">0</span>;
+}</code></pre></figure>
+<p>教材版本用 <code>sleep(3)</code>，与「每 5 秒」的需求不符；另外 <code>strcat</code> 前必须保证 <code>name</code> 以 <code>\0</code> 结尾（<code>strftime</code> 成功时会写结束符，但失败时不保证）。</p>
+<blockquote><p>扩展 · 更稳的写法：用 <code>snprintf</code> 一次成型，避免 <code>strftime</code> + <code>strcat</code> 两步：</p></blockquote>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">char</span> name[<span class="tok-num">64</span>];
+<span class="tok-kw">struct</span> tm lt; <span class="tok-fn">localtime_r</span>(&amp;t, &amp;lt);
+<span class="tok-fn">snprintf</span>(name, <span class="tok-kw">sizeof</span>(name), <span class="tok-str">"%04d-%02d-%02d %02d:%02d:%02d.txt"</span>,
+         lt.tm_year + <span class="tok-num">1900</span>, lt.tm_mon + <span class="tok-num">1</span>, lt.tm_mday,
+         lt.tm_hour, lt.tm_min, lt.tm_sec);</code></pre></figure>
+<h2 id="sec-6">（六）延时与计时<a class="anchor" href="#sec-6" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<div class="table-container"><table><thead><tr><th>函数</th><th>精度</th><th>可被信号中断</th><th>说明</th></tr></thead><tbody><tr><td><code>sleep(n)</code></td><td>秒</td><td>是，返回剩余秒数</td><td>最常用</td></tr><tr><td><code>usleep(us)</code></td><td>微秒</td><td>是</td><td>已废弃</td></tr><tr><td><code>nanosleep(&amp;req, &amp;rem)</code></td><td>纳秒</td><td>是，<code>rem</code> 给出剩余</td><td>推荐，精度最高</td></tr><tr><td><code>clock_gettime(CLOCK_MONOTONIC, &amp;ts)</code></td><td>纳秒</td><td>否</td><td>测耗时<strong>必须</strong>用它</td></tr></tbody></table></div>
+<blockquote><p>扩展 · 为什么测耗时不能用 <code>time()</code>：<code>time()</code> 的分辨率是 1 秒，且会被系统对时（NTP）向前或向后调整。<code>CLOCK_MONOTONIC</code> 从开机起单调递增，不受改时间影响，是测量时间间隔的唯一正确选择。</p></blockquote>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">struct</span> timespec a, b;
+<span class="tok-fn">clock_gettime</span>(CLOCK_MONOTONIC, &amp;a);
+<span class="tok-com">/* ... 被测代码 ... */</span>
+<span class="tok-fn">clock_gettime</span>(CLOCK_MONOTONIC, &amp;b);
+<span class="tok-kw">double</span> ms = (b.tv_sec - a.tv_sec) * <span class="tok-num">1000.0</span> + (b.tv_nsec - a.tv_nsec) / <span class="tok-num">1e6</span>;</code></pre></figure>
+    </article>
+    <hr class="page-rule">
+    <div class="page-footer"><a class="prev" href="04.html"><span class="nav-label">← 上一章</span>4. 系统 I/O：文件描述符与非缓冲操作</a><a class="next" href="06.html"><span class="nav-label">下一章 →</span>6. 目录操作</a></div>
+    <footer class="site-footer">按课程顺序整理的 Linux 系统编程知识库 · 内容源《Linux 系统编程与 LVGL 知识总结》<br>静态站点 · 亮暗模式与全文搜索均在本地运行，无需联网</footer>
+  </div>
+
+  <aside class="right sidebar">
+    <div class="toc"><h3>本页目录</h3><ul><li class="depth-0"><a href="#sec-1" data-for="sec-1">（一）命令行工具</a></li><li class="depth-0"><a href="#sec-2" data-for="sec-2">（二）time：取日历时间</a></li><li class="depth-0"><a href="#sec-3" data-for="sec-3">（三）struct tm 与转换函数</a></li><li class="depth-0"><a href="#sec-4" data-for="sec-4">（四）strftime 常用格式符</a></li><li class="depth-0"><a href="#sec-5" data-for="sec-5">（五）完整案例：每 5 秒建一个带时间戳的文件</a></li><li class="depth-0"><a href="#sec-6" data-for="sec-6">（六）延时与计时</a></li></ul></div>
+    <div class="related"><h3>全部章节</h3><ul><li><a href="01.html">1. 课程地图：从系统编程到图形界面</a></li><li><a href="02.html">2. 工程组织：Makefile 与静态库、动态库</a></li><li><a href="03.html">3. 标准 I/O：缓冲文件操作</a></li><li><a href="04.html">4. 系统 I/O：文件描述符与非缓冲操作</a></li><li><a href="05.html">5. 时间编程</a></li><li><a href="06.html">6. 目录操作</a></li><li><a href="07.html">7. 文件属性：stat 家族与 ls -li 的实现</a></li><li><a href="08.html">8. 进程：概念、状态与管理</a></li><li><a href="09.html">9. 进程控制：fork、wait、exit、exec</a></li><li><a href="10.html">10. 信号</a></li><li><a href="11.html">11. LVGL：嵌入式图形界面</a></li><li><a href="12.html">12. 综合项目：MP3 播放器与复盘</a></li><li><a href="appendix.html">附录 · 使用说明</a></li></ul></div>
+  </aside>
+</div>
+
+<div class="search-modal" hidden>
+  <div class="search-panel">
+    <input class="search-bar" type="text" placeholder="搜索内容..." autocomplete="off" aria-label="搜索内容">
+    <ul class="search-results"></ul>
+    <div class="search-hint">↑↓ 选择 · Enter 打开 · Esc 关闭 · 快捷键 / 或 Ctrl+K</div>
+  </div>
+</div>
+<script src="assets/search-index.js"></script>
+<script src="../assets/quartz.js"></script>
+</body>
+</html>

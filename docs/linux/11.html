@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>11. LVGL：嵌入式图形界面 – Linux系统编程知识库</title>
+<meta name="description" content="按课程顺序整理的 Linux 系统编程与 LVGL 知识主干、完整代码与易错点复盘笔记。">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('cl-notes-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</head>
+<body class="page">
+<div class="mobile-bar">
+  <button class="nav-toggle" aria-label="切换目录">☰</button>
+  <span class="brand">Linux系统编程知识库</span>
+  <button class="search-button" aria-label="搜索" style="margin-left:auto;border:none;"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><span style="margin-left:.35rem">搜索</span></button>
+</div>
+<div id="quartz-body">
+  <aside class="left sidebar">
+    <h2 class="page-title"><a href="index.html">Linux系统编程知识库</a></h2>
+    <div class="sidebar-tools">
+      <button class="search-button" aria-label="搜索"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><p>搜索</p></button>
+      <button class="darkmode" aria-label="切换亮暗模式"><svg class="dayIcon" viewBox="0 0 35 35" aria-hidden="true"><path d="M17.5 7C11.71 7 7 11.71 7 17.5S11.71 28 17.5 28 28 23.29 28 17.5 23.29 7 17.5 7zm0 18c-4.136 0-7.5-3.364-7.5-7.5S13.364 10 17.5 10s7.5 3.364 7.5 7.5S21.636 25 17.5 25zM17.5 6c.829 0 1.5-.672 1.5-1.5v-3C19 .672 18.329 0 17.5 0S16 .672 16 1.5v3C16 5.328 16.671 6 17.5 6zm0 23c-.829 0-1.5.672-1.5 1.5v3c0 .828.671 1.5 1.5 1.5s1.5-.672 1.5-1.5v-3c0-.828-.671-1.5-1.5-1.5zM4.5 16h-3C.672 16 0 16.672 0 17.5S.672 19 1.5 19h3c.828 0 1.5-.672 1.5-1.5S5.328 16 4.5 16zm29 0h-3c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5h3c.828 0 1.5-.672 1.5-1.5S34.328 16 33.5 16zM7.5 26c-.414 0-.789.168-1.061.439l-2 2c-.271.272-.439.647-.439 1.061C4 30.328 4.671 31 5.5 31c.414 0 .789-.168 1.06-.44l2-2c.272-.271.44-.646.44-1.06C9 26.672 8.329 26 7.5 26zm20-18c.414 0 .789-.168 1.06-.439l2-2C30.832 5.289 31 4.914 31 4.5 31 3.672 30.329 3 29.5 3c-.414 0-.789.168-1.061.44l-2 2C26.168 5.711 26 6.086 26 6.5 26 7.328 26.671 8 27.5 8zm2 18c-.828 0-1.5.672-1.5 1.5 0 .414.168.789.439 1.06l2 2c.271.272.646.44 1.061.44.828 0 1.5-.672 1.5-1.5 0-.414-.168-.789-.439-1.061l-2-2c-.272-.271-.647-.439-1.061-.439zM6.439 8.561c.272.271.647.439 1.061.439C8.328 9 9 8.328 9 7.5c0-.414-.168-.789-.439-1.061l-2-2C6.289 4.168 5.914 4 5.5 4 4.672 4 4 4.672 4 5.5c0 .414.168.789.439 1.06l2 2z"/></svg><svg class="nightIcon" viewBox="0 0 100 100" aria-hidden="true"><path d="M96.76 66.458c-.853-.852-2.15-1.064-3.23-.534-6.063 2.991-12.858 4.571-19.655 4.571C62.022 70.495 50.88 65.88 42.5 57.5 29.043 44.043 25.658 23.536 34.076 6.47c.532-1.08.318-2.379-.534-3.23-.851-.852-2.15-1.064-3.23-.534-4.918 2.427-9.375 5.619-13.246 9.491C7.619 21.644 2.416 34.205 2.416 47.566c0 13.36 5.203 25.921 14.65 35.368s22.008 14.65 35.368 14.65c13.361 0 25.921-5.203 35.369-14.65 3.872-3.871 7.064-8.328 9.491-13.246.532-1.08.318-2.379-.534-3.23z"/></svg></button>
+    </div>
+    <div class="explorer">
+      <h2 class="explorer-title">课程目录</h2>
+      <ul class="explorer-list">
+        <li><a class="explorer-link" href="01.html"><span class="explorer-num">1</span><span>课程地图：从系统编程到图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="02.html"><span class="explorer-num">2</span><span>工程组织：Makefile 与静态库、动态库</span></a>
+</li>
+        <li><a class="explorer-link" href="03.html"><span class="explorer-num">3</span><span>标准 I/O：缓冲文件操作</span></a>
+</li>
+        <li><a class="explorer-link" href="04.html"><span class="explorer-num">4</span><span>系统 I/O：文件描述符与非缓冲操作</span></a>
+</li>
+        <li><a class="explorer-link" href="05.html"><span class="explorer-num">5</span><span>时间编程</span></a>
+</li>
+        <li><a class="explorer-link" href="06.html"><span class="explorer-num">6</span><span>目录操作</span></a>
+</li>
+        <li><a class="explorer-link" href="07.html"><span class="explorer-num">7</span><span>文件属性：stat 家族与 ls -li 的实现</span></a>
+</li>
+        <li><a class="explorer-link" href="08.html"><span class="explorer-num">8</span><span>进程：概念、状态与管理</span></a>
+</li>
+        <li><a class="explorer-link" href="09.html"><span class="explorer-num">9</span><span>进程控制：fork、wait、exit、exec</span></a>
+</li>
+        <li><a class="explorer-link" href="10.html"><span class="explorer-num">10</span><span>信号</span></a>
+</li>
+        <li><a class="explorer-link active" href="11.html"><span class="explorer-num">11</span><span>LVGL：嵌入式图形界面</span></a>
+<ul class="explorer-sub"><li><a href="11.html#sec-1">（一）定位与取舍</a></li><li><a href="11.html#sec-2">（二）环境安装</a></li><li><a href="11.html#sec-3">（三）GUI Guider 的工作流</a></li><li><a href="11.html#sec-4">（四）生成工程的结构</a></li><li><a href="11.html#sec-5">（五）两个核心函数</a></li><li><a href="11.html#sec-6">（六）事件：界面的「信号」</a></li><li><a href="11.html#sec-7">（七）线程显示时间</a></li><li><a href="11.html#sec-8">（八）移植中文字库</a></li><li><a href="11.html#sec-9">（九）LVGL 的移植三要素</a></li></ul>
+</li>
+        <li><a class="explorer-link" href="12.html"><span class="explorer-num">12</span><span>综合项目：MP3 播放器与复盘</span></a>
+</li>
+        <li><a class="explorer-link" href="appendix.html"><span class="explorer-num">·</span><span>使用说明</span></a></li>
+      </ul>
+    </div>
+    <div class="sidebar-foot">共 13 篇 · 约 42.0 千字<br>按课程顺序整理</div>
+  </aside>
+  <div class="center">
+    <header class="page-header">
+      <nav class="breadcrumb"><a href="index.html">首页</a><span class="sep">❯</span><span>第 11 章</span></nav>
+      <h1 class="article-title">11. LVGL：嵌入式图形界面</h1>
+    </header>
+    <article>
+<p>LVGL（Light and Versatile Graphics Library）是一个纯 C 的嵌入式 GUI 库，用「对象树 + 样式 + 事件」三件套描述界面，能在裸机（无操作系统）或 RTOS/Linux 上运行。</p>
+<h2 id="sec-1">（一）定位与取舍<a class="anchor" href="#sec-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<div class="table-container"><table><thead><tr><th>对比项</th><th>LVGL</th><th>Qt</th></tr></thead><tbody><tr><td>语言</td><td>C</td><td>C++</td></tr><tr><td>最小内存</td><td>几十 KB 级</td><td>几十 MB 级</td></tr><tr><td>运行环境</td><td>裸机 / RTOS / Linux</td><td>需要完整 OS</td></tr><tr><td>渲染</td><td>软件绘制为主</td><td>可硬件加速</td></tr><tr><td>适用</td><td>MCU、资源受限设备</td><td>应用处理器、桌面</td></tr></tbody></table></div>
+<p>课程的原话是「Qt → C++，驱动阶段」，意思是：先把驱动层打通，再用 LVGL 快速搭界面，两者是不同层次的工具，不是替代关系。</p>
+<p>LVGL 的五个特点：<strong>轻量</strong>（资源受限可用）、<strong>跨平台</strong>（裸机到 Linux）、<strong>组件丰富</strong>（按钮、图表、列表、滑块、图片按钮）、<strong>支持多种显示接口</strong>（单色、彩色 LCD/TFT）、<strong>文档与示例完善</strong>。</p>
+<h2 id="sec-2">（二）环境安装<a class="anchor" href="#sec-2" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="bash"><code><span class="tok-com"># 1. 安装 SDL2，模拟器用它开一个窗口当屏幕</span>
+sudo apt-get update
+sudo apt-get install libsdl2-dev
+
+<span class="tok-com"># 2. 安装 GUI Guider（可视化设计器）</span>
+sudo dpkg -i Gui-Guider-Setup-1.2.1-GA.deb
+
+<span class="tok-com"># 3. 若报依赖缺失，自动补齐后重装</span>
+sudo apt-get install -f
+sudo dpkg -i Gui-Guider-Setup-1.2.1-GA.deb</code></pre></figure>
+<blockquote><p>易错点：<code>apt</code> 报「暂时不能解析域名」不是软件包问题，而是网络/DNS 问题。先 <code>ping baidu.com</code> 确认联网，再检查 <code>/etc/resolv.conf</code> 与软件源（换国内镜像）。</p></blockquote>
+<h2 id="sec-3">（三）GUI Guider 的工作流<a class="anchor" href="#sec-3" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="text"><code>设计界面 → 设置中文字体 / 放置图片 → 添加事件 → 生成代码 → 编译运行 → 移植到目标板</code></pre></figure>
+<p>关键区别：</p>
+<ul><li><strong>生成代码（Generate Code）</strong>：把界面导出成一个完整工程，包含 <code>main.c</code>、<code>Makefile</code>、<code>lvgl</code> 源码、生成的界面代码。</li><li><strong>运行模拟器（Simulator）</strong>：只做预览，不产出可移植代码。</li></ul>
+<h2 id="sec-4">（四）生成工程的结构<a class="anchor" href="#sec-4" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<div class="table-container"><table><thead><tr><th>路径</th><th>内容</th><th>是否可改</th></tr></thead><tbody><tr><td><code>lvgl-simulator/</code></td><td><code>main.c</code>、<code>Makefile</code>，编译产物在 <code>build/bin/</code></td><td><strong>可改</strong>（主入口）</td></tr><tr><td><code>custom/</code></td><td>用户自己的 <code>.c</code> / <code>.h</code></td><td><strong>可改</strong>（业务逻辑放这里）</td></tr><tr><td><code>generated/</code></td><td>图片字模、汉字字模、<code>events_init.c</code>（事件代码）、<code>setup_scr_screen.c</code>（界面布局）</td><td>一般不改，重新生成会覆盖</td></tr><tr><td><code>lvgl/</code></td><td>LVGL 图形库源码</td><td>不改</td></tr></tbody></table></div>
+<blockquote><p>铁律：业务代码写 <code>custom/</code>，界面代码交给 <code>generated/</code>。直接改 <code>generated/</code> 的文件，下次点「生成代码」就全丢了——这与本仓库 README 里「改 Markdown 不改生成物」是同一条原则。</p></blockquote>
+<h2 id="sec-5">（五）两个核心函数<a class="anchor" href="#sec-5" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-com">/* 设置 label 的文本 */</span>
+<span class="tok-kw">void</span> <span class="tok-fn">lv_label_set_text</span>(lv_obj_t *label, <span class="tok-kw">const</span> <span class="tok-kw">char</span> *text);</code></pre></figure>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-fn">lv_label_set_text</span>(guider_ui.screen_label_year, <span class="tok-str">"2026-11-23"</span>);</code></pre></figure>
+<p>第二个参数是 <code>const char *</code>，传入的字符串会被 LVGL 复制（<code>lv_label_set_text</code> 内部 <code>strdup</code>），所以传栈上局部数组是安全的。</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-com">/* 设置图片按钮的状态 */</span>
+<span class="tok-kw">void</span> <span class="tok-fn">lv_imgbtn_set_state</span>(lv_obj_t *imgbtn, lv_btn_state_t state);</code></pre></figure>
+<div class="table-container"><table><thead><tr><th>状态</th><th>显示图</th></tr></thead><tbody><tr><td><code>LV_BTN_STATE_RELEASED</code></td><td>默认图（三角形 = 播放）</td></tr><tr><td><code>LV_BTN_STATE_PRESSED</code></td><td>按下图</td></tr><tr><td><code>LV_BTN_STATE_CHECKED_RELEASED</code></td><td>选中默认图（双竖线 = 暂停）</td></tr><tr><td><code>LV_BTN_STATE_CHECKED_PRESSED</code></td><td>选中按下图</td></tr></tbody></table></div>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-fn">lv_imgbtn_set_state</span>(guider_ui.screen_imgbtn_stop_or_start,
+                    LV_BTN_STATE_CHECKED_RELEASED);</code></pre></figure>
+<p>播放/暂停按钮的经典实现就是在这两个状态之间切换。注意 <code>lv_imgbtn</code> 默认<strong>不会</strong>自动切换选中态，必须手动 <code>lv_obj_add_state(obj, LV_STATE_CHECKED)</code> 或直接调 <code>lv_imgbtn_set_state</code>。</p>
+<h2 id="sec-6">（六）事件：界面的「信号」<a class="anchor" href="#sec-6" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>LVGL 的事件模型与信号同构：控件产生事件 → 回调函数处理。</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">btn_event_cb</span>(lv_event_t *e)
+{
+    lv_event_code_t code = <span class="tok-fn">lv_event_get_code</span>(e);
+    <span class="tok-kw">if</span> (code == LV_EVENT_CLICKED) {
+        <span class="tok-com">/* 处理点击 */</span>
+    }
+}
+<span class="tok-fn">lv_obj_add_event_cb</span>(btn, btn_event_cb, LV_EVENT_CLICKED, <span class="tok-kw">NULL</span>);</code></pre></figure>
+<p>常用事件码：<code>LV_EVENT_CLICKED</code>、<code>LV_EVENT_PRESSED</code>、<code>LV_EVENT_RELEASED</code>、<code>LV_EVENT_VALUE_CHANGED</code>（滑块/开关）、<code>LV_EVENT_LONG_PRESSED</code>。</p>
+<h2 id="sec-7">（七）线程显示时间<a class="anchor" href="#sec-7" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>界面要实时刷新时钟，就必须有一个「定时改 label」的执行流。课程用 <code>pthread</code> 实现：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include &lt;pthread.h&gt;</span>
+
+<span class="tok-kw">static</span> <span class="tok-kw">void</span> *<span class="tok-fn">time_thread</span>(<span class="tok-kw">void</span> *arg)
+{
+    <span class="tok-kw">while</span> (<span class="tok-num">1</span>) {
+        time_t t = <span class="tok-fn">time</span>(<span class="tok-kw">NULL</span>);
+        <span class="tok-kw">struct</span> tm tm_buf;
+        <span class="tok-fn">localtime_r</span>(&amp;t, &amp;tm_buf);
+        <span class="tok-kw">char</span> buf[<span class="tok-num">32</span>];
+        <span class="tok-fn">strftime</span>(buf, <span class="tok-kw">sizeof</span>(buf), <span class="tok-str">"%F %T"</span>, &amp;tm_buf);
+        <span class="tok-fn">lv_label_set_text</span>(guider_ui.screen_label_time, buf);
+        <span class="tok-fn">sleep</span>(<span class="tok-num">1</span>);
+    }
+    <span class="tok-kw">return</span> <span class="tok-kw">NULL</span>;
+}
+
+<span class="tok-kw">int</span> <span class="tok-fn">main</span>(<span class="tok-kw">void</span>)
+{
+    <span class="tok-com">/* ... lv_init 与界面初始化 ... */</span>
+    pthread_t tid;
+    <span class="tok-fn">pthread_create</span>(&amp;tid, <span class="tok-kw">NULL</span>, time_thread, <span class="tok-kw">NULL</span>);
+    <span class="tok-com">/* ... 主循环 ... */</span>
+}</code></pre></figure>
+<p>Makefile 必须链接线程库：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="make"><code>CFLAGS  += -pthread
+LDFLAGS += -pthread</code></pre></figure>
+<blockquote><p>严重易错点：LVGL <strong>不是线程安全的</strong>。在子线程里直接调 <code>lv_label_set_text</code> 属于未定义行为——可能与主线程的 <code>lv_timer_handler</code> 同时操作对象树，导致内存破坏。正确做法二选一：</p><p>1. 加互斥锁，且主循环调 <code>lv_timer_handler</code> 时也持同一把锁；</p><p>2. 用 <code>lv_async_call(fn, param)</code> 把「改界面」的动作投递回 LVGL 主线程执行。</p><p>课程版本能跑通，是因为刷新频率低、竞争窗口小，属于「运气好」，不是正确性证明。</p></blockquote>
+<h2 id="sec-8">（八）移植中文字库<a class="anchor" href="#sec-8" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>LVGL 内置字库只有 ASCII，显示汉字要自己做字模：</p>
+<ol><li>在 Windows 的 <code>C:\Windows\Fonts</code> 里复制一个中文字体（如 <code>simhei.ttf</code>）到桌面；</li><li>打开 LVGL 字库转换工具（GUI Guider 自带或在线 Font Converter）；</li><li>选择字体文件，加入常用汉字（或整段 GB2312 一级字库），设置字号与位深（1/2/4/8 bpp）；</li><li>点击转换，得到 <code>myfont.c</code>；</li><li>把 <code>myfont.c</code> 复制进工程（<code>custom/</code> 或 <code>generated/</code>），在 <code>main.c</code> 里 <code>LV_FONT_DECLARE(myfont)</code>；</li><li>把 label 的字体设为 <code>&amp;myfont</code>：<code>lv_obj_set_style_text_font(label, &amp;myfont, 0);</code>；</li><li>重新编译。</li></ol>
+<blockquote><p>扩展 · 字库取舍：8 bpp 抗锯齿好但占空间（一个汉字约 16×16×1 字节 = 32 字节 @1bpp，8bpp 则是 256 字节）。整段 GB2312（6763 字）@16px/1bpp 约 216 KB，@8bpp 约 1.7 MB。MCU 上通常只取「常用 500 字 + 动态拼接」，或用 <code>lv_font_conv</code> 按需裁剪。</p></blockquote>
+<h2 id="sec-9">（九）LVGL 的移植三要素<a class="anchor" href="#sec-9" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>任何平台跑 LVGL，都只需补齐三个钩子：</p>
+<div class="table-container"><table><thead><tr><th>要素</th><th>注册函数</th><th>作用</th></tr></thead><tbody><tr><td>显示</td><td><code>lv_disp_drv_register</code> + <code>flush_cb</code></td><td>把 LVGL 画好的像素刷到屏幕</td></tr><tr><td>输入</td><td><code>lv_indev_drv_register</code> + <code>read_cb</code></td><td>上报触摸/按键/编码器</td></tr><tr><td>心跳</td><td><code>lv_tick_inc(ms)</code> 或 <code>lv_tick_set_cb</code></td><td>提供毫秒时基，驱动动画与定时器</td></tr></tbody></table></div>
+<p>主循环的标准形态：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">while</span> (<span class="tok-num">1</span>) {
+    <span class="tok-fn">lv_timer_handler</span>();   <span class="tok-com">/* 处理定时器、动画、重绘，建议 5ms 一次 */</span>
+    <span class="tok-fn">usleep</span>(<span class="tok-num">5000</span>);
+}</code></pre></figure>
+<blockquote><p>扩展 · 性能要点：<code>flush_cb</code> 里尽量用 DMA 传输并开双缓冲，让 CPU 在传输时继续渲染；<code>LV_MEM_SIZE</code> 按界面复杂度调（默认 48 KB 常不够）；避免每帧重建对象，只改属性；图片用 <code>LV_IMG_CF_TRUE_COLOR</code> 而非运行时解码 PNG，能省掉解码开销。</p></blockquote>
+    </article>
+    <hr class="page-rule">
+    <div class="page-footer"><a class="prev" href="10.html"><span class="nav-label">← 上一章</span>10. 信号</a><a class="next" href="12.html"><span class="nav-label">下一章 →</span>12. 综合项目：MP3 播放器与复盘</a></div>
+    <footer class="site-footer">按课程顺序整理的 Linux 系统编程知识库 · 内容源《Linux 系统编程与 LVGL 知识总结》<br>静态站点 · 亮暗模式与全文搜索均在本地运行，无需联网</footer>
+  </div>
+
+  <aside class="right sidebar">
+    <div class="toc"><h3>本页目录</h3><ul><li class="depth-0"><a href="#sec-1" data-for="sec-1">（一）定位与取舍</a></li><li class="depth-0"><a href="#sec-2" data-for="sec-2">（二）环境安装</a></li><li class="depth-0"><a href="#sec-3" data-for="sec-3">（三）GUI Guider 的工作流</a></li><li class="depth-0"><a href="#sec-4" data-for="sec-4">（四）生成工程的结构</a></li><li class="depth-0"><a href="#sec-5" data-for="sec-5">（五）两个核心函数</a></li><li class="depth-0"><a href="#sec-6" data-for="sec-6">（六）事件：界面的「信号」</a></li><li class="depth-0"><a href="#sec-7" data-for="sec-7">（七）线程显示时间</a></li><li class="depth-0"><a href="#sec-8" data-for="sec-8">（八）移植中文字库</a></li><li class="depth-0"><a href="#sec-9" data-for="sec-9">（九）LVGL 的移植三要素</a></li></ul></div>
+    <div class="related"><h3>全部章节</h3><ul><li><a href="01.html">1. 课程地图：从系统编程到图形界面</a></li><li><a href="02.html">2. 工程组织：Makefile 与静态库、动态库</a></li><li><a href="03.html">3. 标准 I/O：缓冲文件操作</a></li><li><a href="04.html">4. 系统 I/O：文件描述符与非缓冲操作</a></li><li><a href="05.html">5. 时间编程</a></li><li><a href="06.html">6. 目录操作</a></li><li><a href="07.html">7. 文件属性：stat 家族与 ls -li 的实现</a></li><li><a href="08.html">8. 进程：概念、状态与管理</a></li><li><a href="09.html">9. 进程控制：fork、wait、exit、exec</a></li><li><a href="10.html">10. 信号</a></li><li><a href="11.html">11. LVGL：嵌入式图形界面</a></li><li><a href="12.html">12. 综合项目：MP3 播放器与复盘</a></li><li><a href="appendix.html">附录 · 使用说明</a></li></ul></div>
+  </aside>
+</div>
+
+<div class="search-modal" hidden>
+  <div class="search-panel">
+    <input class="search-bar" type="text" placeholder="搜索内容..." autocomplete="off" aria-label="搜索内容">
+    <ul class="search-results"></ul>
+    <div class="search-hint">↑↓ 选择 · Enter 打开 · Esc 关闭 · 快捷键 / 或 Ctrl+K</div>
+  </div>
+</div>
+<script src="assets/search-index.js"></script>
+<script src="../assets/quartz.js"></script>
+</body>
+</html>

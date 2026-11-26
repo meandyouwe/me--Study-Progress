@@ -12,3 +12,8 @@ desktop.ini
 # 编辑器配置
 .vscode/
 .idea/
+
+# 本地助手缓存（非仓库内容）
+.workbuddy/
+__pycache__/
+*.pyc

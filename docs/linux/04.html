@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4. 系统 I/O：文件描述符与非缓冲操作 – Linux系统编程知识库</title>
+<meta name="description" content="按课程顺序整理的 Linux 系统编程与 LVGL 知识主干、完整代码与易错点复盘笔记。">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('cl-notes-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</head>
+<body class="page">
+<div class="mobile-bar">
+  <button class="nav-toggle" aria-label="切换目录">☰</button>
+  <span class="brand">Linux系统编程知识库</span>
+  <button class="search-button" aria-label="搜索" style="margin-left:auto;border:none;"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><span style="margin-left:.35rem">搜索</span></button>
+</div>
+<div id="quartz-body">
+  <aside class="left sidebar">
+    <h2 class="page-title"><a href="index.html">Linux系统编程知识库</a></h2>
+    <div class="sidebar-tools">
+      <button class="search-button" aria-label="搜索"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><p>搜索</p></button>
+      <button class="darkmode" aria-label="切换亮暗模式"><svg class="dayIcon" viewBox="0 0 35 35" aria-hidden="true"><path d="M17.5 7C11.71 7 7 11.71 7 17.5S11.71 28 17.5 28 28 23.29 28 17.5 23.29 7 17.5 7zm0 18c-4.136 0-7.5-3.364-7.5-7.5S13.364 10 17.5 10s7.5 3.364 7.5 7.5S21.636 25 17.5 25zM17.5 6c.829 0 1.5-.672 1.5-1.5v-3C19 .672 18.329 0 17.5 0S16 .672 16 1.5v3C16 5.328 16.671 6 17.5 6zm0 23c-.829 0-1.5.672-1.5 1.5v3c0 .828.671 1.5 1.5 1.5s1.5-.672 1.5-1.5v-3c0-.828-.671-1.5-1.5-1.5zM4.5 16h-3C.672 16 0 16.672 0 17.5S.672 19 1.5 19h3c.828 0 1.5-.672 1.5-1.5S5.328 16 4.5 16zm29 0h-3c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5h3c.828 0 1.5-.672 1.5-1.5S34.328 16 33.5 16zM7.5 26c-.414 0-.789.168-1.061.439l-2 2c-.271.272-.439.647-.439 1.061C4 30.328 4.671 31 5.5 31c.414 0 .789-.168 1.06-.44l2-2c.272-.271.44-.646.44-1.06C9 26.672 8.329 26 7.5 26zm20-18c.414 0 .789-.168 1.06-.439l2-2C30.832 5.289 31 4.914 31 4.5 31 3.672 30.329 3 29.5 3c-.414 0-.789.168-1.061.44l-2 2C26.168 5.711 26 6.086 26 6.5 26 7.328 26.671 8 27.5 8zm2 18c-.828 0-1.5.672-1.5 1.5 0 .414.168.789.439 1.06l2 2c.271.272.646.44 1.061.44.828 0 1.5-.672 1.5-1.5 0-.414-.168-.789-.439-1.061l-2-2c-.272-.271-.647-.439-1.061-.439zM6.439 8.561c.272.271.647.439 1.061.439C8.328 9 9 8.328 9 7.5c0-.414-.168-.789-.439-1.061l-2-2C6.289 4.168 5.914 4 5.5 4 4.672 4 4 4.672 4 5.5c0 .414.168.789.439 1.06l2 2z"/></svg><svg class="nightIcon" viewBox="0 0 100 100" aria-hidden="true"><path d="M96.76 66.458c-.853-.852-2.15-1.064-3.23-.534-6.063 2.991-12.858 4.571-19.655 4.571C62.022 70.495 50.88 65.88 42.5 57.5 29.043 44.043 25.658 23.536 34.076 6.47c.532-1.08.318-2.379-.534-3.23-.851-.852-2.15-1.064-3.23-.534-4.918 2.427-9.375 5.619-13.246 9.491C7.619 21.644 2.416 34.205 2.416 47.566c0 13.36 5.203 25.921 14.65 35.368s22.008 14.65 35.368 14.65c13.361 0 25.921-5.203 35.369-14.65 3.872-3.871 7.064-8.328 9.491-13.246.532-1.08.318-2.379-.534-3.23z"/></svg></button>
+    </div>
+    <div class="explorer">
+      <h2 class="explorer-title">课程目录</h2>
+      <ul class="explorer-list">
+        <li><a class="explorer-link" href="01.html"><span class="explorer-num">1</span><span>课程地图：从系统编程到图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="02.html"><span class="explorer-num">2</span><span>工程组织：Makefile 与静态库、动态库</span></a>
+</li>
+        <li><a class="explorer-link" href="03.html"><span class="explorer-num">3</span><span>标准 I/O：缓冲文件操作</span></a>
+</li>
+        <li><a class="explorer-link active" href="04.html"><span class="explorer-num">4</span><span>系统 I/O：文件描述符与非缓冲操作</span></a>
+<ul class="explorer-sub"><li><a href="04.html#sec-1">（一）为什么必须学非缓冲 I/O</a></li><li><a href="04.html#sec-2">（二）open：flags 与 mode</a></li><li><a href="04.html#sec-3">（三）权限：mode 与 umask 的与运算</a></li><li><a href="04.html#sec-4">（四）read / write：字节数语义</a></li><li><a href="04.html#sec-5">（五）lseek：定位与「求大小」</a></li><li><a href="04.html#sec-6">（六）缓冲与非缓冲的对应关系</a></li><li><a href="04.html#sec-7">（七）cp 的四种实现与取舍</a></li></ul>
+</li>
+        <li><a class="explorer-link" href="05.html"><span class="explorer-num">5</span><span>时间编程</span></a>
+</li>
+        <li><a class="explorer-link" href="06.html"><span class="explorer-num">6</span><span>目录操作</span></a>
+</li>
+        <li><a class="explorer-link" href="07.html"><span class="explorer-num">7</span><span>文件属性：stat 家族与 ls -li 的实现</span></a>
+</li>
+        <li><a class="explorer-link" href="08.html"><span class="explorer-num">8</span><span>进程：概念、状态与管理</span></a>
+</li>
+        <li><a class="explorer-link" href="09.html"><span class="explorer-num">9</span><span>进程控制：fork、wait、exit、exec</span></a>
+</li>
+        <li><a class="explorer-link" href="10.html"><span class="explorer-num">10</span><span>信号</span></a>
+</li>
+        <li><a class="explorer-link" href="11.html"><span class="explorer-num">11</span><span>LVGL：嵌入式图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="12.html"><span class="explorer-num">12</span><span>综合项目：MP3 播放器与复盘</span></a>
+</li>
+        <li><a class="explorer-link" href="appendix.html"><span class="explorer-num">·</span><span>使用说明</span></a></li>
+      </ul>
+    </div>
+    <div class="sidebar-foot">共 13 篇 · 约 42.0 千字<br>按课程顺序整理</div>
+  </aside>
+  <div class="center">
+    <header class="page-header">
+      <nav class="breadcrumb"><a href="index.html">首页</a><span class="sep">❯</span><span>第 4 章</span></nav>
+      <h1 class="article-title">4. 系统 I/O：文件描述符与非缓冲操作</h1>
+    </header>
+    <article>
+<p>标准 I/O 之下是系统调用层。这一层没有缓冲区、没有格式化，只有五个原语：<code>open</code>、<code>close</code>、<code>read</code>、<code>write</code>、<code>lseek</code>。所有高级 I/O（管道、套接字、设备）都建立在这五个之上。</p>
+<h2 id="sec-1">（一）为什么必须学非缓冲 I/O<a class="anchor" href="#sec-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>教材给的三个理由是准确的，但可以再往深一层：</p>
+<ol><li><strong>特殊文件没有 <code>FILE *</code></strong>：管道、套接字、字符设备的句柄是 <code>int</code> 类型的描述符，标准库没有对应的流，只能走系统调用。</li><li><strong>缓冲区不可控</strong>：实时性要求高的场景（串口、传感器）不能被 8 KB 缓冲拖住。</li><li><strong>需要精细控制</strong>：<code>O_NONBLOCK</code>（非阻塞）、<code>O_SYNC</code>（同步落盘）、<code>O_APPEND</code>（原子追加）这些语义只存在于系统调用层。</li></ol>
+<h2 id="sec-2">（二）open：flags 与 mode<a class="anchor" href="#sec-2" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include &lt;sys/types.h&gt;</span>
+<span class="tok-pp">#include &lt;sys/stat.h&gt;</span>
+<span class="tok-pp">#include &lt;fcntl.h&gt;</span>
+
+<span class="tok-kw">int</span> <span class="tok-fn">open</span>(<span class="tok-kw">const</span> <span class="tok-kw">char</span> *pathname, <span class="tok-kw">int</span> flags);
+<span class="tok-kw">int</span> <span class="tok-fn">open</span>(<span class="tok-kw">const</span> <span class="tok-kw">char</span> *pathname, <span class="tok-kw">int</span> flags, mode_t mode);</code></pre></figure>
+<div class="table-container"><table><thead><tr><th>flags</th><th>含义</th><th>备注</th></tr></thead><tbody><tr><td><code>O_RDONLY</code></td><td>只读</td><td>值为 0，<strong>不能</strong>用 <code>if (flags &amp; O_RDONLY)</code> 判断</td></tr><tr><td><code>O_WRONLY</code></td><td>只写</td><td>1</td></tr><tr><td><code>O_RDWR</code></td><td>读写</td><td>2</td></tr><tr><td><code>O_CREAT</code></td><td>不存在则创建</td><td>必须提供第三个参数 <code>mode</code></td></tr><tr><td><code>O_EXCL</code></td><td>与 <code>O_CREAT</code> 合用，已存在则失败</td><td>实现「原子创建锁文件」</td></tr><tr><td><code>O_TRUNC</code></td><td>存在则清空</td><td>只写/读写模式下生效</td></tr><tr><td><code>O_APPEND</code></td><td>每次写前定位到末尾</td><td>内核保证原子性，多进程安全</td></tr><tr><td><code>O_NONBLOCK</code></td><td>非阻塞</td><td>管道、设备、套接字场景</td></tr><tr><td><code>O_SYNC</code></td><td>写操作同步落盘</td><td>性能代价大</td></tr></tbody></table></div>
+<p>返回值：成功返回<strong>最小的可用描述符</strong>（0/1/2 被占用，所以通常从 3 开始），失败返回 <code>-1</code> 并设置 <code>errno</code>。</p>
+<h2 id="sec-3">（三）权限：mode 与 umask 的与运算<a class="anchor" href="#sec-3" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>新建文件的最终权限不是 <code>mode</code> 本身，而是：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="text"><code>真实权限 = mode &amp; ~umask</code></pre></figure>
+<p>以 <code>mode = 0666</code>、<code>umask = 0002</code> 为例：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="text"><code>  110 110 110   (0666)
+&amp; 111 111 101   (~0002)
+---------------
+  110 110 100   (0664)</code></pre></figure>
+<p>即 <code>rw-rw-r--</code>。<code>umask</code> 是「要屏蔽掉的位」，通常 <code>root</code> 为 <code>0022</code>，普通用户为 <code>0002</code>。</p>
+<blockquote><p>易错点：<code>open("f", O_CREAT)</code> 只给两个参数是未定义行为——<code>mode</code> 会从栈上取到随机值。只要 <code>flags</code> 里有 <code>O_CREAT</code>，就必须写第三个参数。</p></blockquote>
+<blockquote><p>扩展 · 安全创建：<code>open(path, O_WRONLY|O_CREAT|O_EXCL, 0600)</code> 是「创建临时文件/锁文件」的标准写法，<code>O_EXCL</code> 保证「检查存在」与「创建」是一个原子操作，能避免两个进程同时判断「文件不存在」然后互相覆盖。</p></blockquote>
+<h2 id="sec-4">（四）read / write：字节数语义<a class="anchor" href="#sec-4" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code>ssize_t <span class="tok-fn">write</span>(<span class="tok-kw">int</span> fd, <span class="tok-kw">const</span> <span class="tok-kw">void</span> *buf, size_t count);   <span class="tok-com">/* 成功返回实际写入字节数 */</span>
+ssize_t <span class="tok-fn">read</span> (<span class="tok-kw">int</span> fd, <span class="tok-kw">void</span> *buf, size_t count);         <span class="tok-com">/* 成功返回实际读到字节数，0 表示 EOF */</span></code></pre></figure>
+<p>要点：</p>
+<ul><li>返回值类型 <code>ssize_t</code>（有符号），失败为 <code>-1</code>，<strong>不要</strong>用 <code>size_t</code> 接收，否则 <code>-1</code> 会变成巨大正数。</li><li><code>count</code> 的取法：写结构体用 <code>sizeof</code>，写字符串用 <code>strlen</code>（<strong>不含</strong> <code>\0</code>，否则文件里多一个不可见字节）。</li><li><code>read</code> 可能<strong>短读</strong>：请求 4096 字节只返回 100 字节是合法的（管道、终端、网络常见）。完整读取必须循环：</li></ul>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code>ssize_t total = <span class="tok-num">0</span>, n;
+<span class="tok-kw">while</span> (total &lt; size &amp;&amp; (n = <span class="tok-fn">read</span>(fd, buf + total, size - total)) &gt; <span class="tok-num">0</span>) {
+    total += n;
+}
+<span class="tok-kw">if</span> (n &lt; <span class="tok-num">0</span>) <span class="tok-fn">perror</span>(<span class="tok-str">"read"</span>);</code></pre></figure>
+<ul><li><code>write</code> 同理可能<strong>短写</strong>，尤其是写入超过管道缓冲区（默认 64 KB）时。</li></ul>
+<blockquote><p>易错点：<code>while (read(fd, &amp;ch, 1))</code> 在 <code>read</code> 返回 <code>-1</code> 时条件为真，会死循环。必须写 <code>while (read(fd, &amp;ch, 1) &gt; 0)</code>。</p></blockquote>
+<h2 id="sec-5">（五）lseek：定位与「求大小」<a class="anchor" href="#sec-5" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-pp">#include &lt;sys/types.h&gt;</span>
+<span class="tok-pp">#include &lt;unistd.h&gt;</span>
+off_t <span class="tok-fn">lseek</span>(<span class="tok-kw">int</span> fd, off_t offset, <span class="tok-kw">int</span> whence);</code></pre></figure>
+<p><code>whence</code> 三个取值：<code>SEEK_SET</code>（文件开头）、<code>SEEK_CUR</code>（当前位置）、<code>SEEK_END</code>（文件末尾）。成功返回「新位置距文件开头的字节数」，失败 <code>-1</code>。</p>
+<p>三个高频用法：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code>off_t size = <span class="tok-fn">lseek</span>(fd, <span class="tok-num">0</span>, SEEK_END);   <span class="tok-com">/* 求文件大小 */</span>
+<span class="tok-fn">lseek</span>(fd, <span class="tok-num">0</span>, SEEK_SET);                <span class="tok-com">/* 回到开头再读 */</span>
+off_t cur  = <span class="tok-fn">lseek</span>(fd, <span class="tok-num">0</span>, SEEK_CUR);   <span class="tok-com">/* 当前位置 */</span></code></pre></figure>
+<p><code>lseek</code> 允许定位到文件末尾之外，之后再写会形成<strong>空洞文件</strong>，空洞不占磁盘块但 <code>ls</code> 显示的大小会增大。<code>lseek</code> <strong>不能</strong>用于管道和套接字（返回 <code>-1</code>，<code>errno = ESPIPE</code>）。</p>
+<h2 id="sec-6">（六）缓冲与非缓冲的对应关系<a class="anchor" href="#sec-6" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<div class="table-container"><table><thead><tr><th>标准 I/O</th><th>系统调用</th><th>说明</th></tr></thead><tbody><tr><td><code>fopen</code></td><td><code>open</code></td><td>建立流与描述符的绑定</td></tr><tr><td><code>fclose</code></td><td><code>close</code></td><td>先 <code>fflush</code> 再 <code>close</code></td></tr><tr><td><code>fread</code> / <code>fwrite</code></td><td><code>read</code> / <code>write</code></td><td>前者带缓冲，可短读</td></tr><tr><td><code>fseek</code> / <code>ftell</code></td><td><code>lseek</code></td><td>前者维护用户态偏移</td></tr><tr><td><code>fflush</code></td><td>无</td><td>把用户态缓冲刷进内核</td></tr><tr><td><code>fileno(fp)</code></td><td>无</td><td>取出流内部的描述符</td></tr></tbody></table></div>
+<blockquote><p>扩展 · 内核里的三层结构：<strong>描述符表</strong>（每进程一份，索引 → 打开文件表项）、<strong>打开文件表</strong>（系统级，记录偏移与 flags）、<strong>inode 表</strong>（文件元数据）。<code>fork</code> 复制描述符表但共享打开文件表项，所以父子进程共享文件偏移——这是「父进程读一半，子进程从剩下一半继续读」的根因。<code>dup2</code> 复制的也是表项指针，重定向（<code>./a.out &gt; out.txt</code>）正是靠它实现。</p></blockquote>
+<h2 id="sec-7">（七）cp 的四种实现与取舍<a class="anchor" href="#sec-7" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>教材给了四种写法，实际工程中只有一种可用：</p>
+<div class="table-container"><table><thead><tr><th>方案</th><th>代码量</th><th>内存</th><th>适用场景</th></tr></thead><tbody><tr><td>读 1 字节写 1 字节</td><td>最少</td><td>2 字节</td><td>教学演示，性能极差</td></tr><tr><td>读 N 写 N（定长缓冲）</td><td>少</td><td>4 KB</td><td><strong>推荐</strong>，通用</td></tr><tr><td>一次读全部（数组足够大）</td><td>少</td><td>栈上 4 KB，易溢出</td><td>不推荐，大文件直接崩</td></tr><tr><td><code>malloc</code> + <code>lseek</code> 求长</td><td>中</td><td>等于文件大小</td><td>小文件可用，大文件 OOM</td></tr></tbody></table></div>
+<p>正确写法必须是「循环 + 以返回值为准」：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="c"><code><span class="tok-kw">char</span> buf[<span class="tok-num">4096</span>];
+ssize_t n;
+<span class="tok-kw">while</span> ((n = <span class="tok-fn">read</span>(fd1, buf, <span class="tok-kw">sizeof</span>(buf))) &gt; <span class="tok-num">0</span>) {
+    ssize_t off = <span class="tok-num">0</span>;
+    <span class="tok-kw">while</span> (off &lt; n) {                       <span class="tok-com">/* 处理短写 */</span>
+        ssize_t w = <span class="tok-fn">write</span>(fd2, buf + off, n - off);
+        <span class="tok-kw">if</span> (w &lt; <span class="tok-num">0</span>) { <span class="tok-fn">perror</span>(<span class="tok-str">"write"</span>); <span class="tok-kw">return</span> -<span class="tok-num">1</span>; }
+        off += w;
+    }
+}
+<span class="tok-kw">if</span> (n &lt; <span class="tok-num">0</span>) <span class="tok-fn">perror</span>(<span class="tok-str">"read"</span>);</code></pre></figure>
+<blockquote><p>扩展 · <code>sendfile(2)</code> 可以让内核在两个描述符之间直接搬运，零拷贝，<code>cp</code> 大文件时性能显著优于用户态循环。</p></blockquote>
+    </article>
+    <hr class="page-rule">
+    <div class="page-footer"><a class="prev" href="03.html"><span class="nav-label">← 上一章</span>3. 标准 I/O：缓冲文件操作</a><a class="next" href="05.html"><span class="nav-label">下一章 →</span>5. 时间编程</a></div>
+    <footer class="site-footer">按课程顺序整理的 Linux 系统编程知识库 · 内容源《Linux 系统编程与 LVGL 知识总结》<br>静态站点 · 亮暗模式与全文搜索均在本地运行，无需联网</footer>
+  </div>
+
+  <aside class="right sidebar">
+    <div class="toc"><h3>本页目录</h3><ul><li class="depth-0"><a href="#sec-1" data-for="sec-1">（一）为什么必须学非缓冲 I/O</a></li><li class="depth-0"><a href="#sec-2" data-for="sec-2">（二）open：flags 与 mode</a></li><li class="depth-0"><a href="#sec-3" data-for="sec-3">（三）权限：mode 与 umask 的与运算</a></li><li class="depth-0"><a href="#sec-4" data-for="sec-4">（四）read / write：字节数语义</a></li><li class="depth-0"><a href="#sec-5" data-for="sec-5">（五）lseek：定位与「求大小」</a></li><li class="depth-0"><a href="#sec-6" data-for="sec-6">（六）缓冲与非缓冲的对应关系</a></li><li class="depth-0"><a href="#sec-7" data-for="sec-7">（七）cp 的四种实现与取舍</a></li></ul></div>
+    <div class="related"><h3>全部章节</h3><ul><li><a href="01.html">1. 课程地图：从系统编程到图形界面</a></li><li><a href="02.html">2. 工程组织：Makefile 与静态库、动态库</a></li><li><a href="03.html">3. 标准 I/O：缓冲文件操作</a></li><li><a href="04.html">4. 系统 I/O：文件描述符与非缓冲操作</a></li><li><a href="05.html">5. 时间编程</a></li><li><a href="06.html">6. 目录操作</a></li><li><a href="07.html">7. 文件属性：stat 家族与 ls -li 的实现</a></li><li><a href="08.html">8. 进程：概念、状态与管理</a></li><li><a href="09.html">9. 进程控制：fork、wait、exit、exec</a></li><li><a href="10.html">10. 信号</a></li><li><a href="11.html">11. LVGL：嵌入式图形界面</a></li><li><a href="12.html">12. 综合项目：MP3 播放器与复盘</a></li><li><a href="appendix.html">附录 · 使用说明</a></li></ul></div>
+  </aside>
+</div>
+
+<div class="search-modal" hidden>
+  <div class="search-panel">
+    <input class="search-bar" type="text" placeholder="搜索内容..." autocomplete="off" aria-label="搜索内容">
+    <ul class="search-results"></ul>
+    <div class="search-hint">↑↓ 选择 · Enter 打开 · Esc 关闭 · 快捷键 / 或 Ctrl+K</div>
+  </div>
+</div>
+<script src="assets/search-index.js"></script>
+<script src="../assets/quartz.js"></script>
+</body>
+</html>

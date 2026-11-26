@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>8. 进程：概念、状态与管理 – Linux系统编程知识库</title>
+<meta name="description" content="按课程顺序整理的 Linux 系统编程与 LVGL 知识主干、完整代码与易错点复盘笔记。">
+<link rel="stylesheet" href="../assets/style.css">
+<script>try{var t=localStorage.getItem('cl-notes-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</head>
+<body class="page">
+<div class="mobile-bar">
+  <button class="nav-toggle" aria-label="切换目录">☰</button>
+  <span class="brand">Linux系统编程知识库</span>
+  <button class="search-button" aria-label="搜索" style="margin-left:auto;border:none;"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><span style="margin-left:.35rem">搜索</span></button>
+</div>
+<div id="quartz-body">
+  <aside class="left sidebar">
+    <h2 class="page-title"><a href="index.html">Linux系统编程知识库</a></h2>
+    <div class="sidebar-tools">
+      <button class="search-button" aria-label="搜索"><svg viewBox="0 0 19.9 19.7" aria-hidden="true"><g fill="none" stroke-linecap="square"><path d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg><p>搜索</p></button>
+      <button class="darkmode" aria-label="切换亮暗模式"><svg class="dayIcon" viewBox="0 0 35 35" aria-hidden="true"><path d="M17.5 7C11.71 7 7 11.71 7 17.5S11.71 28 17.5 28 28 23.29 28 17.5 23.29 7 17.5 7zm0 18c-4.136 0-7.5-3.364-7.5-7.5S13.364 10 17.5 10s7.5 3.364 7.5 7.5S21.636 25 17.5 25zM17.5 6c.829 0 1.5-.672 1.5-1.5v-3C19 .672 18.329 0 17.5 0S16 .672 16 1.5v3C16 5.328 16.671 6 17.5 6zm0 23c-.829 0-1.5.672-1.5 1.5v3c0 .828.671 1.5 1.5 1.5s1.5-.672 1.5-1.5v-3c0-.828-.671-1.5-1.5-1.5zM4.5 16h-3C.672 16 0 16.672 0 17.5S.672 19 1.5 19h3c.828 0 1.5-.672 1.5-1.5S5.328 16 4.5 16zm29 0h-3c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5h3c.828 0 1.5-.672 1.5-1.5S34.328 16 33.5 16zM7.5 26c-.414 0-.789.168-1.061.439l-2 2c-.271.272-.439.647-.439 1.061C4 30.328 4.671 31 5.5 31c.414 0 .789-.168 1.06-.44l2-2c.272-.271.44-.646.44-1.06C9 26.672 8.329 26 7.5 26zm20-18c.414 0 .789-.168 1.06-.439l2-2C30.832 5.289 31 4.914 31 4.5 31 3.672 30.329 3 29.5 3c-.414 0-.789.168-1.061.44l-2 2C26.168 5.711 26 6.086 26 6.5 26 7.328 26.671 8 27.5 8zm2 18c-.828 0-1.5.672-1.5 1.5 0 .414.168.789.439 1.06l2 2c.271.272.646.44 1.061.44.828 0 1.5-.672 1.5-1.5 0-.414-.168-.789-.439-1.061l-2-2c-.272-.271-.647-.439-1.061-.439zM6.439 8.561c.272.271.647.439 1.061.439C8.328 9 9 8.328 9 7.5c0-.414-.168-.789-.439-1.061l-2-2C6.289 4.168 5.914 4 5.5 4 4.672 4 4 4.672 4 5.5c0 .414.168.789.439 1.06l2 2z"/></svg><svg class="nightIcon" viewBox="0 0 100 100" aria-hidden="true"><path d="M96.76 66.458c-.853-.852-2.15-1.064-3.23-.534-6.063 2.991-12.858 4.571-19.655 4.571C62.022 70.495 50.88 65.88 42.5 57.5 29.043 44.043 25.658 23.536 34.076 6.47c.532-1.08.318-2.379-.534-3.23-.851-.852-2.15-1.064-3.23-.534-4.918 2.427-9.375 5.619-13.246 9.491C7.619 21.644 2.416 34.205 2.416 47.566c0 13.36 5.203 25.921 14.65 35.368s22.008 14.65 35.368 14.65c13.361 0 25.921-5.203 35.369-14.65 3.872-3.871 7.064-8.328 9.491-13.246.532-1.08.318-2.379-.534-3.23z"/></svg></button>
+    </div>
+    <div class="explorer">
+      <h2 class="explorer-title">课程目录</h2>
+      <ul class="explorer-list">
+        <li><a class="explorer-link" href="01.html"><span class="explorer-num">1</span><span>课程地图：从系统编程到图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="02.html"><span class="explorer-num">2</span><span>工程组织：Makefile 与静态库、动态库</span></a>
+</li>
+        <li><a class="explorer-link" href="03.html"><span class="explorer-num">3</span><span>标准 I/O：缓冲文件操作</span></a>
+</li>
+        <li><a class="explorer-link" href="04.html"><span class="explorer-num">4</span><span>系统 I/O：文件描述符与非缓冲操作</span></a>
+</li>
+        <li><a class="explorer-link" href="05.html"><span class="explorer-num">5</span><span>时间编程</span></a>
+</li>
+        <li><a class="explorer-link" href="06.html"><span class="explorer-num">6</span><span>目录操作</span></a>
+</li>
+        <li><a class="explorer-link" href="07.html"><span class="explorer-num">7</span><span>文件属性：stat 家族与 ls -li 的实现</span></a>
+</li>
+        <li><a class="explorer-link active" href="08.html"><span class="explorer-num">8</span><span>进程：概念、状态与管理</span></a>
+<ul class="explorer-sub"><li><a href="08.html#sec-1">（一）程序、进程、线程</a></li><li><a href="08.html#sec-2">（二）进程的资源空间</a></li><li><a href="08.html#sec-3">（三）进程的三个状态与扩展五态</a></li><li><a href="08.html#sec-4">（四）查看与管理进程</a></li><li><a href="08.html#sec-5">（五）0 号、1 号与两类异常进程</a></li></ul>
+</li>
+        <li><a class="explorer-link" href="09.html"><span class="explorer-num">9</span><span>进程控制：fork、wait、exit、exec</span></a>
+</li>
+        <li><a class="explorer-link" href="10.html"><span class="explorer-num">10</span><span>信号</span></a>
+</li>
+        <li><a class="explorer-link" href="11.html"><span class="explorer-num">11</span><span>LVGL：嵌入式图形界面</span></a>
+</li>
+        <li><a class="explorer-link" href="12.html"><span class="explorer-num">12</span><span>综合项目：MP3 播放器与复盘</span></a>
+</li>
+        <li><a class="explorer-link" href="appendix.html"><span class="explorer-num">·</span><span>使用说明</span></a></li>
+      </ul>
+    </div>
+    <div class="sidebar-foot">共 13 篇 · 约 42.0 千字<br>按课程顺序整理</div>
+  </aside>
+  <div class="center">
+    <header class="page-header">
+      <nav class="breadcrumb"><a href="index.html">首页</a><span class="sep">❯</span><span>第 8 章</span></nav>
+      <h1 class="article-title">8. 进程：概念、状态与管理</h1>
+    </header>
+    <article>
+<p>进程是「运行中的程序」。这句话的重点在「运行中」：程序是磁盘上的静态文件，进程是内存里带着寄存器、栈、页表和一堆内核记账信息的活动实体。</p>
+<h2 id="sec-1">（一）程序、进程、线程<a class="anchor" href="#sec-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<div class="table-container"><table><thead><tr><th>概念</th><th>存放位置</th><th>是否占 CPU</th><th>是否独立地址空间</th><th>一句话</th></tr></thead><tbody><tr><td>代码（源文件）</td><td>磁盘</td><td>否</td><td>—</td><td>文本文件，人写的</td></tr><tr><td>程序（可执行文件）</td><td>磁盘</td><td>否</td><td>—</td><td>编译产物，机器码</td></tr><tr><td>进程</td><td>内存</td><td>是（被调度）</td><td><strong>是</strong></td><td>程序的一次执行</td></tr><tr><td>线程</td><td>内存</td><td>是（被调度）</td><td>否（共享进程空间）</td><td>进程内的执行流</td></tr></tbody></table></div>
+<p>「12+256 GB」指的是 12 GB 内存 + 256 GB 存储，这是手机语境；PC 上是「16 GB 内存条 + 512 GB 磁盘」。进程占的是<strong>内存</strong>，程序占的是<strong>磁盘</strong>——这个区分决定了「为什么开 100 个浏览器标签会卡」。</p>
+<h2 id="sec-2">（二）进程的资源空间<a class="anchor" href="#sec-2" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>每个进程都有独立的虚拟地址空间，布局与 C 语言的五大区一一对应：</p>
+<figure data-rehype-pretty-code-figure><pre data-language="text"><code>高地址  ┌──────────────┐
+        │   内核空间    │  用户态不可访问
+        ├──────────────┤
+        │    栈 stack   │  局部变量、函数调用帧，向低地址生长
+        ├──────────────┤
+        │      ↓        │
+        │      ↑        │
+        │    堆 heap    │  malloc/new，向高地址生长
+        ├──────────────┤
+        │  .bss         │  未初始化全局/静态变量（清零）
+        ├──────────────┤
+        │  .data        │  已初始化全局/静态变量
+        ├──────────────┤
+        │  .rodata      │  常量、字符串字面量（只读）
+        ├──────────────┤
+        │  代码段 .text  │  机器指令（只读、可执行）
+低地址  └──────────────┘</code></pre></figure>
+<blockquote><p>扩展 · 虚拟地址的意义：每个进程都以为自己独占 4 GB（32 位）或 2^47 字节（64 位）空间，由 MMU + 页表映射到物理内存。这样进程之间天然隔离——A 进程写越界不会改到 B 进程的数据，只会触发 <code>SIGSEGV</code>。这也是教材说「父子进程各自拥有独立空间」的底层原因。</p></blockquote>
+<h2 id="sec-3">（三）进程的三个状态与扩展五态<a class="anchor" href="#sec-3" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<p>教材给的是最基础的三态模型：</p>
+<div class="table-container"><table><thead><tr><th>状态</th><th>含义</th><th>触发转换</th></tr></thead><tbody><tr><td>执行态（Running）</td><td>正占用 CPU</td><td>时间片用完 → 就绪；等待 I/O → 阻塞</td></tr><tr><td>就绪态（Ready）</td><td>万事俱备，只差 CPU</td><td>被调度 → 执行</td></tr><tr><td>等待态（Blocked）</td><td>等 I/O 或事件</td><td>事件到达 → 就绪</td></tr></tbody></table></div>
+<p>工程上更常用五态模型，多出的两个是<strong>新建</strong>（fork 完成但未就绪）与<strong>终止</strong>（已退出但未被回收，即僵尸）。<code>ps -aux</code> 的 <code>STAT</code> 列能看到更细的标记：</p>
+<div class="table-container"><table><thead><tr><th>标记</th><th>含义</th></tr></thead><tbody><tr><td><code>R</code></td><td>运行或可运行</td></tr><tr><td><code>S</code></td><td>可中断睡眠（等事件，可被信号唤醒）</td></tr><tr><td><code>D</code></td><td>不可中断睡眠（等 I/O，<code>kill -9</code> 也杀不掉）</td></tr><tr><td><code>T</code></td><td>停止（收到 <code>SIGSTOP</code>）</td></tr><tr><td><code>Z</code></td><td>僵尸</td></tr><tr><td><code>+</code></td><td>前台进程组成员</td></tr></tbody></table></div>
+<h2 id="sec-4">（四）查看与管理进程<a class="anchor" href="#sec-4" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<div class="table-container"><table><thead><tr><th>命令</th><th>侧重点</th></tr></thead><tbody><tr><td><code>ps -ef</code></td><td>全量进程，看 <code>PID</code> / <code>PPID</code> / 启动命令</td></tr><tr><td><code>ps -aux</code></td><td>全量进程，看 <code>%CPU</code> / <code>%MEM</code> / <code>STAT</code></td></tr><tr><td>`ps -ef \</td><td>grep xxx`</td><td>按名字过滤</td></tr><tr><td><code>top</code></td><td>动态刷新，看实时资源占用</td></tr><tr><td><code>pstree -p</code></td><td>树状展示父子关系</td></tr><tr><td><code>kill -9 PID</code></td><td>强杀（<code>SIGKILL</code>，不可捕获）</td></tr><tr><td><code>kill -15 PID</code></td><td>请求退出（<code>SIGTERM</code>，可捕获做清理）</td></tr></tbody></table></div>
+<p><code>ps -ef</code> 的关键两列：</p>
+<ul><li><strong>PID</strong>：进程唯一标识，内核分配，回收后可复用。</li><li><strong>PPID</strong>：父进程号。所有用户进程最终都追到 1 号进程。</li></ul>
+<blockquote><p>扩展 · <code>/proc</code> 是进程的窗口：<code>cat /proc/PID/status</code> 看状态与内存，<code>ls -l /proc/PID/fd</code> 看打开的文件描述符，<code>cat /proc/PID/cmdline</code> 看启动参数。排查「文件被谁占着」时，<code>lsof</code> 或 <code>ls -l /proc/*/fd</code> 比 <code>ps</code> 有用得多。</p></blockquote>
+<h2 id="sec-5">（五）0 号、1 号与两类异常进程<a class="anchor" href="#sec-5" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a></h2>
+<div class="table-container"><table><thead><tr><th>名称</th><th>说明</th></tr></thead><tbody><tr><td>0 号进程（swapper）</td><td>内核引导阶段创建，负责进程调度，用户态不可见</td></tr><tr><td>1 号进程（init / systemd）</td><td>所有用户态进程的祖先，负责收养孤儿</td></tr><tr><td>孤儿进程</td><td>父进程先退出，子进程被 1 号（或 <code>systemd --user</code>、桌面会话进程）收养</td></tr><tr><td>僵尸进程</td><td>子进程已退出，父进程未 <code>wait</code>，只剩一个 task 结构占着 PID</td></tr></tbody></table></div>
+<ul><li><strong>孤儿进程无害</strong>：它被收养后正常执行、正常退出，只是 <code>PPID</code> 变成了 1。</li><li><strong>僵尸进程有害</strong>：它不占 CPU、不占内存（除了一点内核结构），但<strong>占着 PID</strong>。大量僵尸会耗尽 PID 表（<code>/proc/sys/kernel/pid_max</code>），导致无法创建新进程。</li></ul>
+<blockquote><p>易错点：<code>kill -9</code> 杀不掉僵尸。僵尸已经是「尸体」，信号对它无意义；唯一办法是让它的<strong>父进程</strong>调用 <code>wait</code>/<code>waitpid</code> 回收，或者杀掉父进程让僵尸被 1 号收养后回收。</p></blockquote>
+    </article>
+    <hr class="page-rule">
+    <div class="page-footer"><a class="prev" href="07.html"><span class="nav-label">← 上一章</span>7. 文件属性：stat 家族与 ls -li 的实现</a><a class="next" href="09.html"><span class="nav-label">下一章 →</span>9. 进程控制：fork、wait、exit、exec</a></div>
+    <footer class="site-footer">按课程顺序整理的 Linux 系统编程知识库 · 内容源《Linux 系统编程与 LVGL 知识总结》<br>静态站点 · 亮暗模式与全文搜索均在本地运行，无需联网</footer>
+  </div>
+
+  <aside class="right sidebar">
+    <div class="toc"><h3>本页目录</h3><ul><li class="depth-0"><a href="#sec-1" data-for="sec-1">（一）程序、进程、线程</a></li><li class="depth-0"><a href="#sec-2" data-for="sec-2">（二）进程的资源空间</a></li><li class="depth-0"><a href="#sec-3" data-for="sec-3">（三）进程的三个状态与扩展五态</a></li><li class="depth-0"><a href="#sec-4" data-for="sec-4">（四）查看与管理进程</a></li><li class="depth-0"><a href="#sec-5" data-for="sec-5">（五）0 号、1 号与两类异常进程</a></li></ul></div>
+    <div class="related"><h3>全部章节</h3><ul><li><a href="01.html">1. 课程地图：从系统编程到图形界面</a></li><li><a href="02.html">2. 工程组织：Makefile 与静态库、动态库</a></li><li><a href="03.html">3. 标准 I/O：缓冲文件操作</a></li><li><a href="04.html">4. 系统 I/O：文件描述符与非缓冲操作</a></li><li><a href="05.html">5. 时间编程</a></li><li><a href="06.html">6. 目录操作</a></li><li><a href="07.html">7. 文件属性：stat 家族与 ls -li 的实现</a></li><li><a href="08.html">8. 进程：概念、状态与管理</a></li><li><a href="09.html">9. 进程控制：fork、wait、exit、exec</a></li><li><a href="10.html">10. 信号</a></li><li><a href="11.html">11. LVGL：嵌入式图形界面</a></li><li><a href="12.html">12. 综合项目：MP3 播放器与复盘</a></li><li><a href="appendix.html">附录 · 使用说明</a></li></ul></div>
+  </aside>
+</div>
+
+<div class="search-modal" hidden>
+  <div class="search-panel">
+    <input class="search-bar" type="text" placeholder="搜索内容..." autocomplete="off" aria-label="搜索内容">
+    <ul class="search-results"></ul>
+    <div class="search-hint">↑↓ 选择 · Enter 打开 · Esc 关闭 · 快捷键 / 或 Ctrl+K</div>
+  </div>
+</div>
+<script src="assets/search-index.js"></script>
+<script src="../assets/quartz.js"></script>
+</body>
+</html>
