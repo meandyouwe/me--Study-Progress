@@ -9,12 +9,14 @@
 
 两份笔记都是三种形态：**网页版**（在线浏览 / 全文搜索 / 亮暗模式）、**Word 版**（可编辑、可打印、留了复盘填写区）、**Markdown 源文件**（内容源，改动后重新生成两端）。
 
-在线地址（GitHub Pages，仓库 `meandyouwe/me--Study-Progress`，Pages 源为 `main` / `/docs`）：
+在线地址（**直接可访问**，纯静态托管，含全文搜索与亮暗模式）：
 
-- C 语言：`https://meandyouwe.github.io/me--Study-Progress/`
-- Linux：`https://meandyouwe.github.io/me--Study-Progress/linux/`
+- C 语言：<https://c-linux-notes.app.workbuddy.host/?sharecode=2UWRUAI4MK>
+- Linux 系统编程与 LVGL：<https://c-linux-notes.app.workbuddy.host/linux/index.html?sharecode=2UWRUAI4MK>
 
 两站左侧目录底部都有互跳入口，不必回首页。
+
+若改用 GitHub Pages 托管，在仓库 **Settings → Pages** 选 `Deploy from a branch`、`main` + `/docs`，之后地址变为 `https://meandyouwe.github.io/me--Study-Progress/` 与 `…/linux/`（当前未开启）。
 
 ## 目录结构
 
@@ -87,7 +89,9 @@
 
 ## 浏览方式
 
-**在线（推荐）**：仓库 **Settings → Pages → Source 选 `Deploy from a branch`，Branch 选 `main` / 目录选 `/docs`**，保存后等一两分钟，C 站在根路径、Linux 站在 `/linux/`，同一套 Pages 配置即可。
+**在线（推荐）**：直接打开上方的分享链接，手机、平板、电脑都能看，无需安装任何东西。
+
+**GitHub Pages（可选）**：仓库 **Settings → Pages → Source 选 `Deploy from a branch`，Branch 选 `main` / 目录选 `/docs`**，保存后等一两分钟，C 站在根路径、Linux 站在 `/linux/`，一套配置即可。
 
 **本地**：直接双击 `docs/index.html`（C）或 `docs/linux/index.html`（Linux）。纯静态、无外部依赖、无需联网。搜索与亮暗切换都在浏览器本地运行（`Ctrl+K` 或 `/` 唤起搜索）。
 
